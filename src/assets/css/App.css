@@ -1,0 +1,502 @@
+html{
+    box-sizing: border-box;
+    font-family: "Gotham Pro"
+}
+
+.App{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.PreloaderContainer{
+    position: absolute;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.PreloaderContainer img{
+    width: 12.5rem;
+    height: 12.5rem;
+}
+
+.BookPickContainer{
+    min-width: 101.5rem;
+    width: 100%;
+    padding-left: 1.875rem;
+    padding-right: 1.875rem;
+    height: 100%;
+    padding-top: 4.813rem;
+    padding-bottom: 4.188rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.BookPickContainer h1{
+    font-size: 6.688rem;
+    margin: 0;
+    text-align: center;
+    color: #383b41;
+    text-transform: uppercase;
+}
+
+.bookName{
+    width: 18.188rem;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #383b41;
+    font-size: 2rem;
+    margin-left: 0.25rem;
+}
+
+.ArrowContainer{
+    width: 6.125rem;
+    font-size: 1.875rem;
+    display: flex;
+    align-items: center;
+}
+
+.rightArrow{
+    justify-content: flex-end;
+}
+
+.ArrowContainer p{
+    cursor: pointer;
+    margin: 0;
+}
+
+.BooksSliderContainer{
+    display: flex;
+    justify-content: center;
+    min-height: 19.125rem;
+    margin-left: 1.875rem;
+    margin-right: 1.875rem;
+    box-sizing: border-box;
+}
+
+.books{
+    display: flex;
+    min-width: 79rem;
+    justify-content: flex-start;
+}
+
+.author{
+    width: 18.563rem;
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 300;
+    line-height: 1.719rem;
+    margin-left: 0.25rem;
+}
+
+.book img{
+    width: 18.188rem;
+    height: 9.313rem;
+    margin-top: 1.313rem;
+    margin-bottom: 0.75rem;
+    border: 0.313rem solid transparent;
+    border-radius: 25px;
+}
+
+.book{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book + .book{
+    margin-left: 3.688rem;
+}
+
+.BookPickContainer img{
+    width: 18.563rem;
+    height: 10.813rem;
+}
+
+.ReadingPageContainer{
+    max-width: 102.563rem;
+    width: 100%;
+    padding-left: 1.875rem;
+    padding-right: 1.875rem;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 3.563rem;
+    padding-bottom: 3.188rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerContainer{
+    max-width: 83.563rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.images{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 27.875rem;
+    height: 13.438rem;
+}
+
+.headerBookImage{
+    width: 27.875rem;
+    height: 13.438rem;
+}
+
+.selctBookIcon{
+    width: 3.688rem;
+    height: 5.063rem;
+    position: relative;
+    z-index: 10;
+    left: 1.188rem;
+    bottom: 3.75rem;
+    cursor: pointer;
+}
+
+.wrongWordBlock{
+    background-color: #1e90ff;
+    border-radius: 25px 0 25px 25px;
+    height: 9.25rem;
+    padding-left: 1.563rem;
+    padding-right: 1.563rem;
+    margin-top: 1.875rem;
+}
+
+.wrongWordBlock p{
+    margin: 0;
+    font-size: 3.563rem;
+    font-weight: 300;
+    letter-spacing: 0.713rem;
+    line-height: 8.169rem;
+    vertical-align: middle;
+    display: inline;
+    color: #ffffff;
+}
+
+.rubiiBlock{
+    display: flex;
+}
+
+.rubii{
+    width: 8.375rem;
+    height: 13.813rem;
+    margin-left: 3.5rem;
+}
+
+.textContainer{
+    width: 100%;
+    height: 25rem;
+    display: flex;
+}
+
+.textArrowLeft, .textArrowRight{
+    width: 9.313rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.875rem;
+    cursor: pointer;
+}
+
+.textArrowLeft{
+    margin-right: 1.125rem;
+}
+
+.textArrowRight{
+    margin-left: 1.125rem;
+}
+
+.textBlock{
+    min-width: 83.938rem;
+    min-height: 25rem;
+    display: flex;
+    align-items: center;
+}
+
+.textBlock pre{
+    font-size: 2.688rem;
+    margin: 0;
+    color: #383b41;
+    font-family: "Gotham Pro";
+    font-weight: 300;
+    text-align: justify;
+    line-height: 3.375rem;
+    user-select: none;
+    white-space: pre-wrap;
+}
+
+.breadCrumbs{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.crumb{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.crumb + .crumb{
+  margin-left: 5.429rem;
+}
+
+.crumbDisActiveColor{
+    background-color: #292526;
+}
+  
+.micro{
+    text-align: center;
+    font-size: 4.125rem;
+    cursor: pointer;
+    margin: 0;
+    display: block;
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 50%;
+    line-height: 6.25rem;
+}
+
+.controlsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalBody{
+    width: 35.714rem;
+    height: 21.429rem;
+    background-color: #fff;
+    border: 2px solid #f96e88;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Gotham Pro";
+    font-weight: 300;
+  }
+  
+  .modalBody p{
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  .modalBody a{
+    width: 50px;
+    height: 20;
+    background-color: #f96e88;
+    border: 1px solid #f96e88;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .modalPermissionWrapper{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    z-index: 20;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .loginWrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+
+
+  .loginWrapper input{
+    width: 26.875rem;
+    height: 3.75rem;
+    font-size: 1.75rem;
+    border-radius: 10px;
+    border: 2px solid #1e90ff;
+    text-align: center;
+  }
+
+  .TestButton{
+    width: 6.25rem;
+    height: 6.25rem;
+    cursor: pointer;
+    position: absolute;
+    z-index: 30;
+  }
+
+  .loginWrapper input::placeholder{
+      text-align: center;
+  }
+
+  .loginWrapper input:focus::placeholder{
+      color: transparent;
+  }
+
+  .loginWrapper img{
+      width: 15.625rem;
+      margin-top: 2.5rem;
+  }
+
+  .ErrorLoginContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .testButtonContainer{
+    width: 100%;
+    height: 6.25rem;
+    position: absolute;
+  }
+
+  .testButton{
+    width: 6.25rem;
+    height: 6.25rem;
+    cursor: pointer;
+  }
+
+  .closeModalTest{
+    cursor: pointer;
+  }
+
+  .sendModalTest{
+    cursor: pointer;
+  }
+
+  .teacherPageContainer{
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .tryAgainButton{
+    background-color: #f96e88;
+    border-radius: 25px;
+    font-size: 3.25rem;
+    line-height: 3.25rem;
+    padding: 2rem;
+    cursor: pointer;
+  }
+
+  .loginWrapper h1{
+    color: #f96e88;
+  }
+
+  @media only screen and (max-width : 1626px){
+    html{
+      font-size: 15px;
+    }
+
+  } 
+
+
+
+  @media only screen and (max-width : 1538px){
+    html{
+      font-size: 14px;
+    }
+  } 
+
+  @media only screen and (max-width : 1439px){
+    html{
+      font-size: 12px;
+    }
+  } 
+
+  @media only screen and (max-width : 1191px){
+    html{
+      font-size: 11px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+
+    .micro {
+        font-size: 7.125rem;
+    }
+  } 
+
+  @media only screen and (max-width : 1070px){
+    html{
+      font-size: 9px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+
+    .micro {
+        font-size: 7.125rem;
+    }
+  }
+  
+  @media only screen and (max-width : 988px){
+    html{
+      font-size: 9px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+
+    .micro {
+        font-size: 7.125rem;
+    }
+  }
+  
+  
+  @media only screen and (max-width : 928px){
+    html{
+      font-size: 7px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+
+    .micro {
+        font-size: 7.125rem;
+    }
+  }
+
+  @media only screen and (max-width : 823px){
+    html{
+      font-size: 7px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+  }
+
+  @media only screen and (max-width : 757px){
+    html{
+      font-size: 7px;
+    }
+
+    .textArrowLeft, .textArrowRight{
+        font-size: 3.875rem;
+    }
+  }
+
+
