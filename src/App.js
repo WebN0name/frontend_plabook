@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import './assets/css/App.css'
 import './assets/css/GothamPro.css'
-import { BrowserRouter as Router, Route, Switch, IndexRoute, Redirect} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import BookPick from './pages/BookPickPage'
 import ReadingPage from './pages/ReadingPage'
 import Context from './Context'
@@ -12,7 +12,10 @@ import Login from './pages/Login'
 import BookForReading from './reducers/BookForReading'
 import UserReducer from './reducers/UserReducer'
 import UserBooks from './reducers/UserBooks'
-import TeacherPage from './pages/TeacherPage'
+import TeacherPage from './pages/AdminPages/TeacherPage'
+import ActivePanel from './reducers/ActivePanelReduce'
+import StudentStatistic from './pages/AdminPages/StudentStatistic'
+import QueueAudioReducer from './reducers/QueueAudioReducer'
 
 function App() {
   const [loader, dispathPreloader] = useReducer(PreloaderReducer, false)
@@ -21,6 +24,8 @@ function App() {
   const [bookForReading, bookForReadingDispatch] = useReducer(BookForReading)
   const [user, userDispatch] = useReducer(UserReducer)
   const [userBooks, userBooksDispatch] = useReducer(UserBooks)
+  const [activePanel, ActivePanelDispatch] = useReducer(ActivePanel)
+  const [queueState, dispathQueueState] = useReducer(QueueAudioReducer, false)
 
   return (
     <Context.Provider value = {{
@@ -35,7 +40,11 @@ function App() {
       user: user,
       userDispatch: userDispatch,
       userBooks: userBooks,
-      userBooksDispatch: userBooksDispatch
+      userBooksDispatch: userBooksDispatch,
+      activePanel: activePanel,
+      ActivePanelDispatch: ActivePanelDispatch,
+      queueState: queueState,
+      dispathQueueState: dispathQueueState
     }}>
     <div className="App">
       <Router>
@@ -46,7 +55,8 @@ function App() {
           <Route path="/Login" component = { Login }/>
           <Route path="/BookPick" component = { BookPick }/>
           <Route path="/ReadingPage" component = { ReadingPage } />
-          <Route path="/Teacher" component = { TeacherPage }/>
+          <Route path="/Teacher" component = { TeacherPage } />
+          <Route path="/StudentStatistic/:id" component = { StudentStatistic } />
         </Switch>
       </Router> 
     </div>

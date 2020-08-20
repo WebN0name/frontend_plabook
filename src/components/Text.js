@@ -29,7 +29,6 @@ const Text = ({pages, index, nextPage, previousPage, setWrongWord}) =>{
     }
     
     function setAnswerColor(style){
-        console.log(style)
         if(style === 'wrong'){
             return{
                 fontFamily: 'Gotham Pro',

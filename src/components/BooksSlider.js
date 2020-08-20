@@ -24,8 +24,6 @@ const BooksSlider = ({books, setBook}) =>{
     }
 
     function rightArrowVision(index, books){
-        console.log(index)
-        console.log(books)
         if(index >= books - 1){
             return{
                 display: 'none'
