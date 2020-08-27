@@ -8,7 +8,7 @@ import Context from '../Context'
 export default function Login({ history }){
     let location = useLocation()
 
-    const {userDispatch, userBooksDispatch} = useContext(Context)
+    const {userDispatch, userBooksDispatch, adminDispatch} = useContext(Context)
     const [error, setError] = useState(false)
 
     const [password, setPassword] = useState('')
@@ -17,7 +17,7 @@ export default function Login({ history }){
     function sendPassword(){
         let urlParams = location.pathname.split('/')
         console.log(urlParams)
-        axios.post('https://boomd.ru:3000/' + urlParams[2] + '/' + urlParams[3] + '/auth',{
+        axios.post('https://boomd.ru:3000/auth/' + urlParams[2] + '/' + urlParams[3],{
             pin: password,
         }).then(r => {
             console.log(r)
@@ -49,9 +49,37 @@ export default function Login({ history }){
                 // })
 
                 if(urlParams[2] === 'teacher'){
+                    let firstName = []
+                    let count = 0
+                    for(let i = 0; i< urlParams[3].length; i++){
+                        if((urlParams[3][i] !== urlParams[3][i].toUpperCase()) || (i === 0)){
+                            firstName.push(urlParams[3][i])
+                        }else{
+                            count = i
+                            break;
+                        }
+                    }
+
+                    let lastName = []
+
+                    for(let i = count; i < urlParams[3].length; i++){
+                        lastName.push(urlParams[3][i])
+                    }
+
+                    firstName = firstName.join('')
+                    lastName = lastName.join('')
+                    const userName = firstName + ' ' + lastName
+                    const tmp = {
+                        adminId: urlParams[3],
+                        adminName: userName
+                    }
+                    adminDispatch({
+                        type: 'setAdmin',
+                        payload: tmp
+                    })
                     setNext(nextOff)
                     setTimeout(() => {
-                        history.push('/Teacher')
+                        history.push('/Admin')
                     }, 200);
                 }else{
                     userBooksDispatch({
@@ -67,7 +95,7 @@ export default function Login({ history }){
                     setNext(nextOff)
                     setTimeout(() => {
                         history.push('/BookPick')
-                    }, 200);
+                    }, 200)
                 }
 
                 // setNext(nextOff)

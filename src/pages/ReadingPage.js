@@ -32,8 +32,8 @@ export default function  ReadingPage ({history}){
     const [blockButton, setBlockButton] = useState(false)
     const [isTest, setIsTest] = useState(false)
     const [audioQueue, setAudioQueue] = useState([])
-    const [testState, setTestState] = useState([1, 2, 3])
-    const [checkState, setCheckState] = useState(false)
+    const [checkAudioTime, setCheckAudioTime] = useState([])
+
     
 
     useEffect(() => {
@@ -42,16 +42,16 @@ export default function  ReadingPage ({history}){
         }else{
             localStorage.setItem('testQueue', JSON.stringify(false))
             localStorage.setItem('Page', JSON.stringify(0))
-            getPermission()
             let allDots = []
             for(let i = 0; i<bookForReading.texts.length; i++){
                 let tmp = {
-                    id: i
+                    id: i,
+                    status: 'default'
                 }
-
                 allDots.push(tmp)
             }
-            setDots(allDots)
+            localStorage.setItem('dots', JSON.stringify(allDots))
+            getPermission()
         }
     }, [])
 
@@ -77,61 +77,122 @@ export default function  ReadingPage ({history}){
         window.requestAnimationFrame(loop)
         analizer.getByteFrequencyData(frequency)
         setFrequency(frequency[0])
+        if((audioQueue.length !==0) && (localStorage.getItem('testQueue') === 'false')){
+            getAudioResult()
+        }
     }
 
     function getAudioResult(){
         localStorage.setItem('testQueue', JSON.stringify(true))
-        const Page = JSON.parse(localStorage.getItem('Page'))
-        const finalString = audioQueue[0]
         let tmp = audioQueue
+        const page = tmp[0]
         tmp.shift()
         setAudioQueue(tmp)
         axios.post('https://boomd.ru:3000/saveRecord',{
             textName : bookForReading.name,
-            record: finalString
+            record: page.finalString
         }).then(r => {
+            console.log(r)
             const id = r.data.result._id
             const httpsClient = axios.create()
             httpsClient.defaults.timeout = 900000
             httpsClient.post('https://boomd.ru:3000/recordCheck',{ 
-                text : bookForReading.textsForSale[Page],
+                text : bookForReading.textsForSale[page.currentIndex],
                 recordId: id,
                 username: user,
                 textName : bookForReading.name,
-                bookPage: Page + 1
+                bookPage: page.currentIndex + 1
             }).then(r => {
                 console.log(r)
-               const wrongWords = r.data.mlResult
-                for(let i=0; i< wrongWords.length; i++){
+                const wrongWords = r.data.mlResult
+                    for(let i=0; i< wrongWords.length; i++){
                     wrongWords[i] = wrongWords[i].split('\'').join('’');
                 }
                 setAudio(r.data.filesArray)
                 let tmp = bookForReading
                 let cnt = 0
-                console.log(r.data.bookPage)
                 for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
-                    if((tmp.texts[Page][i].isPretext !== true) && (tmp.texts[Page][i].type !== 'symbol')){
-                        if(tmp.texts[Page][i].text === wrongWords[cnt]){
-                            tmp.texts[Page][i].style = 'wrong'
+                    if((tmp.texts[r.data.bookPage - 1][i].isPretext !== true) && (tmp.texts[r.data.bookPage - 1][i].type !== 'symbol')){
+                        if(tmp.texts[r.data.bookPage - 1][i].text === wrongWords[cnt]){
+                            tmp.texts[r.data.bookPage - 1][i].style = 'wrong'
                             cnt++
                         }else{
-                            tmp.texts[Page][i].style = 'right'
+                            tmp.texts[r.data.bookPage - 1][i].style = 'right'
                         }
                     }else{
-                        tmp.texts[Page][i].style = 'readed'
+                        tmp.texts[r.data.bookPage - 1][i].style = 'readed'
                     }
                 }
-
-                console.log(tmp)
-
+    
                 bookForReadingDispatch({
                     type: 'setBookFroReading',
                     payload: tmp
                 })
                 localStorage.setItem('testQueue', JSON.stringify(false))
+                let dots = JSON.parse(localStorage.getItem('dots'))
+                dots.forEach(element => {
+                    if(element.id === page.currentIndex){
+                        element.status = 'done'
+                    }
+                })
+                localStorage.setItem('dots', JSON.stringify(dots))
             })
         })
     }
+
+    // function getAudioResult(){
+    //     localStorage.setItem('testQueue', JSON.stringify(true))
+    //     const Page = JSON.parse(localStorage.getItem('Page'))
+    //     const finalString = audioQueue[0]
+    //     let tmp = audioQueue
+    //     tmp.shift()
+    //     setAudioQueue(tmp)
+        // axios.post('https://boomd.ru:3000/saveRecord',{
+        //     textName : bookForReading.name,
+        //     record: finalString
+        // }).then(r => {
+        //     const id = r.data.result._id
+        //     const httpsClient = axios.create()
+        //     httpsClient.defaults.timeout = 900000
+        //     httpsClient.post('https://boomd.ru:3000/recordCheck',{ 
+        //         text : bookForReading.textsForSale[Page],
+        //         recordId: id,
+        //         username: user,
+        //         textName : bookForReading.name,
+        //         bookPage: Page + 1
+        //     }).then(r => {
+        //         console.log(r)
+        //        const wrongWords = r.data.mlResult
+        //         for(let i=0; i< wrongWords.length; i++){
+        //             wrongWords[i] = wrongWords[i].split('\'').join('’');
+        //         }
+        //         setAudio(r.data.filesArray)
+        //         let tmp = bookForReading
+        //         let cnt = 0
+        //         console.log(r.data.bookPage)
+        //         for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
+        //             if((tmp.texts[Page][i].isPretext !== true) && (tmp.texts[Page][i].type !== 'symbol')){
+        //                 if(tmp.texts[Page][i].text === wrongWords[cnt]){
+        //                     tmp.texts[Page][i].style = 'wrong'
+        //                     cnt++
+        //                 }else{
+        //                     tmp.texts[Page][i].style = 'right'
+        //                 }
+        //             }else{
+        //                 tmp.texts[Page][i].style = 'readed'
+        //             }
+        //         }
+
+        //         console.log(tmp)
+
+        //         bookForReadingDispatch({
+        //             type: 'setBookFroReading',
+        //             payload: tmp
+        //         })
+        //         localStorage.setItem('testQueue', JSON.stringify(false))
+        //     })
+        // })
+    // }
 
     const nextPage = (value) =>{
         if(endTalking){
@@ -159,11 +220,19 @@ export default function  ReadingPage ({history}){
         if(((isPermission === 'success') && (endTalking === true) && (blockButton !== true))){
             if(isRecord){
                 setIsRecord(false)
+                let tmp = checkAudioTime
+                console.log(tmp)
+                tmp[tmp.length - 1].isStop = true
+                setCheckAudioTime(tmp)
                 stopRecord()
             }else{
                 setBlockButton(true)
                 blockRecordButton()
                 setIsRecord(true)
+                let tmp = checkAudioTime
+                tmp.push({isStop: false})
+                setCheckAudioTime(tmp)
+                checkTime()
                 startRecod()
             }
         }else{
@@ -183,9 +252,25 @@ export default function  ReadingPage ({history}){
         }
     }
 
-
     function startRecod(){
         Recorder.start()
+    }
+    
+    function checkTime(){
+        setTimeout(() =>{
+            let tmp = checkAudioTime
+            const time = tmp[0].isStop
+            console.log(time)
+            if(time){
+                tmp.shift()
+                setCheckAudioTime(tmp)
+            }else{
+                tmp.shift()
+                setCheckAudioTime(tmp)
+                setIsRecord(false)
+                stopRecord()
+            }
+        }, 60000)
     }
 
     async function stopRecord(){
@@ -198,23 +283,30 @@ export default function  ReadingPage ({history}){
         })
         const finalString = await getBinaryString(voiceBlob)
         let tmp = audioQueue
-        tmp.push(finalString)
+        tmp.push({finalString, currentIndex})
         setAudioQueue(tmp)
-        if(checkState === false){
-            setCheckState(true)
-            checkAudio()
-        }
+        let dots = JSON.parse(localStorage.getItem('dots'))
+        dots.forEach(element => {
+            if(element.id === currentIndex){
+                element.status = 'loading'
+            }
+        })
+        localStorage.setItem('dots', JSON.stringify(dots))
+        // if(checkState === false){
+        //     setCheckState(true)
+        //     checkAudio()
+        // }
     }
 
-    function checkAudio(){
-        setTimeout(() => {
-            if((audioQueue.length !==0) && (localStorage.getItem('testQueue') === 'false')){
-                localStorage.setItem('testQueue', JSON.stringify(true))
-                getAudioResult()
-            }
-            checkAudio()  
-        }, 200);
-    }
+    // function checkAudio(){
+    //     setTimeout(() => {
+    //         if((audioQueue.length !==0) && (localStorage.getItem('testQueue') === 'false')){
+    //             localStorage.setItem('testQueue', JSON.stringify(true))
+    //             getAudioResult()
+    //         }
+    //         checkAudio()  
+    //     }, 200);
+    // }
 
     function getBinaryString(voiceBlob){
         return new Promise((resolve, reject) => {
@@ -283,50 +375,60 @@ export default function  ReadingPage ({history}){
     }
 
     const getTestString = ( value ) =>{
-        loaderDispatch({
-            type: 'isLoading',
-        })
-        axios.post('https://boomd.ru:3000/saveRecord',{
-            textName : bookForReading.name,
-            record: value
-        }).then(r => {
-            const id = r.data.result._id
-            axios.post('https://boomd.ru:3000/recordCheck', { 
-                text : bookForReading.textsForSale[currentIndex],
-                recordId: id,
-                username: user,
-                textName : bookForReading.name,
-                bookPage: currentIndex + 1
-            }).then(r => {
-                loaderDispatch({
-                    type: 'isLoading',
-                })
-               const wrongWords = r.data.mlResult
-                for(let i=0; i< wrongWords.length; i++){
-                    wrongWords[i] = wrongWords[i].split('\'').join('’');
-                }
-                setAudio(r.data.filesArray)
-                let tmp = bookForReading
-                let cnt = 0
-                for(let i = 0; i < tmp.texts[currentIndex].length; i++){
-                    if((tmp.texts[currentIndex][i].isPretext !== true) && (tmp.texts[currentIndex][i].type !== 'symbol')){
-                        if(tmp.texts[currentIndex][i].text === wrongWords[cnt]){
-                            tmp.texts[currentIndex][i].style = 'wrong'
-                            cnt++
-                        }else{
-                            tmp.texts[currentIndex][i].style = 'right'
-                        }
-                    }else{
-                        tmp.texts[currentIndex][i].style = 'readed'
-                    }
-                }
+        // loaderDispatch({
+        //     type: 'isLoading',
+        // })
+        // axios.post('https://boomd.ru:3000/saveRecord',{
+        //     textName : bookForReading.name,
+        //     record: value
+        // }).then(r => {
+        //     const id = r.data.result._id
+        //     axios.post('https://boomd.ru:3000/recordCheck', { 
+        //         text : bookForReading.textsForSale[currentIndex],
+        //         recordId: id,
+        //         username: user,
+        //         textName : bookForReading.name,
+        //         bookPage: currentIndex + 1
+        //     }).then(r => {
+        //         loaderDispatch({
+        //             type: 'isLoading',
+        //         })
+        //        const wrongWords = r.data.mlResult
+        //         for(let i=0; i< wrongWords.length; i++){
+        //             wrongWords[i] = wrongWords[i].split('\'').join('’');
+        //         }
+        //         setAudio(r.data.filesArray)
+        //         let tmp = bookForReading
+        //         let cnt = 0
+        //         for(let i = 0; i < tmp.texts[currentIndex].length; i++){
+        //             if((tmp.texts[currentIndex][i].isPretext !== true) && (tmp.texts[currentIndex][i].type !== 'symbol')){
+        //                 if(tmp.texts[currentIndex][i].text === wrongWords[cnt]){
+        //                     tmp.texts[currentIndex][i].style = 'wrong'
+        //                     cnt++
+        //                 }else{
+        //                     tmp.texts[currentIndex][i].style = 'right'
+        //                 }
+        //             }else{
+        //                 tmp.texts[currentIndex][i].style = 'readed'
+        //             }
+        //         }
 
-                bookForReadingDispatch({
-                    type: 'setBookFroReading',
-                    payload: tmp
-                })
-            })
+        //         bookForReadingDispatch({
+        //             type: 'setBookFroReading',
+        //             payload: tmp
+        //         })
+        //     })
+        // })
+        let tmp = audioQueue
+        tmp.push({finalString: value, currentIndex})
+        setAudioQueue(tmp)
+        let dots = JSON.parse(localStorage.getItem('dots'))
+        dots.forEach(element => {
+            if(element.id === currentIndex){
+                element.status = 'loading'
+            }
         })
+        localStorage.setItem('dots', JSON.stringify(dots))
     }
 
     if(bookForReading){
@@ -347,7 +449,6 @@ export default function  ReadingPage ({history}){
                 isRecord = {isRecord}
                 />
             </div>
-            {String(localStorage.getItem('testQueue'))}
             </>
         )
     }else{
