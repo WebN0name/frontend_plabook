@@ -68,7 +68,7 @@ const Header = props => {
                 </IconButton>
               </Link>
               <Hidden smDown>
-                <Box className="app-logo-text">Carolina</Box>
+                <Box className="app-logo-text">Plabook</Box>
               </Hidden>
             </Box>
           </Hidden>
@@ -94,14 +94,14 @@ const Header = props => {
                   </Tooltip>
                 </Box>
               )}
-              <HeaderSearch />
-              <HeaderMenu />
+              {/* <HeaderSearch /> */}
+              {/* <HeaderMenu /> */}
             </Box>
           </Hidden>
           <Box className="d-flex align-items-center">
-            <HeaderDots />
-            <HeaderUserbox />
-            <HeaderDrawer />
+            {/* <HeaderDots /> */}
+            {/* <HeaderUserbox /> */}
+            {/* <HeaderDrawer /> */}
             <Box className="toggle-sidebar-btn-mobile">
               <Tooltip title="Toggle Sidebar" placement="right">
                 <IconButton

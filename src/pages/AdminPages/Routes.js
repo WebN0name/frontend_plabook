@@ -51,6 +51,10 @@ import FormsDualListbox from './example-pages/FormsDualListbox';
 import FormsToggleSwitch from './example-pages/FormsToggleSwitch';
 
 const DashboardDefault = lazy(() => import('./example-pages/DashboardDefault'));
+const StudentsQ = lazy(() => import('./example-pages/StudentsQ'));
+const StudentStatistic = lazy(() => import('./example-pages/StudentStatistic'));
+const StudentAttempt = lazy(() => import('./example-pages/StudentAttempt'));
+
 const DashboardAnalytics = lazy(() =>
   import('./example-pages/DashboardAnalytics')
 );
@@ -298,6 +302,9 @@ const Routes = () => {
             <Route
               path={[
                 '/DashboardDefault',
+                '/StudentsQ',
+                '/StudentStatistic',
+                '/StudentAttempt',
                 '/DashboardAnalytics',
                 '/DashboardSales',
                 '/DashboardReports',
@@ -402,6 +409,18 @@ const Routes = () => {
                     <Route
                       path="/DashboardDefault"
                       component={DashboardDefault}
+                    />
+                    <Route
+                      path="/StudentsQ"
+                      component={StudentsQ}
+                    />
+                    <Route
+                      path="/StudentStatistic"
+                      component={StudentStatistic}
+                    />
+                    <Route
+                      path="/StudentAttempt"
+                      component={StudentAttempt}
                     />
                     <Route
                       path="/DashboardAnalytics"

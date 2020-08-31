@@ -33,7 +33,7 @@ const HeaderLogo = props => {
               />
             </IconButton>
           </Link>
-          <Box className="header-logo-text">Carolina</Box>
+          <Box className="header-logo-text">Plabook</Box>
         </Box>
       </div>
     </Fragment>

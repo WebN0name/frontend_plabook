@@ -52,6 +52,7 @@ const Sidebar = props => {
           key={list.label}
           pages={list.content}
           title={list.label}
+          to={list.content.to}
         />
       ))}
     </div>

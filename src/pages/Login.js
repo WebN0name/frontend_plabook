@@ -16,13 +16,10 @@ export default function Login({ history }){
 
     function sendPassword(){
         let urlParams = location.pathname.split('/')
-        console.log(urlParams)
-        axios.post('https://boomd.ru:3000/auth/' + urlParams[2] + '/' + urlParams[3],{
+        axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3],{
             pin: password,
         }).then(r => {
-            console.log(r)
             if(!r.data.error){
-                console.log(r)
                 // let firstName = []
                 // let count = 0
                 // for(let i = 0; i< urlParams[3].length; i++){

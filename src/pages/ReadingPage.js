@@ -11,7 +11,7 @@ import ModalTest from '../components/ModalTest'
 
 export default function  ReadingPage ({history}){
 
-    const {loaderState, loaderDispatch, bookForReading, bookForReadingDispatch, user, queueState, dispathQueueState} = useContext(Context)
+    const {loaderState, bookForReading, bookForReadingDispatch, user} = useContext(Context)
 
     let frequency = new Uint8Array(32*2)
     let analizer = null
@@ -19,7 +19,6 @@ export default function  ReadingPage ({history}){
     const[isPermission, setPermission] = useState('wait')
     const[currentFrequency, setFrequency] = useState(0)
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [dots, setDots] = useState([])
     const [endTalking, setEndTalking] = useState(true)
     const [isRecord, setIsRecord] = useState(false)
     const [errorPermission, setErrorPermission] = useState({
@@ -42,15 +41,7 @@ export default function  ReadingPage ({history}){
         }else{
             localStorage.setItem('testQueue', JSON.stringify(false))
             localStorage.setItem('Page', JSON.stringify(0))
-            let allDots = []
-            for(let i = 0; i<bookForReading.texts.length; i++){
-                let tmp = {
-                    id: i,
-                    status: 'default'
-                }
-                allDots.push(tmp)
-            }
-            localStorage.setItem('dots', JSON.stringify(allDots))
+            console.log(bookForReading)
             getPermission()
         }
     }, [])
@@ -88,7 +79,7 @@ export default function  ReadingPage ({history}){
         const page = tmp[0]
         tmp.shift()
         setAudioQueue(tmp)
-        axios.post('https://boomd.ru:3000/saveRecord',{
+        axios.post('https://plabookeducation.com/saveRecord',{
             textName : bookForReading.name,
             record: page.finalString
         }).then(r => {
@@ -96,7 +87,7 @@ export default function  ReadingPage ({history}){
             const id = r.data.result._id
             const httpsClient = axios.create()
             httpsClient.defaults.timeout = 900000
-            httpsClient.post('https://boomd.ru:3000/recordCheck',{ 
+            httpsClient.post('https://plabookeducation.com/recordCheck',{ 
                 text : bookForReading.textsForSale[page.currentIndex],
                 recordId: id,
                 username: user,
@@ -104,38 +95,54 @@ export default function  ReadingPage ({history}){
                 bookPage: page.currentIndex + 1
             }).then(r => {
                 console.log(r)
-                const wrongWords = r.data.mlResult
+                if(!r.data.error){
+                    const wrongWords = r.data.mlResult
                     for(let i=0; i< wrongWords.length; i++){
-                    wrongWords[i] = wrongWords[i].split('\'').join('’');
-                }
-                setAudio(r.data.filesArray)
-                let tmp = bookForReading
-                let cnt = 0
-                for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
-                    if((tmp.texts[r.data.bookPage - 1][i].isPretext !== true) && (tmp.texts[r.data.bookPage - 1][i].type !== 'symbol')){
-                        if(tmp.texts[r.data.bookPage - 1][i].text === wrongWords[cnt]){
-                            tmp.texts[r.data.bookPage - 1][i].style = 'wrong'
-                            cnt++
+                        wrongWords[i] = wrongWords[i].split('\'').join('’');
+                    }
+                    setAudio(r.data.filesArray)
+                    let tmp = bookForReading
+                    let cnt = 0
+                    for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
+                        if((tmp.texts[r.data.bookPage - 1][i].isPretext !== true) && (tmp.texts[r.data.bookPage - 1][i].type !== 'symbol')){
+                            if(tmp.texts[r.data.bookPage - 1][i].text === wrongWords[cnt]){
+                                tmp.texts[r.data.bookPage - 1][i].style = 'wrong'
+                                cnt++
+                            }else{
+                                tmp.texts[r.data.bookPage - 1][i].style = 'right'
+                            }
                         }else{
-                            tmp.texts[r.data.bookPage - 1][i].style = 'right'
+                            tmp.texts[r.data.bookPage - 1][i].style = 'readed'
                         }
-                    }else{
-                        tmp.texts[r.data.bookPage - 1][i].style = 'readed'
                     }
-                }
     
-                bookForReadingDispatch({
-                    type: 'setBookFroReading',
-                    payload: tmp
-                })
-                localStorage.setItem('testQueue', JSON.stringify(false))
-                let dots = JSON.parse(localStorage.getItem('dots'))
-                dots.forEach(element => {
-                    if(element.id === page.currentIndex){
-                        element.status = 'done'
-                    }
-                })
-                localStorage.setItem('dots', JSON.stringify(dots))
+                    bookForReadingDispatch({
+                        type: 'setBookFroReading',
+                        payload: tmp
+                    })
+                    localStorage.setItem('testQueue', JSON.stringify(false))
+                    tmp = bookForReading
+                    tmp.dots.forEach(element => {
+                        if(element.id === page.currentIndex){
+                            element.status = 'done'
+                        }
+                    })
+                    bookForReadingDispatch({
+                        type: 'setBookFroReading',
+                        payload: tmp
+                    })
+                }else{
+                    let tmp = bookForReading
+                    tmp.dots.forEach(element => {
+                        if(element.id === page.currentIndex){
+                            element.status = 'error'
+                        }
+                    })
+                    bookForReadingDispatch({
+                        type: 'setBookFroReading',
+                        payload: tmp
+                    })
+                }
             })
         })
     }
@@ -147,14 +154,14 @@ export default function  ReadingPage ({history}){
     //     let tmp = audioQueue
     //     tmp.shift()
     //     setAudioQueue(tmp)
-        // axios.post('https://boomd.ru:3000/saveRecord',{
+        // axios.post('https://plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: finalString
         // }).then(r => {
         //     const id = r.data.result._id
         //     const httpsClient = axios.create()
         //     httpsClient.defaults.timeout = 900000
-        //     httpsClient.post('https://boomd.ru:3000/recordCheck',{ 
+        //     httpsClient.post('https://plabookeducation.com/recordCheck',{ 
         //         text : bookForReading.textsForSale[Page],
         //         recordId: id,
         //         username: user,
@@ -285,13 +292,16 @@ export default function  ReadingPage ({history}){
         let tmp = audioQueue
         tmp.push({finalString, currentIndex})
         setAudioQueue(tmp)
-        let dots = JSON.parse(localStorage.getItem('dots'))
-        dots.forEach(element => {
+        tmp = bookForReading
+        tmp.dots.forEach(element => {
             if(element.id === currentIndex){
                 element.status = 'loading'
             }
         })
-        localStorage.setItem('dots', JSON.stringify(dots))
+        bookForReadingDispatch({
+            type: 'setBookFroReading',
+            payload: tmp
+        })
         // if(checkState === false){
         //     setCheckState(true)
         //     checkAudio()
@@ -337,7 +347,9 @@ export default function  ReadingPage ({history}){
 
 
     function bookPick(){
-        history.push('/BookPick')
+        if((audioQueue.length === 0) && (localStorage.getItem('testQueue') === 'false')){
+            history.push('/BookPick')
+        }
     }
 
     const setWrongWordFunc = async (value) => {
@@ -378,12 +390,12 @@ export default function  ReadingPage ({history}){
         // loaderDispatch({
         //     type: 'isLoading',
         // })
-        // axios.post('https://boomd.ru:3000/saveRecord',{
+        // axios.post('https://plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: value
         // }).then(r => {
         //     const id = r.data.result._id
-        //     axios.post('https://boomd.ru:3000/recordCheck', { 
+        //     axios.post('https://plabookeducation.com/recordCheck', { 
         //         text : bookForReading.textsForSale[currentIndex],
         //         recordId: id,
         //         username: user,
@@ -422,13 +434,16 @@ export default function  ReadingPage ({history}){
         let tmp = audioQueue
         tmp.push({finalString: value, currentIndex})
         setAudioQueue(tmp)
-        let dots = JSON.parse(localStorage.getItem('dots'))
-        dots.forEach(element => {
+        tmp = bookForReading
+        tmp.dots.forEach(element => {
             if(element.id === currentIndex){
                 element.status = 'loading'
             }
         })
-        localStorage.setItem('dots', JSON.stringify(dots))
+        bookForReadingDispatch({
+            type: 'setBookFroReading',
+            payload: tmp
+        })
     }
 
     if(bookForReading){
@@ -439,10 +454,21 @@ export default function  ReadingPage ({history}){
             <TestButton OpenTestModal = { OpenTestModal }/>
             <ModalTest isTest = { isTest } SetModalTestClose = { SetModalTestClose } getTestString = { getTestString }/>
             <div className="ReadingPageContainer">
-                <HeaderReadingPage bookImage = {bookForReading.image} bookPick = { bookPick } wrongWord = { wrongWord }/>
-                <Text pages = { bookForReading.texts } index = { currentIndex } nextPage = { nextPage } previousPage = { previousPage } setWrongWord = { setWrongWordFunc }/>
+                <HeaderReadingPage 
+                bookImage = {bookForReading.image} 
+                bookPick = { bookPick } 
+                wrongWord = { wrongWord }
+                />
+                <Text 
+                pages = { bookForReading.texts } 
+                index = { currentIndex } 
+                nextPage = { nextPage } 
+                previousPage = { previousPage } 
+                setWrongWord = { setWrongWordFunc }
+                isTalking = {endTalking}
+                />
                 <Controls 
-                dots = { dots } 
+                dots = { bookForReading.dots } 
                 index = {currentIndex} 
                 clickRecordButton = { () => clickRecordButton(isRecord, isPermission, endTalking)}
                 frequency = { currentFrequency }

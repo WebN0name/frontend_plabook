@@ -14,6 +14,9 @@ import UserReducer from './reducers/UserReducer'
 import UserBooks from './reducers/UserBooks'
 import ActivePanel from './reducers/ActivePanelReduce'
 import AdminReducer from './reducers/AdminReducer'
+import StudentsReducer from './reducers/StudentsReducer'
+import StudentReducer from './reducers/StudentReducer'
+import AttemptReducer from './reducers/AttemptReducer'
 
 
 import AdminPage from './pages/AdminPages/AdminPage'
@@ -27,6 +30,9 @@ function App() {
   const [userBooks, userBooksDispatch] = useReducer(UserBooks)
   const [activePanel, ActivePanelDispatch] = useReducer(ActivePanel)
   const [admin, adminDispatch] = useReducer(AdminReducer, {})
+  const [students, studentsDispatch] = useReducer(StudentsReducer, [])
+  const [student, studentDispatch] = useReducer(StudentReducer, null)
+  const [attempt, attemptDispatch] = useReducer(AttemptReducer, null)
 
   return (
     <Context.Provider value = {{
@@ -45,7 +51,13 @@ function App() {
       activePanel: activePanel,
       ActivePanelDispatch: ActivePanelDispatch,
       admin: admin,
-      adminDispatch: adminDispatch   
+      adminDispatch: adminDispatch,
+      students: students, 
+      studentsDispatch: studentsDispatch,    
+      student: student, 
+      studentDispatch: studentDispatch,   
+      attempt: attempt, 
+      attemptDispatch: attemptDispatch,
     }}>
     <div className="App">
       <Router>

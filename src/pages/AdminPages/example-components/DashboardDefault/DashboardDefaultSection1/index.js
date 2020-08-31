@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Grid, Card } from '@material-ui/core';
 
+import Context from '../../../../../Context'
+
 export default function LivePreviewExample() {
+
+  const { students, studentslDispatch } = useContext(Context)
+
   return (
     <Fragment>
       <Grid container spacing={4}>
@@ -14,14 +19,14 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-first text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'keyboard']} />
               </div>
-              <div className="text-black-50">Orders</div>
+              <div className="text-black-50">Avarage Mark</div>
             </div>
             <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
-                icon={['fas', 'arrow-down']}
+                icon={['fas', 'arrow-up']}
                 className="font-size-sm text-danger mr-2"
               />
-              <div>$3,485</div>
+              <div>4.485</div>
             </div>
             <div className="text-black-50 text-center opacity-6 pt-3">
               <b>+36%</b> from last month
@@ -34,7 +39,7 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-success text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'file-excel']} />
               </div>
-              <div className="text-black-50">Reports</div>
+              <div className="text-black-50">Avarage error</div>
             </div>
             <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
@@ -54,14 +59,14 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-danger text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'user']} />
               </div>
-              <div className="text-black-50">Customers</div>
+              <div className="text-black-50">Students</div>
             </div>
             <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
                 icon={['fas', 'arrow-up']}
                 className="font-size-sm text-success mr-2"
               />
-              <div>4867</div>
+              <div>{students && students.length}</div>
             </div>
             <div className="text-black-50 text-center opacity-6 pt-3">
               <b>+22%</b> from last month
@@ -74,14 +79,14 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-primary text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'user']} />
               </div>
-              <div className="text-black-50">Sales</div>
+              <div className="text-black-50">Books were read</div>
             </div>
             <div className="display-3 text-center line-height-sm text-black-50 text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
                 icon={['fas', 'arrow-down']}
                 className="font-size-sm text-first mr-2"
               />
-              <div>433</div>
+              <div>{students && students.length > 0 ? students.reduce((accumulator, currentValue) => accumulator + parseInt(currentValue.bookRead),0):0}</div>
             </div>
             <div className="text-black-50 text-center opacity-6 pt-3">
               <b>+32%</b> from last month

@@ -148,13 +148,13 @@ function PageTitle(props) {
           )}
 
           <Box className="app-page-title--first">
-            {pageTitleIconBox && (
+            {/* {pageTitleIconBox && (
               <Paper
                 elevation={2}
                 className="app-page-title--iconbox d-70 d-flex align-items-center bg-secondary justify-content-center">
                 <DashboardTwoToneIcon />
               </Paper>
-            )}
+            )} */}
             <div className="app-page-title--heading">
               <h1>{props.titleHeading}</h1>
               {pageTitleDescription && (
@@ -166,7 +166,7 @@ function PageTitle(props) {
           </Box>
         </div>
 
-        {!open && (
+        {/* {!open && (
           <div className="d-flex align-items-center">
             <Button onClick={toggle1} variant="contained" color="secondary">
               <span className="d-none d-xl-block">Open dialog</span>
@@ -589,8 +589,8 @@ function PageTitle(props) {
               </Grid>
             </Dialog>
           </div>
-        )}
-        <Hidden smDown>
+        )} */}
+        {/* <Hidden smDown>
           <div className="speedial-wrapper">
             <SpeedDial
               ariaLabel="SpeedDial menu"
@@ -609,7 +609,7 @@ function PageTitle(props) {
               ))}
             </SpeedDial>
           </div>
-        </Hidden>
+        </Hidden> */}
       </Paper>
     </Fragment>
   );

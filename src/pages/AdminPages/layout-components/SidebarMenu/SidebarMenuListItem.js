@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -23,16 +23,21 @@ const SidebarMenuListItem = props => {
     children,
     icon: Icon,
     className,
+    link,
     open: openProp,
     label: Label,
     ...rest
   } = props;
 
+  const history = useHistory()
+
   const [open, setOpen] = useState(openProp);
 
   const handleToggle = () => {
     // setOpen(open => !open);
+    history.push(link)
   };
+
 
   let paddingLeft = 14;
 

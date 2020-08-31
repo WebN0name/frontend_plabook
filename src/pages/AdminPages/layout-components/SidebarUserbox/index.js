@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 
 import clsx from 'clsx';
+import Context from '../../../../Context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -23,6 +24,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const SidebarUserbox = props => {
   const { sidebarToggle, sidebarHover } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const {admin} = useContext(Context)
+
+  console.log(admin)
 
   function openUserMenu(event) {
     setAnchorEl(event.currentTarget);
@@ -128,20 +133,7 @@ const SidebarUserbox = props => {
         />
         <Box className="app-sidebar-userbox-name">
           <Box>
-            <b>Emma Taylor</b>
-          </Box>
-          <Box className="app-sidebar-userbox-description">
-            Senior Web Developer
-          </Box>
-          <Box className="app-sidebar-userbox-btn-profile">
-            <Button
-              size="small"
-              color="secondary"
-              variant="contained"
-              className="text-white"
-              href="/PagesProfile">
-              View profile
-            </Button>
+            <b>{ admin.adminName }</b>
           </Box>
         </Box>
       </Box>

@@ -103,3 +103,5 @@ export { default as ChartjsCharts } from './ChartjsCharts';
 export { default as SparklinesCharts } from './SparklinesCharts';
 export { default as Maps } from './Maps';
 export { default as ListGroups } from './ListGroups';
+export { default as StudentsQ } from './StudentsQ';
+export { default as StudentsStatistic } from './StudentsStatistic';

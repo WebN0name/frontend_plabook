@@ -7,13 +7,19 @@ const Controls = ({dots, index, clickRecordButton, frequency, isRecord}) =>{
     function dotStyle(status){
         if(status === 'loading'){
             return{
-                backgroundColor: '#ff4757'
+                backgroundColor: 'yellow'
             }
         }
 
         if(status === 'done'){
             return{
                 backgroundColor: 'green'
+            }
+        }
+
+        if(status === 'error'){
+            return{
+                backgroundColor: 'red'
             }
         }
     }
@@ -34,21 +40,16 @@ const Controls = ({dots, index, clickRecordButton, frequency, isRecord}) =>{
         }
     }
 
-    if(JSON.parse(localStorage.getItem('dots')) !== null){
-        return(
-            <div className = "controlsContainer">
-                <p className ="micro" onClick = {() => clickRecordButton()} style = {activeMicro(frequency)}><FontAwesomeIcon icon = { faMicrophone }/></p>
-                <div className = "breadCrumbs">
-                    {JSON.parse(localStorage.getItem('dots')).map((item) => (
-                        <div className = "crumb crumbDisActiveColor" key={item.id} style = {dotStyle(item.status)}></div>
-                    ))}
-                </div>
+    return(
+        <div className = "controlsContainer">
+            <p className ="micro" onClick = {() => clickRecordButton()} style = {activeMicro(frequency)}><FontAwesomeIcon icon = { faMicrophone }/></p>
+            <div className = "breadCrumbs">
+                {dots.map((item) => (
+                    <div className = "crumb crumbDisActiveColor" key={item.id} style = {dotStyle(item.status)}></div>
+                ))}
             </div>
-        )
-    }else{
-        return null
-    }
-
+        </div>
+    )
 }
 
 export default Controls

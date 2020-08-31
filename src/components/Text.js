@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
-const Text = ({pages, index, nextPage, previousPage, setWrongWord}) =>{
+const Text = ({pages, index, nextPage, previousPage, setWrongWord, isTalking}) =>{
 
     function leftArrowVision(index){
         if(index === 0){
@@ -56,7 +56,7 @@ const Text = ({pages, index, nextPage, previousPage, setWrongWord}) =>{
     }
 
     function setWord(text, style){
-        if(style === 'wrong'){
+        if((style === 'wrong') && (isTalking === true)){
             setWrongWord(text)
         }
     }

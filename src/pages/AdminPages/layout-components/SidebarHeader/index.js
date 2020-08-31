@@ -22,6 +22,8 @@ const SidebarHeader = props => {
     setSidebarToggleMobile(!sidebarToggleMobile);
   };
 
+
+
   const {
     sidebarToggleMobile,
     setSidebarToggleMobile,
@@ -51,7 +53,7 @@ const SidebarHeader = props => {
               />
             </IconButton>
           </Link>
-          <Box className="header-logo-text">Carolina</Box>
+          <Box className="header-logo-text">Plabook</Box>
         </Box>
         <Box
           className={clsx('app-sidebar-header-btn', {

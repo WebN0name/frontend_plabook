@@ -25,32 +25,32 @@ export default function BookPick({ history }){
                 payload: Allbooks.stopWords
             })
             let allTexts = []
-            let _id = 0
-                for(let i = 0; i< Allbooks.resultBooks.length; i++){
-                    for(let j = 0; j <userBooks.length; j++){
-                        if(Allbooks.resultBooks[i].name === userBooks[j]){
-                            let tmp = {
-                                id: _id,
-                                author: Allbooks.resultBooks[i].author,
-                                name: Allbooks.resultBooks[i].name,
-                                image: Allbooks.resultBooks[i].image,
-                                bookPages: Allbooks.resultBooks[i].bookPages
-                            }
-                            _id++
-                            allTexts.push(tmp)
-                        }
-                    }
-                }
-            // for(let i = 0; i< Allbooks.resultBooks.length; i++){
-            //     let tmp = {
-            //         id: i,
-            //         author: Allbooks.resultBooks[i].author,
-            //         name: Allbooks.resultBooks[i].name,
-            //         image: Allbooks.resultBooks[i].image,
-            //         bookPages: Allbooks.resultBooks[i].bookPages
+            // let _id = 0
+            //     for(let i = 0; i< Allbooks.resultBooks.length; i++){
+            //         for(let j = 0; j <userBooks.length; j++){
+            //             if(Allbooks.resultBooks[i].name === userBooks[j]){
+            //                 let tmp = {
+            //                     id: _id,
+            //                     author: Allbooks.resultBooks[i].author,
+            //                     name: Allbooks.resultBooks[i].name,
+            //                     image: Allbooks.resultBooks[i].image,
+            //                     bookPages: Allbooks.resultBooks[i].bookPages
+            //                 }
+            //                 _id++
+            //                 allTexts.push(tmp)
+            //             }
+            //         }
             //     }
-            //     allTexts.push(tmp)
-            // }
+            for(let i = 0; i< Allbooks.resultBooks.length; i++){
+                let tmp = {
+                    id: i,
+                    author: Allbooks.resultBooks[i].author,
+                    name: Allbooks.resultBooks[i].name,
+                    image: Allbooks.resultBooks[i].image,
+                    bookPages: Allbooks.resultBooks[i].bookPages
+                }
+                allTexts.push(tmp)
+            }
             booksDispatch({
                 type: 'setBooks',
                 payload: allTexts
@@ -60,9 +60,9 @@ export default function BookPick({ history }){
             loaderDispatch({
                 type: 'isLoading',
             })
-            axios.get('https://boomd.ru:3000/getAllBooks').then(r => {
+            axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             if(r.data){
-                // localStorage.setItem('allBooks', JSON.stringify(r.data))
+                localStorage.setItem('allBooks', JSON.stringify(r.data))
                 let allTexts = []
                 let _id = 0
                 for(let i = 0; i< r.data.resultBooks.length; i++){
@@ -112,14 +112,24 @@ export default function BookPick({ history }){
                     if(element.id === currentBook){
                         let textsArrays = []
                         element.bookPages.forEach(page => {
-                            let tmp = getWordsArray(page)
+                            let pageFixed = page
+                            let tmp = getWordsArray(pageFixed)
                             textsArrays.push(tmp)
                         })
+                        let allDots = []
+                        for(let i = 0; i<textsArrays.length; i++){
+                            let tmp = {
+                                id: i,
+                                status: 'default'
+                            }
+                            allDots.push(tmp)
+                        }
                         let bookForReading = {
                             image: element.image,
                             textsForSale: element.bookPages,
                             texts: textsArrays,
-                            name: element.name
+                            name: element.name,
+                            dots: allDots
                         }
                         bookForReadingDispatch({
                             type: 'setBookFroReading',
@@ -134,7 +144,7 @@ export default function BookPick({ history }){
     }
 
     function getWordsArray(text){
-        let regex  = new RegExp("[a-zA-Z-’]")
+        let regex  = new RegExp("[a-zA-Z-’']")
         let word  = []
         let finalText = []
         let symbol = []
@@ -157,7 +167,11 @@ export default function BookPick({ history }){
                     _id++
 
                 }else{
-                    word.push(text[i])
+                    if(text[i] === '\''){
+                        word.push('’')
+                    }else{
+                        word.push(text[i])
+                    }
                 }
 
             }else{
@@ -187,6 +201,17 @@ export default function BookPick({ history }){
                 _id++
                 symbol = []
             }
+        }
+        if(word.length !== 0){
+            console.log(word)
+            let oneWord = {
+                id: _id,
+                text: word.join(''),
+                style: 'default', 
+                type: 'word',
+                isPretext: false
+            }
+            finalText.push(oneWord)
         }
 
         return finalText
