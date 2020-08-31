@@ -152,7 +152,7 @@ export default function StudentAttempt() {
                     <Card className="card-box card-box-border-bottom border-danger card-shadow-danger mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
-                                <div className="text-muted text-uppercase pb-2 font-size-sm">
+                                <div className=" text-uppercase pb-2 font-size-sm">
                                     Rate
                 </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
@@ -181,7 +181,7 @@ export default function StudentAttempt() {
                     <Card className="card-box card-box-border-bottom border-success card-shadow-success mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
-                                <div className="text-muted text-uppercase pb-2 font-size-sm">
+                                <div className=" text-uppercase pb-2 font-size-sm">
                                     Accuracy
                 </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
@@ -219,7 +219,7 @@ export default function StudentAttempt() {
                     <Card className="card-box card-box-border-bottom border-warning card-shadow-warning mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
-                                <div className="text-muted text-uppercase pb-2 font-size-sm">
+                                <div className=" text-uppercase pb-2 font-size-sm">
                                     Comprehension
                 </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
@@ -258,7 +258,7 @@ export default function StudentAttempt() {
                     <Card className="card-box card-box-border-bottom border-info card-shadow-info mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
-                                <div className="text-muted text-uppercase pb-2 font-size-sm">
+                                <div className=" text-uppercase pb-2 font-size-sm">
                                     Level
                 </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
