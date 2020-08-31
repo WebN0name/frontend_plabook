@@ -27,9 +27,11 @@ import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 import Context from '../../../../Context'
 
 import { SyncLoader } from 'react-spinners';
+import SelectSearch from './components/SelectSearch';
+import SelectSearchItem from './components/SelectSearchItem';
 
 
-export default function StudentsStatistic() {
+export default function Classes() {
 
     // const { name } = useParams();
     // const fallback = {
@@ -40,7 +42,7 @@ export default function StudentsStatistic() {
 
     const history = useHistory()
 
-   
+
     console.log(!Boolean(student))
 
     console.log(student)
@@ -53,26 +55,50 @@ export default function StudentsStatistic() {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
 
-
-    const fake = [
+    const schoolClasses = [
         {
-            name: 'Jane Die',
-            pin: '42069',
-            personalLink: 'xxx.StyleStar.com',
-            readingLevel: '5',
-            stage: 'Comprehensiv',
-            bookRead: '2',
-            fluency: '89%'
+            id: "1",
+            room: "A",
+            grade: "1",
+            teacher: "",
+            students: [],
+            books: [],
         },
         {
-            name: 'Big Mark',
-            pin: '191409',
-            personalLink: 'www.WWI.com',
-            readingLevel: '99',
-            stage: 'CHECKMATE READERS',
-            bookRead: '9999',
-            fluency: '420%'
+            id: "2",
+            room: "B",
+            grade: "1",
+            teacher: "",
+            students: [],
+            books: [],
         }
+    ]
+
+    const books = [
+        "1984",
+        "A Doll's House",
+        "Absalom, Absalom!",
+        "The Aeneid",
+        "The Adventures of Huckleberry Finn",
+        "The Book of Job",
+        "The Brothers Karamazov",
+        "The Castle "
+    ]
+
+    const students = [
+        "Jane Boel",
+        "Hans Bern",
+        "Cood Brown",
+        "Alice Akwee",
+        "Fin Vive",
+        "Brook Maxvel",
+        "Harry Grotter",
+        "Marry Noise"
+    ]
+
+    const teachers = [
+        "JohnBell",
+        "MariSiemens"
     ]
 
     //#region sorting
@@ -120,7 +146,7 @@ export default function StudentsStatistic() {
     const quareData =
     {
         studentStatistic: {
-            url: "https://plabookeducation.com/studentStatistics",
+            url: "https://boomd.ru:3000/studentStatistics",
             options: (id) => {
                 return ({
                     method: "POST",
@@ -133,7 +159,7 @@ export default function StudentsStatistic() {
         }
     }
 
-    useEffect(() => {        
+    useEffect(() => {
         if (Boolean(student)) fetchStudentsStatistic();
         // if (!Boolean(student)) studentDispatch({type:"setStudent", payload: fallback})
     }, [])
@@ -154,15 +180,7 @@ export default function StudentsStatistic() {
     }
 
     const GetPageRows = () => {
-        return stableSort(statistic, getComparator(order, orderBy)).slice(_page * _rowsPerPage, _page * _rowsPerPage + _rowsPerPage)
-    }
-
-    const handelAttemtClick = (attempt) =>{
-        attemptDispatch({
-            type:"setAttempt",
-            payload: attempt
-        })
-        history.push(`/StudentAttempt`) 
+        return stableSort(schoolClasses, getComparator(order, orderBy)).slice(_page * _rowsPerPage, _page * _rowsPerPage + _rowsPerPage)
     }
 
     const useStyles = makeStyles({
@@ -204,20 +222,12 @@ export default function StudentsStatistic() {
     });
 
     const labels = [
-        { name: "Time Stamp", align: "center", isSortable: true, propertyName: "Date" },
-        { name: "Book ID", align: "left", isSortable: true, propertyName: "Book ID" },
-        { name: "Page", align: "left", isSortable: true, propertyName: "Page" },
-        { name: "Proficiency", align: "left", isSortable: true, propertyName: "Proficiency" },
-        { name: "Running records", align: "left", isSortable: false, propertyName: "id" },
-        { name: "Number of running", align: "left", isSortable: true, propertyName: "Number of Running Words" },
-        { name: "Errors", align: "left", isSortable: true, propertyName: "Errors" },
-        { name: "Self correction", align: "left", isSortable: true, propertyName: "Self Correction" },
-        { name: "Err M/S/V", align: "left", isSortable: true, propertyName: "Err M" },
-        // { name: "Err S", align: "left", isSortable: true, propertyName: "Err S" },
-        // { name: "Err V", align: "left", isSortable: true, propertyName: "Err V" },
-        { name: "SC M/S/V", align: "left", isSortable: true, propertyName: "SC M" },
-        // { name: "SC S", align: "left", isSortable: true, propertyName: "SC S" },
-        // { name: "SC V", align: "left", isSortable: true, propertyName: "iSC V" },
+        { name: "Class id", align: "center", width: 50, isSortable: true, propertyName: "id" },
+        { name: "Class room", align: "center", width: 50, isSortable: true, propertyName: "room" },
+        { name: "Grade", align: "center", width: 50, isSortable: true, propertyName: "grade" },
+        { name: "Teacher", align: "left", width: 100, isSortable: false, propertyName: "teacher" },
+        { name: "Students", align: "left", width: 200, isSortable: false, propertyName: "students" },
+        { name: "Books", align: "left", width: 200, isSortable: false, propertyName: "books" },
     ]
 
     const classes = useStyles();
@@ -226,32 +236,42 @@ export default function StudentsStatistic() {
         // строки из примера таблиц 4
         const Row = (props) => {
 
-            const { attempt } = props
+            const { schoolClass } = props
 
-            if (!Boolean(attempt)) return <></>
-            
+            if (!Boolean(schoolClass)) return <></>
+
             return (
                 <tr>
-                    <td className={`text-${labels[0]}`}>{attempt.Date.toLocaleDateString()} {attempt.Date.toLocaleTimeString()}</td>
-                    <td className={`text-${labels[1]}`}>{attempt["Book ID"]}</td>
-                    <td className={`text-${labels[2]}`}>{attempt.Page}</td>
-                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>
-                    <td className={`text-${labels[4]}`}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => { handelAttemtClick(attempt)}}>
-                            More details
-                        </Button>
+                    <td className={`text-${labels[0]}`}>{schoolClass.id}</td>
+                    <td className={`text-${labels[1]}`}>{schoolClass.room}</td>
+                    <td className={`text-${labels[2]}`}>{schoolClass.grade}</td>
+                    <td className={`text-${labels[3]}`}>
+                        <SelectSearch multiple={false} id={`teacher-${schoolClass.id}`} name={schoolClass.id + "teacher"}>
+                            {teachers.map((item, index) =>
+                                <SelectSearchItem key={index} value={item}>
+                                    {item}
+                                </SelectSearchItem>
+                            )}
+                        </SelectSearch>
                     </td>
-                    <td className={`text-${labels[5]}`}>{attempt["Number of Running Words"]}</td>
-                    <td className={`text-${labels[6]}`}>{attempt.Errors}</td>
-                    <td className={`text-${labels[7]}`}>{attempt["Self Correction"]}</td>
-                    <td className={`text-${labels[8]}`}>{String(attempt["Err M"]) + '/' + String(attempt["Err S"]) + '/' + String(attempt["Err V"])}</td>
-                    {/* <td className={`text-${labels[9]}`}>{attempt["Err S"]}</td>
-                    <td className={`text-${labels[10]}`}>{attempt["Err V"]}</td> */}
-                    <td className={`text-${labels[11]}`}>{String(attempt["SC M"]) + '/' + String(attempt["SC S"]) + '/' + String(attempt["SC V"])}</td>
-                    {/* <td className={`text-${labels[12]}`}>{attempt["SC S"]}</td>
-                    <td className={`text-${labels[13]}`}>{attempt["SC V"]}</td> */}
+                    <td className={`text-${labels[4]}`}>
+                        <SelectSearch multiple={true} id={`students-${schoolClass.id}`} name={schoolClass.id + "students"} onChange={() => { console.log(document.getElementById(`students-${schoolClass.id}`).getAttribute("value")) }}>
+                            {students.map((item, index) =>
+                                <SelectSearchItem key={index} value={item}>
+                                    {item}
+                                </SelectSearchItem>
+                            )}
+                        </SelectSearch>
+                    </td>
+                    <td className={`text-${labels[5]}`}>
+                        <SelectSearch multiple={true} id={`books-${schoolClass.id}`} name={schoolClass.id + "books"} onChange={() => { console.log(document.getElementById(`books-${schoolClass.id}`).getAttribute("value")) }}>
+                            {books.map((item, index) =>
+                                <SelectSearchItem key={index} value={item}>
+                                    {item}
+                                </SelectSearchItem>
+                            )}
+                        </SelectSearch>
+                    </td>
                 </tr>
             )
         }
@@ -260,17 +280,6 @@ export default function StudentsStatistic() {
             <Card className="card-box mb-4">
                 <div className="card-header py-3">
                     <div className="card-header--title font-size-lg">Atempts</div>
-                    {/* <div className="card-header--actions">
-                        <Button size="small" variant="outlined" color="secondary">
-                            <span className="btn-wrapper--icon">
-                                <FontAwesomeIcon
-                                    icon={['fas', 'plus-circle']}
-                                    className="text-success"
-                                />
-                            </span>
-                            <span className="btn-wrapper--label">Add ticket</span>
-                        </Button>
-                    </div> */}
                 </div>
 
                 <div className="table-responsive">
@@ -295,21 +304,24 @@ export default function StudentsStatistic() {
                         </thead>
                         <tbody>
                             {
-                                GetPageRows().map((attempt, index) =>
-                                    <Row attempt={attempt} />)
-                            }                                
+                                GetPageRows().map((schoolClass, index) =>
+                                    <Row schoolClass={schoolClass} />)
+                            }
                             {
-                                statistic.length === 0 && (<TableRow>
-                                    <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
+                                schoolClasses.length === 0 && (<TableRow>
+                                    <TableCell align="center" colSpan={14}>
+                                        <SyncLoader
+                                            size={5}
+                                            color={'var(--first)'} /></TableCell>
                                 </TableRow>)
-                            }                        
+                            }
                         </tbody>
                     </table>
                     <Divider />
                     <TablePagination
                         rowsPerPageOptions={rowsPerPageArray}
                         component="div"
-                        count={statistic.length}
+                        count={schoolClasses.length}
                         rowsPerPage={_rowsPerPage}
                         page={_page}
                         onChangePage={(e, newPage) => { setPage(newPage) }}
@@ -319,13 +331,13 @@ export default function StudentsStatistic() {
             </Card>
         )
     }
-  
+
     const emptyRows = Math.abs(GetPageRows().length - _rowsPerPage);
     return (
         <Fragment>
             <PageTitle
-                titleHeading={`${student && student.name} statistic`}
-            />                       
+                titleHeading={`Classes`}
+            />
             <NewBL />
         </Fragment>
 

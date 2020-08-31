@@ -7,7 +7,7 @@ import {
     TableCell, Button,
     TableBody, Table,
     TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip
+    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, IconButton, Fab
 } from '@material-ui/core';
 
 import Icon from '@mdi/react'
@@ -213,6 +213,19 @@ export default function Students() {
         }
     });
 
+    const CopytToClipboard = (id) => {
+        var elem = document.getElementById(id);
+        var range = document.createRange();
+        range.selectNode(elem);
+        window.getSelection().addRange(range);
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.log('Copy error');
+        }
+        window.getSelection().removeAllRanges();
+    }
+
     const labels = [
         { name: "Name", align: "left", isSortable: true, propertyName: "name" },
         { name: "Pin code", align: "left", isSortable: false, propertyName: "pin" },
@@ -243,6 +256,20 @@ export default function Students() {
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
                     <td className={`text-${labels[2]}`}>
                         <a>{student.personalLink}</a>
+                        {/* Иконка */}
+                        <Fab variant="extended" className="m-2">
+                            Copy link
+                            <FontAwesomeIcon
+                                icon={['fa', 'clone']}
+                                className="font-size-lg ml-2"
+                            />
+                        </Fab>
+                        {/* <IconButton aria-label="delete" className="m-2" size="small">
+                            <FontAwesomeIcon
+                                icon={['fa', 'clone']}
+                                className="font-size-lg mr-2 text-success"
+                            />
+                        </IconButton> */}
                     </td>
                     <td className={`text-${labels[3]}`}>
                         {student.readingLevel}
@@ -316,10 +343,7 @@ export default function Students() {
                             }
                             {
                                 students.length === 0 && (<TableRow>
-                                    <TableCell align="center" colSpan={14}>
-                                        <SyncLoader
-                                                size={5}
-                                                color={'var(--first)'} /></TableCell>
+                                    <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
                                 </TableRow>)
                             }
                             {/* <tr>
