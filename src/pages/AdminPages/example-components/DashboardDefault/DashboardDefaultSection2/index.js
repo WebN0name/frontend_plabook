@@ -59,7 +59,7 @@ TabPanel.propTypes = {
 
 export default function LivePreviewExample() {
 
-  const serverId="http://localhost:3000"
+  const serverId = "http://localhost:3000"
 
   const history = useHistory()
 
@@ -156,6 +156,17 @@ export default function LivePreviewExample() {
   };
 
   const [value, setValue] = React.useState(0);
+
+
+  const avatars = [
+    avatar1,
+    avatar2,
+    avatar3,
+    avatar4,
+    avatar5,
+    avatar6,
+    avatar7,
+  ]
 
   const fake = [
     {
@@ -420,11 +431,11 @@ export default function LivePreviewExample() {
           <td>{index}</td>
           <td>
             <div className="d-flex align-items-center">
-              <Avatar alt={student.name} src={student.avatar} className="mr-2" />
+              <Avatar alt={student.name} src={avatars[index % 7]} className="mr-2" />
               <div>
                 <a
                   href={`#/`}
-                  onClick={(e) => { e.preventDefault(); studentDispatch({type:"setStudent",payload:{id:student.id, name: student.name}}); history.push(`/StudentStatistic/${student.name}`)}}
+                  onClick={(e) => { e.preventDefault(); studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name } }); history.push(`/StudentStatistic/${student.name}`) }}
                   className="font-weight-bold text-black"
                   title="...">
                   {student.name}
@@ -538,7 +549,7 @@ export default function LivePreviewExample() {
                 variant="contained"
                 className="mr-3"
                 color="primary"
-                onClick={() => {history.push("/StudentsQ")}}>
+                onClick={() => { history.push("/StudentsQ") }}>
                 View all
             </Button>
               <Button size="small" variant="contained" color="secondary">
