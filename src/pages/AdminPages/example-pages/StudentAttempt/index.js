@@ -28,19 +28,30 @@ import avatar6 from '../../assets/images/avatars/avatar6.jpg';
 import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 
 import Context from '../../../../Context'
+import { getByText } from '@testing-library/react';
 
 
 export default function StudentAttempt() {
 
     const { id } = useParams();
     const { attempt, student } = useContext(Context)
-
-    console.log(attempt)
+    const [text, setText] = useState('')
 
     const history = useHistory();
 
     useEffect(() => {
+        axios.get('https://plabookeducation.com/getAllBooks').then(r => {
+            r.data.resultBooks.forEach(element => {
+                if(element.name === attempt['Book ID']){
+                    getBook(element.bookPages, attempt.Page)
+                }
+            });
+        })
     }, [])
+
+    function getBook(pages, num){
+        setText(pages[num - 1])
+    }
 
     const useStyles = makeStyles({
         flexRow: {
