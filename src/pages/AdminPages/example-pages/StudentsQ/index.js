@@ -115,6 +115,16 @@ export default function Students() {
         }
     ]
 
+    const avatars =[
+        avatar1,
+        avatar2,
+        avatar3,
+        avatar4,
+        avatar5,
+        avatar6,
+        avatar7,
+    ]
+
     //#region sorting
     function descendingComparator(a, b, orderBy) {
         const isNumber = Boolean(parseFloat(a[orderBy]))
@@ -251,13 +261,14 @@ export default function Students() {
         const Row = (props) => {
 
             const { student } = props
+            const { index } = props
 
             return (
                 <tr>
                     {/* <td className="font-weight-bold">#453</td> */}
                     <td>
                         <div className="d-flex align-items-center">
-                            <Avatar alt={student.name} className="mr-2" src={avatar1} />
+                            <Avatar alt={student.name} className="mr-2" src={avatars[index % 7]} />
                             <div className={classes.pointer} onClick={() => { studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name } }); history.push("/StudentStatistic") }} >{student.name}</div>
                         </div>
                     </td>
@@ -336,7 +347,7 @@ export default function Students() {
                         <tbody>
                             {
                                 GetPageRows().map((student, index) =>
-                                    <Row student={student} />)
+                                    <Row index={index} student={student} />)
                             }
                             {
                                 students.length === 0 && (<TableRow>
