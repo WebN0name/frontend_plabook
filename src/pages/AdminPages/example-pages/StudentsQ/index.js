@@ -7,7 +7,7 @@ import {
     TableCell, Button,
     TableBody, Table,
     TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, IconButton, Fab
+    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, IconButton, Fab, Snackbar,Portal
 } from '@material-ui/core';
 
 import Icon from '@mdi/react'
@@ -26,6 +26,10 @@ import avatar6 from '../../assets/images/avatars/avatar6.jpg';
 import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 import { SyncLoader } from 'react-spinners';
 
+import {
+    Clipboard,
+} from 'react-feather';
+
 export default function Students() {
 
     const { id } = useParams();
@@ -37,6 +41,8 @@ export default function Students() {
     const [searchFillter, setSearchFillter] = useState("")
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
+    const [snackOpen, setSnackOpen] = useState(false);
+    const [pervTimeout, setPervTimeout] = useState(null);
     const [_students, setStudents] = useState([]);
     const history = useHistory();
 
@@ -179,6 +185,10 @@ export default function Students() {
                 marginRight: "10px"
             }
         },
+        bgColor:
+        {
+            backgroundColor: "#3d4977"
+        },
         pointer:
         {
             cursor: 'pointer'
@@ -213,23 +223,10 @@ export default function Students() {
         }
     });
 
-    const CopytToClipboard = (id) => {
-        var elem = document.getElementById(id);
-        var range = document.createRange();
-        range.selectNode(elem);
-        window.getSelection().addRange(range);
-        try {
-            document.execCommand('copy');
-        } catch (err) {
-            console.log('Copy error');
-        }
-        window.getSelection().removeAllRanges();
-    }
-
     const labels = [
         { name: "Name", align: "left", isSortable: true, propertyName: "name" },
         { name: "Pin code", align: "left", isSortable: false, propertyName: "pin" },
-        { name: "Link", align: "left    ", isSortable: true, propertyName: "personalLink" },
+        { name: "Link", align: "center", isSortable: true, propertyName: "personalLink" },
         { name: "Reading level", align: "left", isSortable: true, propertyName: "readingLevel" },
         { name: "Stage", align: "left", isSortable: true, propertyName: "stage" },
         { name: "Book read", align: "left", isSortable: true, propertyName: "bookRead" },
@@ -237,6 +234,17 @@ export default function Students() {
     ]
 
     const classes = useStyles();
+
+    const handleCopy = (plink) =>
+    {
+        navigator.clipboard.writeText(plink);
+        setSnackOpen(true);
+        clearTimeout(pervTimeout)
+        const id = setTimeout(() => {
+            setSnackOpen(false)
+        }, 50000);
+        setPervTimeout(id)
+    }
 
     const NewBL = () => {
         // строки из примера таблиц 4
@@ -255,21 +263,10 @@ export default function Students() {
                     </td>
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
                     <td className={`text-${labels[2]}`}>
-                        <a>{student.personalLink}</a>
-                        {/* Иконка */}
-                        <Fab variant="extended" className="m-2">
-                            Copy link
-                            <FontAwesomeIcon
-                                icon={['fa', 'clone']}
-                                className="font-size-lg ml-2"
-                            />
-                        </Fab>
-                        {/* <IconButton aria-label="delete" className="m-2" size="small">
-                            <FontAwesomeIcon
-                                icon={['fa', 'clone']}
-                                className="font-size-lg mr-2 text-success"
-                            />
-                        </IconButton> */}
+                        <Button onClick={() => {handleCopy(student.personalLink)}} className="m-2">
+                            Copy Link
+                            <Clipboard className="font-size-lg ml-1" />
+                        </Button>
                     </td>
                     <td className={`text-${labels[3]}`}>
                         {student.readingLevel}
@@ -570,6 +567,16 @@ export default function Students() {
                 {/* <Icon path={mdiFilterOutline} size={1.2}></Icon> */}
             </Paper>
             <NewBL />
+            <Portal >
+            <Snackbar
+                // classes={{root: classes.bgColor}}
+                anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+                open={snackOpen}
+                onClose={()=>{}}
+                message="Link copied"
+            />
+            </Portal>          
+            
             {/* <Old/> */}
         </Fragment>
 
