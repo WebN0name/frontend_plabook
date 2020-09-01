@@ -18,8 +18,9 @@ export default function DashboardDefault() {
 
   const { students, admin, studentsDispatch } = useContext(Context)
 
-  const teacherId = admin.id ? admin.id : "John Bell"
-
+  const teacherId = admin.adminId ? admin.adminId : "John Bell"
+ 
+  console.log(teacherId)
 
   useEffect(() => {
     if (!Boolean(students) || students === [] || students.length === 0) fetchStudentsList();

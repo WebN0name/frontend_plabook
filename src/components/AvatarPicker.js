@@ -14,6 +14,15 @@ import avatar12 from '../assets/img/StudentsAvatars/avatar12.jpg';
 import avatar13 from '../assets/img/StudentsAvatars/avatar13.jpg';
 import avatar14 from '../assets/img/StudentsAvatars/avatar14.jpg';
 
+import tavatar1 from '../assets/img/TeacherAvatars/avatar1.jpg';
+import tavatar2 from '../assets/img/TeacherAvatars/avatar2.jpg';
+import tavatar3 from '../assets/img/TeacherAvatars/avatar3.jpg';
+import tavatar4 from '../assets/img/TeacherAvatars/avatar4.jpg';
+import tavatar5 from '../assets/img/TeacherAvatars/avatar5.jpg';
+import tavatar6 from '../assets/img/TeacherAvatars/avatar6.jpg';
+import tavatar7 from '../assets/img/TeacherAvatars/avatar7.jpg';
+
+
 
 export default function AvatarPicker()
 {
@@ -66,10 +75,19 @@ export default function AvatarPicker()
             id: 'HermioneG',
             avatar: avatar11,
         },
+        {
+            id: 'JohnBell',
+            avatar: tavatar3,
+        },
+        {
+            id: 'MariSiemens',
+            avatar: tavatar1,
+        },
     ]
 
     return{
         GetAvatar: (id) =>{
+            if(!Boolean(id)) return
             return persons.find(elem => elem.id == id).avatar
         }
     }

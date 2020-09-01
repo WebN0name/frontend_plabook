@@ -51,7 +51,7 @@ export default function Students() {
 
     const { students, admin, studentsDispatch, studentDispatch } = useContext(Context)
 
-    const teacherId = admin.id ? admin.id : "John Bell"
+    const teacherId = admin.adminId ? admin.adminId : "John Bell"
 
     useEffect(() => {
         if (!Boolean(students) || students === [] || students.length === 0) fetchStudentsList();

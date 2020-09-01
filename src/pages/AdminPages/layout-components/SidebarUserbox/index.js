@@ -20,13 +20,13 @@ import avatar2 from '../../assets/images/teachers/avatar2.jpg';
 import { connect } from 'react-redux';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AvatarPicker from '../../../../components/AvatarPicker';
 
 const SidebarUserbox = props => {
   const { sidebarToggle, sidebarHover } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const {admin} = useContext(Context)
-
 
   function openUserMenu(event) {
     setAnchorEl(event.currentTarget);
@@ -127,7 +127,7 @@ const SidebarUserbox = props => {
         </Menu>
         <Avatar
           alt="Remy Sharp"
-          src={avatar2}
+          src={AvatarPicker().GetAvatar(admin.adminId)}
           className="app-sidebar-userbox-avatar"
         />
         <Box className="app-sidebar-userbox-name">

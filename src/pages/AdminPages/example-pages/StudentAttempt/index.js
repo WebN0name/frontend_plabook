@@ -43,14 +43,14 @@ export default function StudentAttempt() {
     useEffect(() => {
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             r.data.resultBooks.forEach(element => {
-                if(element.name === attempt['Book ID']){
+                if (element.name === attempt['Book ID']) {
                     getBook(element.bookPages, attempt.Page)
                 }
             });
         })
     }, [])
 
-    function getBook(pages, num){
+    function getBook(pages, num) {
         setText(pages[num - 1])
     }
 
@@ -155,6 +155,14 @@ export default function StudentAttempt() {
     const source = attempt ? attempt : example
 
     const Rates = (props) => {
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+        }
+
+        const wcpm = getRandomInt(60,100)
         return (
             <Grid container className="mb-1" spacing={4}>
                 <Grid item xs={12} sm={6} lg={3}>
@@ -172,7 +180,7 @@ export default function StudentAttempt() {
                                     <span>
                                         <CountUp
                                             start={0}
-                                            end={example.rate}
+                                            end={wcpm}
                                             duration={4}
                                             deplay={2}
                                             separator=""
@@ -191,13 +199,13 @@ export default function StudentAttempt() {
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
-                                    Accuracy
+                                    Proficiency
                 </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
                                     {/* <span className="font-size-lg mr-2 text-success font-weight-bold">
                     +
                   </span> */}
-                                    <CountUp start={0} end={example.accuracy} />
+                                    <CountUp start={0} end={attempt.Proficiency} />
                                     <small className="opacity-6 pl-1 text-black-50">%</small>
                                 </h3>
                             </div>
@@ -208,7 +216,7 @@ export default function StudentAttempt() {
                                     responsive={false} // Boolean: Make SVG adapt to parent size
                                     size={60} // Number: Defines the size of the circle.
                                     lineWidth={20} // Number: Defines the thickness of the circle's stroke.
-                                    progress={example.accuracy} // Number: Update to change the progress and percentage.
+                                    progress={attempt.Proficiency} // Number: Update to change the progress and percentage.
                                     progressColor="#1bc943" // String: Color of "progress" portion of circle.
                                     bgColor="rgba(27, 201, 67, 0.15)" // String: Color of "empty" portion of circle.
                                     textColor="#3b3e66" // String: Color of percentage text color.percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
