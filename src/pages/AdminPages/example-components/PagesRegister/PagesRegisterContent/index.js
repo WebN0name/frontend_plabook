@@ -102,7 +102,7 @@ const LivePreviewExample = () => {
   };
 
 
-  const toNames=/\p{Lu}\p{Ll}+[-]*\p{Ll}+/gu
+  const toNames=/\p{Lu}\p{Ll}+[-]*\p{Ll}+(\d+?)*/gu
   let urlParams = location.pathname.split('/')
   const names = urlParams[3] ? urlParams[3].match(toNames) : []
   let firstName = names[0]
