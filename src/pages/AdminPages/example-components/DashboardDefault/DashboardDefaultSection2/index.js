@@ -413,6 +413,16 @@ export default function LivePreviewExample() {
       return output
     }
 
+    const sortByName =(a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    }
+
     const StudentRow = (props) => {
       const { student } = props
       const { index } = props
@@ -431,7 +441,7 @@ export default function LivePreviewExample() {
           <td>{index}</td>
           <td>
             <div className="d-flex align-items-center">
-              <Avatar alt={student.name} src={avatars[index % 7]} className="mr-2" />
+              <Avatar alt={student.name} src={student.avatar} className="mr-2" />
               <div>
                 <a
                   href={`#/`}
@@ -495,7 +505,7 @@ export default function LivePreviewExample() {
                 </thead>
                 <tbody>
                   {/* //ЗДЕСЬ УКАЗЫВАЕШЬ МАССИВ С ПОЛУЧЕНЫМИ ДАННЫМИ!!!!!!!!!!!! */}
-                  {getRandom(students, 5).map((student, index) =>
+                  {students.sort(sortByName).slice(0,5).map((student, index) =>
                     <StudentRow key={index} student={student} index={students.indexOf(student) + 1} />
                   )}
                   {/* <tr>
@@ -599,7 +609,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Orders</div>
+                    <div className="font-weight-bold">Books read</div>
                     <div className="font-size-lg font-weight-bold text-danger">
                       345
                       </div>
@@ -620,7 +630,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Reports</div>
+                    <div className="font-weight-bold">Attempts</div>
                     <div className="font-size-lg font-weight-bold text-first">
                       585
                       </div>

@@ -13,9 +13,10 @@ import DashboardDefaultSection5 from '../../example-components/DashboardDefault/
 import DashboardDefaultSection6 from '../../example-components/DashboardDefault/DashboardDefaultSection6';
 import DashboardDefaultSection7 from '../../example-components/DashboardDefault/DashboardDefaultSection7';
 import DashboardDefaultSection8 from '../../example-components/DashboardDefault/DashboardDefaultSection8';
+import AvatarPicker from '../../../../components/AvatarPicker';
 export default function DashboardDefault() {
 
-  const { students,admin, studentsDispatch } = useContext(Context)
+  const { students, admin, studentsDispatch } = useContext(Context)
 
   const teacherId = admin.id ? admin.id : "John Bell"
 
@@ -55,7 +56,10 @@ export default function DashboardDefault() {
 
   const fetchStudentsList = async () => {
     const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
-    const result = await response.json()
+    const result = await response.json()    
+    result.map((elem, index) => {
+      elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
+    })
     console.log("Students")
     console.log(result)
     studentsDispatch({

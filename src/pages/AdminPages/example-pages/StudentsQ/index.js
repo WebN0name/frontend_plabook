@@ -30,6 +30,9 @@ import {
     Clipboard,
 } from 'react-feather';
 
+import AvatarPicker from '../../../../components/AvatarPicker';
+
+
 export default function Students() {
 
     const { id } = useParams();
@@ -86,6 +89,9 @@ export default function Students() {
     const fetchStudentsList = async () => {
         const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
         const result = await response.json()
+        result.map((elem,index)=>{
+            elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
+        })
         console.log(result)
         studentsDispatch({
             type: 'setStudents',
@@ -236,7 +242,7 @@ export default function Students() {
     const labels = [
         { name: "Name", align: "left", isSortable: true, propertyName: "name" },
         { name: "Pin code", align: "left", isSortable: false, propertyName: "pin" },
-        { name: "Link", align: "center", isSortable: true, propertyName: "personalLink" },
+        { name: "Login link", align: "center", isSortable: true, propertyName: "personalLink" },
         { name: "Reading level", align: "left", isSortable: true, propertyName: "readingLevel" },
         { name: "Stage", align: "left", isSortable: true, propertyName: "stage" },
         { name: "Book read", align: "left", isSortable: true, propertyName: "bookRead" },
@@ -268,7 +274,7 @@ export default function Students() {
                     {/* <td className="font-weight-bold">#453</td> */}
                     <td>
                         <div className="d-flex align-items-center">
-                            <Avatar alt={student.name} className="mr-2" src={avatars[index % 7]} />
+                            <Avatar alt={student.name} className="mr-2" src={student.avatar} />
                             <div className={classes.pointer} onClick={() => { studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name } }); history.push("/StudentStatistic") }} >{student.name}</div>
                         </div>
                     </td>

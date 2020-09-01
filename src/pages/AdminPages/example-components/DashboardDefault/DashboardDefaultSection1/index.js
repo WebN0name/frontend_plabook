@@ -79,7 +79,7 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-primary text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'user']} />
               </div>
-              <div className="text-black-50">Books were read</div>
+              <div className="text-black-50">Books read</div>
             </div>
             <div className="display-3 text-center line-height-sm text-black-50 text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
