@@ -345,7 +345,7 @@ export default function StudentAttempt() {
     return (
         <Fragment>
             <PageTitle
-                titleHeading={attempt && student ? `${student.name} ${attempt["Book ID"]} Attempt` : 'Attempt'}
+                titleHeading={attempt && student ? `${student.name} ${attempt["Book ID"]} Attempt, Page: ${attempt.Page}` : 'Attempt '}
                 titleDescription={attempt ? convertStamp(attempt["Time Stamp"]).full : null}
             />
             <div className="mb-4" >
@@ -361,8 +361,8 @@ export default function StudentAttempt() {
             <HeadWraper sectionHeading={
                 <div className="d-flex align-items-center">
                     <p className="m-2">Play Attempt Recording</p>
-                    <audio className="m-0" controls src={source.Audiofile}></audio>
                 </div>} className="mb-4">
+                <audio className="m-0" controls src={source.Audiofile}></audio>
             </HeadWraper>
             <HeadWraper sectionHeading="Source Text">
                 {text}

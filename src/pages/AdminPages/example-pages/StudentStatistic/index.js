@@ -13,6 +13,7 @@ import {
 import Icon from '@mdi/react'
 import { mdiFilterOutline } from '@mdi/js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios'
 
 import { PageTitle } from '../../layout-components';
 
@@ -135,6 +136,11 @@ export default function StudentsStatistic() {
 
     useEffect(() => {        
         if (Boolean(student)) fetchStudentsStatistic();
+        // axios.post('https://plabookeducation.com/studentStatistic', {'studentId': student.id}).then(r =>{
+        //     console.log('info:')
+        //     console.log(r)
+        // })
+
         // if (!Boolean(student)) studentDispatch({type:"setStudent", payload: fallback})
     }, [])
 
