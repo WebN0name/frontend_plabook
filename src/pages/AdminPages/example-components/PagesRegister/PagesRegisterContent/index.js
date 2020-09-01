@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -29,8 +30,9 @@ import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 
 import hero9 from '../../../assets/images/hero-bg/hero-9.jpg';
 
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useLocation, useHistory } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import Context from '../../../../../Context';
 
 const StyledTabs = withStyles({
   indicator: {
@@ -82,7 +84,12 @@ TabPanel.propTypes = {
 };
 
 const LivePreviewExample = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [error, setError] = useState(false)
+  const location = useLocation()
+  const history = useHistory()
+  const {userDispatch, userBooksDispatch, adminDispatch} = useContext(Context)
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -94,6 +101,359 @@ const LivePreviewExample = () => {
     setChecked1(event.target.checked);
   };
 
+
+  const toNames=/\p{Lu}\p{Ll}+[-]*\p{Ll}+/gu
+  let urlParams = location.pathname.split('/')
+  const names = urlParams[3] ? urlParams[3].match(toNames) : []
+  let firstName = names[0]
+  let lastName = names[1]
+  const userName = firstName + ' ' + lastName
+
+
+  function sendPassword() {
+    const password = document.getElementById("password").value
+    if(checked1) localStorage.setItem(`${userName}Password`,password)
+    else localStorage.removeItem(`${userName}Password`)
+    axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3], {
+      pin: password,
+    }).then(r => {
+      if (!r.data.error) {        
+        if (urlParams[2] === 'teacher') {          
+          const tmp = {
+            adminId: urlParams[3],
+            adminName: userName
+          }
+          adminDispatch({
+            type: 'setAdmin',
+            payload: tmp
+          })
+          setTimeout(() => {
+            history.push('/Admin')
+          }, 200);
+        } else {
+          userBooksDispatch({
+            type: 'setUserBooks',
+            payload: r.data
+          })
+
+          userDispatch({
+            type: 'setUser',
+            payload: urlParams[3]
+          })
+
+          setTimeout(() => {
+            history.push('/BookPick')
+          }, 200)
+        }       
+      } else {
+        setError(true)
+      }
+    })
+  }
+
+  const LeftSide = (props) => {
+    return (
+      <Grid
+        item
+        xs={12}
+        md={4}
+        lg={5}
+        className="d-flex align-items-center">
+        <div className="hero-wrapper w-100 bg-composed-wrapper bg-plum-plate min-vh-100">
+          <div className="flex-grow-1 w-100 d-flex align-items-center">
+            <div
+              className="bg-composed-wrapper--image"
+              style={{ backgroundImage: 'url(' + hero9 + ')' }}
+            />
+            <div className="bg-composed-wrapper--bg bg-premium-dark opacity-5" />
+            <div className="bg-composed-wrapper--content p-5">
+              {/* <div className="d-flex align-items-center">
+                <span className="px-4 h-auto py-1 badge badge-second badge-pill">
+                  Register page
+                </span>
+                <Tooltip
+                  arrow
+                  title="Create your own register or login pages using the included elements."
+                  placement="right">
+                  <span className="text-white-50 pl-3">
+                    <FontAwesomeIcon
+                      icon={['far', 'question-circle']}
+                    />
+                  </span>
+                </Tooltip>
+              </div> */}
+              <div className="text-white mt-3">
+                <h1 className="display-4 my-3 font-weight-bold">
+                  Welcome to Plabook
+                </h1>
+                <p className="font-size-md mb-0 text-white-50">
+                  Have a nice day!
+                </p>
+                {/* <div className="divider border-2 my-5 border-light opacity-2 rounded w-25" />
+                <div>
+                  <Button
+                    size="large"
+                    className="text-white"
+                    variant="contained"
+                    color="primary"
+                    component={RouterLink}
+                    to="/DashboardDefault">
+                    <span className="btn-wrapper--icon">
+                      <FontAwesomeIcon
+                        icon={['fas', 'arrow-left']}
+                      />
+                    </span>
+                    <span className="btn-wrapper--label">
+                      Back to dashboard
+                                  </span>
+                  </Button>
+                </div> */}
+              </div>
+            </div>
+          </div>
+          <div className="hero-footer pb-4">
+            <Tooltip arrow title="Facebook">
+              <IconButton
+                color="inherit"
+                size="medium"
+                variant="outlined"
+                className="text-white-50">
+                <FontAwesomeIcon
+                  icon={['fab', 'facebook']}
+                  className="font-size-md"
+                />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow title="Twitter">
+              <IconButton
+                color="inherit"
+                size="medium"
+                variant="outlined"
+                className="text-white-50">
+                <FontAwesomeIcon
+                  icon={['fab', 'twitter']}
+                  className="font-size-md"
+                />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow title="Google">
+              <IconButton
+                color="inherit"
+                size="medium"
+                variant="outlined"
+                className="text-white-50">
+                <FontAwesomeIcon
+                  icon={['fab', 'google']}
+                  className="font-size-md"
+                />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow title="Instagram">
+              <IconButton
+                color="inherit"
+                size="medium"
+                variant="outlined"
+                className="text-white-50">
+                <FontAwesomeIcon
+                  icon={['fab', 'instagram']}
+                  className="font-size-md"
+                />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </div>
+      </Grid>
+    )
+  }
+
+  const RegistrationTab = (props) => {
+    const { index } = props
+
+    return (
+      <TabPanel value={value} index={index}>
+        <h3 className="display-4 mb-2 font-weight-bold">
+          Create account
+                          </h3>
+        <p className="font-size-lg mb-5 text-black-50">
+          Fill in the fields below and you'll be good to go.
+                          </p>
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="Email address"
+            fullWidth
+            placeholder="Enter your email address"
+            type="email"
+          />
+        </div>
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="Password"
+            fullWidth
+            placeholder="Enter your password"
+            type="password"
+          />
+        </div>
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="First name"
+            fullWidth
+            placeholder="Enter your firstname"
+            type="text"
+          />
+        </div>
+        <div className="mb-3">
+          <TextField
+            variant="outlined"
+            label="Last name"
+            fullWidth
+            placeholder="Enter your lastname"
+            type="text"
+          />
+        </div>
+        <div className="form-group pt-2 mb-4">
+          By clicking the <strong>Create account</strong>{' '}
+                            button below you agree to our terms of service and
+                            privacy statement.
+                          </div>
+
+        <Button
+          color="primary"
+          size="large"
+          variant="contained"
+          className="mb-5">
+          Create Account
+                          </Button>
+      </TabPanel>
+    )
+  }
+
+  const SingInTab = (props) => {
+    const { index } = props
+
+    const WithSocial = (props) =>
+    {
+      return(
+        <div className="card-header d-block p-3 mx-2 mb-0 mt-2 rounded border-0">
+        <div className="text-muted text-center mb-3">
+          <span>Sign in with</span>
+        </div>
+        <div className="text-center">
+          <Button
+            variant="outlined"
+            className="mr-2 text-facebook">
+            <span className="btn-wrapper--icon">
+              <FontAwesomeIcon
+                icon={['fab', 'facebook']}
+              />
+            </span>
+            <span className="btn-wrapper--label">
+              Facebook
+                              </span>
+          </Button>
+          <Button
+            variant="outlined"
+            className="ml-2 text-twitter">
+            <span className="btn-wrapper--icon">
+              <FontAwesomeIcon
+                icon={['fab', 'twitter']}
+              />
+            </span>
+            <span className="btn-wrapper--label">
+              Twitter
+                              </span>
+          </Button>
+        </div>
+      </div>
+      )
+    }
+    return (
+      <TabPanel value={value} index={index}>
+        <h3 className="display-4 mb-2 font-weight-bold">
+          Existing account
+                          </h3>
+        <p className="font-size-lg mb-5 text-black-50">
+          {/* You already have an account?  */}
+          Fill in the fields
+          below to login into your 
+          {/* existing  */}
+          dashboard.
+                          </p>
+        <Card className="mx-0 bg-secondary mt-0 w-100 p-0 mb-4 border-0">
+          {/* <WithSocial/> */}
+          <CardContent className="p-3">
+            {error && <div className="text-center text-danger mb-3">
+              <span>Or sign in with credentials</span>
+            </div>}
+            <form className="px-5">
+              <div className="mb-3">
+                <FormControl className="w-100">
+                  <InputLabel htmlFor="input-with-icon-adornment">
+                    Login
+                  </InputLabel>
+                  <Input
+                    readOnly
+                    value={urlParams[3]}
+                    fullWidth
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <MailOutlineTwoToneIcon />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
+              <div className="mb-3">
+                <FormControl className="w-100">
+                  <InputLabel htmlFor="password">
+                    Password
+                  </InputLabel>
+                  <Input
+                    id="password"
+                    value={localStorage.getItem(`${userName}Password`)}
+                    fullWidth
+                    type="password"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <LockTwoToneIcon />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
+              <div className="w-100">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked1}
+                      onChange={handleChange1}
+                      value="checked1"
+                      color="primary"
+                    />
+                  }
+                  label="Remember me"
+                />
+              </div>
+              <div className="text-center">
+                <Button
+                onClick={()=>{sendPassword()}}
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  className="my-2">
+                  Sign in
+                                  </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </TabPanel>
+    )
+  }
+
   return (
     <Fragment>
       <div className="app-wrapper min-vh-100 bg-white">
@@ -103,117 +463,7 @@ const LivePreviewExample = () => {
               <div className="flex-grow-1 w-100 d-flex align-items-center">
                 <div className="bg-composed-wrapper--content">
                   <Grid container spacing={0} className="min-vh-100">
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      lg={5}
-                      className="d-flex align-items-center">
-                      <div className="hero-wrapper w-100 bg-composed-wrapper bg-plum-plate min-vh-100">
-                        <div className="flex-grow-1 w-100 d-flex align-items-center">
-                          <div
-                            className="bg-composed-wrapper--image"
-                            style={{ backgroundImage: 'url(' + hero9 + ')' }}
-                          />
-                          <div className="bg-composed-wrapper--bg bg-premium-dark opacity-5" />
-                          <div className="bg-composed-wrapper--content p-5">
-                            <div className="d-flex align-items-center">
-                              <span className="px-4 h-auto py-1 badge badge-second badge-pill">
-                                Register page
-                              </span>
-                              <Tooltip
-                                arrow
-                                title="Create your own register or login pages using the included elements."
-                                placement="right">
-                                <span className="text-white-50 pl-3">
-                                  <FontAwesomeIcon
-                                    icon={['far', 'question-circle']}
-                                  />
-                                </span>
-                              </Tooltip>
-                            </div>
-                            <div className="text-white mt-3">
-                              <h1 className="display-4 my-3 font-weight-bold">
-                                Why should you create an account?
-                              </h1>
-                              <p className="font-size-md mb-0 text-white-50">
-                                A free hour, when our power of choice is
-                                untrammelled and when nothing prevents.
-                              </p>
-                              <div className="divider border-2 my-5 border-light opacity-2 rounded w-25" />
-                              <div>
-                                <Button
-                                  size="large"
-                                  className="text-white"
-                                  variant="contained"
-                                  color="primary"
-                                  component={RouterLink}
-                                  to="/DashboardDefault">
-                                  <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon
-                                      icon={['fas', 'arrow-left']}
-                                    />
-                                  </span>
-                                  <span className="btn-wrapper--label">
-                                    Back to dashboard
-                                  </span>
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="hero-footer pb-4">
-                          <Tooltip arrow title="Facebook">
-                            <IconButton
-                              color="inherit"
-                              size="medium"
-                              variant="outlined"
-                              className="text-white-50">
-                              <FontAwesomeIcon
-                                icon={['fab', 'facebook']}
-                                className="font-size-md"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip arrow title="Twitter">
-                            <IconButton
-                              color="inherit"
-                              size="medium"
-                              variant="outlined"
-                              className="text-white-50">
-                              <FontAwesomeIcon
-                                icon={['fab', 'twitter']}
-                                className="font-size-md"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip arrow title="Google">
-                            <IconButton
-                              color="inherit"
-                              size="medium"
-                              variant="outlined"
-                              className="text-white-50">
-                              <FontAwesomeIcon
-                                icon={['fab', 'google']}
-                                className="font-size-md"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip arrow title="Instagram">
-                            <IconButton
-                              color="inherit"
-                              size="medium"
-                              variant="outlined"
-                              className="text-white-50">
-                              <FontAwesomeIcon
-                                icon={['fab', 'instagram']}
-                                className="font-size-md"
-                              />
-                            </IconButton>
-                          </Tooltip>
-                        </div>
-                      </div>
-                    </Grid>
+                    <LeftSide />
                     <Grid
                       item
                       xs={12}
@@ -227,171 +477,12 @@ const LivePreviewExample = () => {
                             indicatorColor="primary"
                             textColor="primary"
                             onChange={handleChange}>
-                            <StyledTab label="Create an account" />
+                            {/* <StyledTab label="Create an account" /> */}
                             <StyledTab label="Sign in" />
                           </StyledTabs>
                         </div>
-                        <TabPanel value={value} index={0}>
-                          <h3 className="display-4 mb-2 font-weight-bold">
-                            Create account
-                          </h3>
-                          <p className="font-size-lg mb-5 text-black-50">
-                            Fill in the fields below and you'll be good to go.
-                          </p>
-                          <div className="mb-3">
-                            <TextField
-                              variant="outlined"
-                              label="Email address"
-                              fullWidth
-                              placeholder="Enter your email address"
-                              type="email"
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <TextField
-                              variant="outlined"
-                              label="Password"
-                              fullWidth
-                              placeholder="Enter your password"
-                              type="password"
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <TextField
-                              variant="outlined"
-                              label="First name"
-                              fullWidth
-                              placeholder="Enter your firstname"
-                              type="text"
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <TextField
-                              variant="outlined"
-                              label="Last name"
-                              fullWidth
-                              placeholder="Enter your lastname"
-                              type="text"
-                            />
-                          </div>
-                          <div className="form-group pt-2 mb-4">
-                            By clicking the <strong>Create account</strong>{' '}
-                            button below you agree to our terms of service and
-                            privacy statement.
-                          </div>
-
-                          <Button
-                            color="primary"
-                            size="large"
-                            variant="contained"
-                            className="mb-5">
-                            Create Account
-                          </Button>
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                          <h3 className="display-4 mb-2 font-weight-bold">
-                            Existing account
-                          </h3>
-                          <p className="font-size-lg mb-5 text-black-50">
-                            You already have an account? Fill in the fields
-                            below to login into your existing dashboard.
-                          </p>
-                          <Card className="mx-0 bg-secondary mt-0 w-100 p-0 mb-4 border-0">
-                            <div className="card-header d-block p-3 mx-2 mb-0 mt-2 rounded border-0">
-                              <div className="text-muted text-center mb-3">
-                                <span>Sign in with</span>
-                              </div>
-                              <div className="text-center">
-                                <Button
-                                  variant="outlined"
-                                  className="mr-2 text-facebook">
-                                  <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon
-                                      icon={['fab', 'facebook']}
-                                    />
-                                  </span>
-                                  <span className="btn-wrapper--label">
-                                    Facebook
-                                  </span>
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  className="ml-2 text-twitter">
-                                  <span className="btn-wrapper--icon">
-                                    <FontAwesomeIcon
-                                      icon={['fab', 'twitter']}
-                                    />
-                                  </span>
-                                  <span className="btn-wrapper--label">
-                                    Twitter
-                                  </span>
-                                </Button>
-                              </div>
-                            </div>
-                            <CardContent className="p-3">
-                              <div className="text-center text-black-50 mb-3">
-                                <span>Or sign in with credentials</span>
-                              </div>
-                              <form className="px-5">
-                                <div className="mb-3">
-                                  <FormControl className="w-100">
-                                    <InputLabel htmlFor="input-with-icon-adornment">
-                                      Email address
-                                    </InputLabel>
-                                    <Input
-                                      fullWidth
-                                      id="input-with-icon-adornment"
-                                      startAdornment={
-                                        <InputAdornment position="start">
-                                          <MailOutlineTwoToneIcon />
-                                        </InputAdornment>
-                                      }
-                                    />
-                                  </FormControl>
-                                </div>
-                                <div className="mb-3">
-                                  <FormControl className="w-100">
-                                    <InputLabel htmlFor="standard-adornment-password">
-                                      Password
-                                    </InputLabel>
-                                    <Input
-                                      id="standard-adornment-password"
-                                      fullWidth
-                                      type="password"
-                                      startAdornment={
-                                        <InputAdornment position="start">
-                                          <LockTwoToneIcon />
-                                        </InputAdornment>
-                                      }
-                                    />
-                                  </FormControl>
-                                </div>
-                                <div className="w-100">
-                                  <FormControlLabel
-                                    control={
-                                      <Checkbox
-                                        checked={checked1}
-                                        onChange={handleChange1}
-                                        value="checked1"
-                                        color="primary"
-                                      />
-                                    }
-                                    label="Remember me"
-                                  />
-                                </div>
-                                <div className="text-center">
-                                  <Button
-                                    color="primary"
-                                    variant="contained"
-                                    size="large"
-                                    className="my-2">
-                                    Sign in
-                                  </Button>
-                                </div>
-                              </form>
-                            </CardContent>
-                          </Card>
-                        </TabPanel>
+                        {/* <RegistrationTab /> */}
+                        <SingInTab index={0} />
                       </Container>
                     </Grid>
                   </Grid>

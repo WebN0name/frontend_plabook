@@ -9,6 +9,7 @@ import PreloaderReducer from './reducers/PreloaderReducer'
 import BooksReducer from './reducers/BookReducer'
 import StopWordsReducer from './reducers/StopWords'
 import Login from './pages/Login'
+import PagesRegister from './pages/AdminPages/example-pages/PagesRegister'
 import BookForReading from './reducers/BookForReading'
 import UserReducer from './reducers/UserReducer'
 import UserBooks from './reducers/UserBooks'
@@ -65,7 +66,7 @@ function App() {
           <Route exact path = "/" render = {() => {
             return <Redirect to = "/Login"/>
           }} />
-          <Route path="/Login" component = { Login }/>
+          <Route path="/Login" component = { PagesRegister }/>
           <Route path="/BookPick" component = { BookPick }/>
           <Route path="/ReadingPage" component = { ReadingPage } />
           <Route path="/Admin" component = { AdminPage }/>

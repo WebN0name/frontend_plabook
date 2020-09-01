@@ -87,8 +87,9 @@ export default function AvatarPicker()
 
     return{
         GetAvatar: (id) =>{
-            if(!Boolean(id)) return
-            return persons.find(elem => elem.id == id).avatar
+            const person = persons.find(elem => elem.id == id)
+            if(!Boolean(person)) return
+            return person.avatar
         }
     }
 }
