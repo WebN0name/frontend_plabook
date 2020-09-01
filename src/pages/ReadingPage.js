@@ -100,7 +100,18 @@ export default function  ReadingPage ({history}){
                     for(let i=0; i< wrongWords.length; i++){
                         wrongWords[i] = wrongWords[i].split('\'').join('’');
                     }
-                    setAudio(r.data.filesArray)
+                    // setAudio(r.data.filesArray)
+                    let audioFiles = r.data.filesArray
+
+                    audioFiles.forEach(element => {
+                        for(let i =0; i<element.word.length; i++){
+                            if(element.word[i] === '\''){
+                                element.word = element.word.split('\'').join('’')
+                            }
+                        }
+                    })
+                    console.log(audioFiles)
+                    setAudio(audioFiles)
                     let tmp = bookForReading
                     let cnt = 0
                     for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
@@ -357,6 +368,7 @@ export default function  ReadingPage ({history}){
         const player = new Audio()
         for(let i = 0; i < audio.length; i++){
             if(audio[i].word === value){
+                console.log('1')
                 player.src = 'data:audio/wav;base64,' + audio[i].sound
                 break
             }

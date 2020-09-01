@@ -117,10 +117,16 @@ export default function Login({ history }){
         }
     }
 
+    const handleKeyPress = e =>{
+        if (e.key === 'Enter') {
+            sendPassword()
+        }
+    }
+
     return(
         <div className = "loginWrapper">
             <h1 style= { errorLoginVisible(error) }>Invalid personal URL or PIN code, please try again</h1>
-            <input type = "password" onChange={handleInput} placeholder = "Enter pin code"/>
+            <input type = "password" onChange={handleInput} placeholder = "Enter pin code" onKeyPress={handleKeyPress}/>
             <img src = {next} onClick = { () =>sendPassword() } />
         </div>
     )
