@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './config/configureStore';
 import { Provider } from 'react-redux';
@@ -6,6 +6,8 @@ import Routes from './Routes';
 import ScrollToTop from './utils/ScrollToTop';
 import './assets/base.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+import Context from '../../Context'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -255,8 +257,10 @@ library.add(
 
 const store = configureStore();
 
-class App extends Component {
-  render() {
+function AdminPage({history}) {
+
+  const {admin} = useContext(Context)
+  if(Object.keys(admin).length !== 0){
     return (
       <Provider store={store}>
         <BrowserRouter basename="/Admin/">
@@ -266,8 +270,10 @@ class App extends Component {
           </ScrollToTop>
         </BrowserRouter>
       </Provider>
-    );
+    )
+  }else{
+    history.push('/Login')
+    return null
   }
-}
-
-export default App;
+  }
+export default AdminPage;
