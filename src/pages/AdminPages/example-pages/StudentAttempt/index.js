@@ -38,6 +38,8 @@ export default function StudentAttempt() {
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
 
+    console.log(attempt)
+
     const history = useHistory();
 
     useEffect(() => {
@@ -205,7 +207,7 @@ export default function StudentAttempt() {
                                     {/* <span className="font-size-lg mr-2 text-success font-weight-bold">
                     +
                   </span> */}
-                                    <CountUp start={0} end={attempt.Proficiency} />
+                                    <CountUp start={0} end={attempt.Proficiency.replace("%","")} />
                                     <small className="opacity-6 pl-1 text-black-50">%</small>
                                 </h3>
                             </div>
@@ -216,7 +218,7 @@ export default function StudentAttempt() {
                                     responsive={false} // Boolean: Make SVG adapt to parent size
                                     size={60} // Number: Defines the size of the circle.
                                     lineWidth={20} // Number: Defines the thickness of the circle's stroke.
-                                    progress={attempt.Proficiency} // Number: Update to change the progress and percentage.
+                                    progress={parseFloat(attempt.Proficiency.replace("%",""))} // Number: Update to change the progress and percentage.
                                     progressColor="#1bc943" // String: Color of "progress" portion of circle.
                                     bgColor="rgba(27, 201, 67, 0.15)" // String: Color of "empty" portion of circle.
                                     textColor="#3b3e66" // String: Color of percentage text color.percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
