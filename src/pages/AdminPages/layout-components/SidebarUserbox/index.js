@@ -16,7 +16,7 @@ import {
   ListItem
 } from '@material-ui/core';
 
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
+import avatar2 from '../../assets/images/teachers/avatar2.jpg';
 import { connect } from 'react-redux';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -27,7 +27,6 @@ const SidebarUserbox = props => {
 
   const {admin} = useContext(Context)
 
-  console.log(admin)
 
   function openUserMenu(event) {
     setAnchorEl(event.currentTarget);

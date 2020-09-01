@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from "react-router-dom"
 import theme from "./theme"
+import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import {
     TableHead, TableRow,
@@ -152,9 +153,6 @@ export default function StudentAttempt() {
     }
 
     const source = attempt ? attempt : example
-
-    console.log(ClearOfTags(source["Running Records"]))
-    console.log(ConvertToArray(source["Running Records"]))
 
     const Rates = (props) => {
         return (
@@ -337,7 +335,7 @@ export default function StudentAttempt() {
     return (
         <Fragment>
             <PageTitle
-                titleHeading={attempt && student ? `${student.name} ${attempt["Book ID"]} attempt` : 'Attempt'}
+                titleHeading={attempt && student ? `${student.name} ${attempt["Book ID"]} Attempt` : 'Attempt'}
                 titleDescription={attempt ? convertStamp(attempt["Time Stamp"]).full : null}
             />
             <div className="mb-4" >
@@ -348,20 +346,18 @@ export default function StudentAttempt() {
                         size="sm"
                         className="font-size-xxl "
                     />} onClick={() => window.history.back()}>Back</Button>
-                <Button className="m-1" onClick={() => window.history.back()}>Student overview</Button>
-                <Button className="m-1" onClick={() => { }}>Print</Button>
             </div>
             <Rates />
             <HeadWraper sectionHeading={
                 <div className="d-flex align-items-center">
-                    <p className="m-2">Audio visualization</p>
+                    <p className="m-2">Play Attempt Recording</p>
                     <audio className="m-0" controls src={source.Audiofile}></audio>
                 </div>} className="mb-4">
             </HeadWraper>
-            <HeadWraper sectionHeading="Reference Text">
-                {ClearOfTags(source["Running Records"])}
+            <HeadWraper sectionHeading="Source Text">
+                {text}
             </HeadWraper>
-            <HeadWraper sectionHeading="Result Text">
+            <HeadWraper sectionHeading="Attempt Result ">
                 {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
             </HeadWraper>
             {/* <NewBL /> */}

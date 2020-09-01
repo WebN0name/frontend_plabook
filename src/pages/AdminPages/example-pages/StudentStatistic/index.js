@@ -204,7 +204,7 @@ export default function StudentsStatistic() {
     });
 
     const labels = [
-        { name: "Time Stamp", align: "center", isSortable: true, propertyName: "Date" },
+        { name: "Time Stamp", align: "left", isSortable: true, propertyName: "Date" },
         { name: "Book ID", align: "left", isSortable: true, propertyName: "Book ID" },
         { name: "Page", align: "left", isSortable: true, propertyName: "Page" },
         { name: "Proficiency", align: "left", isSortable: true, propertyName: "Proficiency" },
@@ -259,7 +259,7 @@ export default function StudentsStatistic() {
         return (
             <Card className="card-box mb-4">
                 <div className="card-header py-3">
-                    <div className="card-header--title font-size-lg">Atempts</div>
+                    <div className="card-header--title font-size-lg">Attempts</div>
                     {/* <div className="card-header--actions">
                         <Button size="small" variant="outlined" color="secondary">
                             <span className="btn-wrapper--icon">
@@ -324,8 +324,15 @@ export default function StudentsStatistic() {
     return (
         <Fragment>
             <PageTitle
-                titleHeading={`${student && student.name} statistic`}
-            />                       
+                titleHeading={`${student && student.name} Statistic`}
+            /> 
+            <Button
+                className="m-1"
+                startIcon={<FontAwesomeIcon
+                icon={['fa', 'chevron-left']}
+                size="sm"
+                className="font-size-xxl "
+            />} onClick={() => window.history.back()}>Back</Button>                      
             <NewBL />
         </Fragment>
 
