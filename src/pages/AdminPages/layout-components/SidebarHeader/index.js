@@ -35,6 +35,7 @@ const SidebarHeader = props => {
 
   return (
     <Fragment>
+      {console.log(plabookLogo)}
       <div
         className={clsx('app-sidebar-header', {
           'app-sidebar-header-close': sidebarToggle && !sidebarHover
@@ -54,7 +55,7 @@ const SidebarHeader = props => {
               />
             </IconButton>
           </Link>
-          <Box className="header-logo-text">Plabook</Box>
+          <Box className="header-logo-text">Plabook asdasd</Box>
         </Box>
         <Box
           className={clsx('app-sidebar-header-btn', {

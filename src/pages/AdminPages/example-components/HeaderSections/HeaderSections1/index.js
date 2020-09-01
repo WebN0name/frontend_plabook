@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 
 import projectLogo from '../../../assets/images/react.svg';
+import plabookLogo from '../../../../../assets/img/favicon.svg'
+
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 
 const LivePreviewExample = () => {
@@ -42,7 +44,7 @@ const LivePreviewExample = () => {
               <i className="bg-white">
                 <img
                   alt="Carolina React Admin Dashboard with Material-UI PRO"
-                  src={projectLogo}
+                  src={plabookLogo}
                 />
               </i>
               <span>Carolina</span>
@@ -101,7 +103,7 @@ const LivePreviewExample = () => {
                     <img
                       alt="Carolina React Admin Dashboard with Material-UI PRO"
                       className="d-block img-fluid"
-                      src={projectLogo}
+                      src={plabookLogo}
                     />
                   </a>
                 </div>
