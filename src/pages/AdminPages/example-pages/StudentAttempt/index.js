@@ -4,29 +4,18 @@ import theme from "./theme"
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    TableHead, TableRow,
-    TableCell, Button,
-    TableBody, Table,
-    TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, Grid, CardContent,
+     Button,
+     Card, Grid, CardContent,
 } from '@material-ui/core';
 
 import CountUp from 'react-countup';
 import Circle from 'react-circle';
 
 import Icon from '@mdi/react'
-import { mdiFilterOutline } from '@mdi/js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { PageTitle, ExampleWrapperSimple } from '../../layout-components';
 
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import avatar4 from '../../assets/images/avatars/avatar4.jpg';
-import avatar5 from '../../assets/images/avatars/avatar5.jpg';
-import avatar6 from '../../assets/images/avatars/avatar6.jpg';
-import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 
 import Context from '../../../../Context'
 import { getByText } from '@testing-library/react';
@@ -161,7 +150,7 @@ export default function StudentAttempt() {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+            return Math.floor(Math.random() * (max - min)) + min; 
         }
 
         const wcpm = getRandomInt(60,100)

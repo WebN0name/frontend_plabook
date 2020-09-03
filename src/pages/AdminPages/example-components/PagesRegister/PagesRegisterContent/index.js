@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 
@@ -86,6 +86,7 @@ TabPanel.propTypes = {
 const LivePreviewExample = () => {
   const [value, setValue] = useState(0);
   const [error, setError] = useState(false)
+  const [_password, setPassword] = useState("")
   const location = useLocation()
   const history = useHistory()
   const { userDispatch, userBooksDispatch, adminDispatch } = useContext(Context)
@@ -95,9 +96,10 @@ const LivePreviewExample = () => {
     setValue(newValue);
   };
 
-  const [checked1, setChecked1] = React.useState(true);
+  const [checked1, setChecked1] = useState(true);
 
   const handleChange1 = event => {
+    setPassword(document.getElementById("password").value)
     setChecked1(event.target.checked);
   };
 
@@ -150,6 +152,15 @@ const LivePreviewExample = () => {
       }
     })
   }
+
+  useEffect(()=>{
+    const passwordInput = document.getElementById("password")
+    if(_password.length > 0) 
+    {
+      passwordInput.value = _password
+    }
+    else passwordInput.value = localStorage.getItem(`${userName}Password`)
+  })
 
   const LeftSide = (props) => {
     return (
@@ -411,8 +422,8 @@ const LivePreviewExample = () => {
                     Password
                   </InputLabel>
                   <Input
-                    id="password"
-                    value={localStorage.getItem(`${userName}Password`)}
+                    inputProps={{autocomplete:"new-password"}}
+                    id="password"                    
                     fullWidth
                     type="password"
                     startAdornment={
