@@ -242,7 +242,7 @@ export default function Students() {
     const labels = [
         { name: "Name", align: "left", isSortable: true, propertyName: "name" },
         { name: "Pin code", align: "left", isSortable: false, propertyName: "pin" },
-        { name: "Login link", align: "center", isSortable: true, propertyName: "personalLink" },
+        { name: "Login link", align: "left", isSortable: true, propertyName: "personalLink" },
         { name: "Reading level", align: "left", isSortable: true, propertyName: "readingLevel" },
         { name: "Stage", align: "left", isSortable: true, propertyName: "stage" },
         { name: "Book read", align: "left", isSortable: true, propertyName: "bookRead" },
@@ -258,7 +258,7 @@ export default function Students() {
         clearTimeout(pervTimeout)
         const id = setTimeout(() => {
             setSnackOpen(false)
-        }, 50000);
+        }, 1000);
         setPervTimeout(id)
     }
 
@@ -279,8 +279,8 @@ export default function Students() {
                         </div>
                     </td>
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
-                    <td className={`text-${labels[2]}`}>
-                        <Button onClick={() => {handleCopy(student.personalLink)}} className="m-2">
+                    <td className={`text-left`}>
+                        <Button onClick={() => {handleCopy(student.personalLink)}}>
                             Copy Link
                             <Clipboard className="font-size-lg ml-1" />
                         </Button>
