@@ -487,13 +487,13 @@ export default function LivePreviewExample() {
         <Card className="card-box mb-4">
           <div className="card-header pr-2">
             <div className="card-header--title">Students</div>
-            <div className="card-header--actions">
+            {/* <div className="card-header--actions">
               <Tooltip arrow title="Refresh">
                 <IconButton size="small" color="primary" className="mr-3">
                   <FontAwesomeIcon icon={['fas', 'cog']} spin />
                 </IconButton>
               </Tooltip>
-            </div>
+            </div> */}
           </div>
           <CardContent className="p-3">
             <div className="table-responsive">
@@ -553,10 +553,11 @@ export default function LivePreviewExample() {
               </table>
             </div>
           </CardContent>
-          <div className="card-footer d-flex justify-content-between">
-            <Button color="primary" size="small">
-              Delete
-          </Button>
+          <div className="card-footer d-flex alig justify-content-end">
+          {/* <div className="card-footer d-flex alig justify-content-between"> */}
+            {/* <Button color="primary" size="small">
+              Delete student
+            </Button> */}
             <div>
               <Button
                 size="small"

@@ -51,8 +51,9 @@ const Sidebar = props => {
           component="div"
           key={list.label}
           pages={list.content}
-          title={list.label}
+          // title={list.label}
           to={list.content.to}
+          className="mt-2"
         />
       ))}
     </div>

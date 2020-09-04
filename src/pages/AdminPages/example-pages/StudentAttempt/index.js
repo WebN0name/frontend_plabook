@@ -28,6 +28,7 @@ export default function StudentAttempt() {
     const [text, setText] = useState('')
 
     console.log(attempt)
+    console.log(student)
 
     const history = useHistory();
 
@@ -80,6 +81,10 @@ export default function StudentAttempt() {
         paper:
         {
             marginBottom: theme.margin.main,
+        },
+        analysText:
+        {
+            fontSize: "0.925rem"
         }
     });
 
@@ -344,20 +349,21 @@ export default function StudentAttempt() {
                         icon={['fa', 'chevron-left']}
                         size="sm"
                         className="font-size-xxl "
-                    />} onClick={() => window.history.back()}>Back</Button>
+                    />} onClick={() => window.history.back()}>Back to Student</Button>
             </div>
             <Rates />
-            <HeadWraper sectionHeading={
-                <div className="d-flex align-items-center">
-                    <p className="m-2">Play Attempt Recording</p>
-                </div>} className="mb-4">
-                <audio className="m-0" controls src={source.Audiofile}></audio>
-            </HeadWraper>
             <HeadWraper sectionHeading="Source Text">
                 {text}
             </HeadWraper>
-            <HeadWraper sectionHeading="Attempt Result ">
-                {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
+            <HeadWraper sectionHeading={
+                <div className="d-flex align-items-center">
+                    <p className="m-2">Recording</p>
+                </div>} className="mb-4">
+                <audio className="m-0" controls src={source.Audiofile}></audio>
+            </HeadWraper>
+            
+            <HeadWraper sectionHeading="Reading Analysis">
+                {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 ${classes.analysText} badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
             </HeadWraper>
             {/* <NewBL /> */}
             {/* <Old/> */}

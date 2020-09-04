@@ -210,11 +210,10 @@ export default function StudentsStatistic() {
     });
 
     const labels = [
-        { name: "Time Stamp", align: "left", isSortable: true, propertyName: "Date" },
         { name: "Book ID", align: "left", isSortable: true, propertyName: "Book ID" },
+        { name: "Date/Time", align: "left", isSortable: true, propertyName: "Date" },
         { name: "Page", align: "left", isSortable: true, propertyName: "Page" },
         { name: "Proficiency", align: "left", isSortable: true, propertyName: "Proficiency" },
-        { name: "Running records", align: "left", isSortable: false, propertyName: "id" },
         { name: "Number of running", align: "left", isSortable: true, propertyName: "Number of Running Words" },
         { name: "Errors", align: "left", isSortable: true, propertyName: "Errors" },
         { name: "Self correction", align: "left", isSortable: true, propertyName: "Self Correction" },
@@ -224,6 +223,7 @@ export default function StudentsStatistic() {
         { name: "SC M/S/V", align: "left", isSortable: true, propertyName: "SC M" },
         // { name: "SC S", align: "left", isSortable: true, propertyName: "SC S" },
         // { name: "SC V", align: "left", isSortable: true, propertyName: "iSC V" },
+        { name: "Running records", align: "left", isSortable: false, propertyName: "id" },
     ]
 
     const classes = useStyles();
@@ -238,17 +238,10 @@ export default function StudentsStatistic() {
             
             return (
                 <tr>
-                    <td className={`text-${labels[0]}`}>{attempt.Date.toLocaleDateString()} {attempt.Date.toLocaleTimeString()}</td>
                     <td className={`text-${labels[1]}`}>{attempt["Book ID"]}</td>
+                    <td className={`text-${labels[0]}`}>{attempt.Date.toLocaleDateString()} {attempt.Date.toLocaleTimeString()}</td>
                     <td className={`text-${labels[2]}`}>{attempt.Page}</td>
-                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>
-                    <td className={`text-${labels[4]}`}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => { handelAttemtClick(attempt)}}>
-                            More details
-                        </Button>
-                    </td>
+                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>                    
                     <td className={`text-${labels[5]}`}>{attempt["Number of Running Words"]}</td>
                     <td className={`text-${labels[6]}`}>{attempt.Errors}</td>
                     <td className={`text-${labels[7]}`}>{attempt["Self Correction"]}</td>
@@ -258,6 +251,13 @@ export default function StudentsStatistic() {
                     <td className={`text-${labels[11]}`}>{String(attempt["SC M"]) + '/' + String(attempt["SC S"]) + '/' + String(attempt["SC V"])}</td>
                     {/* <td className={`text-${labels[12]}`}>{attempt["SC S"]}</td>
                     <td className={`text-${labels[13]}`}>{attempt["SC V"]}</td> */}
+                    <td className={`text-${labels[4]}`}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => { handelAttemtClick(attempt)}}>
+                            More details
+                        </Button>
+                    </td>
                 </tr>
             )
         }
@@ -265,7 +265,7 @@ export default function StudentsStatistic() {
         return (
             <Card className="card-box mb-4">
                 <div className="card-header py-3">
-                    <div className="card-header--title font-size-lg">Attempts</div>
+                    <div className="card-header--title font-size-lg">Reading Log</div>
                     {/* <div className="card-header--actions">
                         <Button size="small" variant="outlined" color="secondary">
                             <span className="btn-wrapper--icon">
@@ -330,7 +330,7 @@ export default function StudentsStatistic() {
     return (
         <Fragment>
             <PageTitle
-                titleHeading={`${student && student.name} Statistic`}
+                titleHeading={`${student && student.name}'${student.name[student.name.length-1].toLowerCase() =="s" ? "" :"s"} Statistic`}
             /> 
             <Button
                 className="m-1"

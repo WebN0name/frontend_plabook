@@ -261,6 +261,7 @@ function AdminPage({history}) {
 
   const {admin} = useContext(Context)
   if(Object.keys(admin).length !== 0){
+    // if(true){
     return (
       <Provider store={store}>
         <BrowserRouter basename="/Admin/">
