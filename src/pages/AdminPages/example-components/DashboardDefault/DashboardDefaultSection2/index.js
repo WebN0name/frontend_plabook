@@ -567,18 +567,8 @@ export default function LivePreviewExample() {
                 onClick={() => { history.push("/StudentsQ") }}>
                 View all
             </Button>
-<<<<<<< HEAD
               <Button size="small" variant="contained" color="secondary">
                 Add new student
-=======
-              <Button 
-                size="small" 
-                variant="contained" 
-                color="secondary"
-                onClick={()=>{togleCreate()}}
-                >
-                Add new entry
->>>>>>> master
             </Button>
             <NewStudentDialog onClose={()=>{togleCreate()}} open={createStudent}/>
             </div>

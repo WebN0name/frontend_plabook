@@ -355,20 +355,13 @@ export default function StudentAttempt() {
             </div>
             <Grid container className="mb-1">
             <Rates />
-<<<<<<< HEAD
             <Grid item xs={12} sm={8}>
-=======
-            <HeadWraper sectionHeading="Source Text">
-                {text}
-            </HeadWraper>
->>>>>>> master
             <HeadWraper sectionHeading={
                 <div className="d-flex align-items-center">
                     <p className="m-2">Recording</p>
                 </div>} className="mb-4">
                 <audio className="m-0" controls src={source.Audiofile}></audio>
             </HeadWraper>
-<<<<<<< HEAD
             <HeadWraper sectionHeading="Source Text">
                 {text}
             </HeadWraper>
@@ -380,12 +373,6 @@ export default function StudentAttempt() {
             }
             </Grid>
             </Grid>
-=======
-            
-            <HeadWraper sectionHeading="Reading Analysis">
-                {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 ${classes.analysText} badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
-            </HeadWraper>
->>>>>>> master
             {/* <NewBL /> */}
             {/* <Old/> */}
         </Fragment>
