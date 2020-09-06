@@ -28,12 +28,12 @@ export default function LivePreviewExample() {
       <ExpansionPanel
         expanded={expanded === 'panel1'}
         onChange={handleChange('panel1')}>
-        <ExpansionPanelSummary
+        {/* <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header">
           <Typography>Navigation menu</Typography>
-        </ExpansionPanelSummary>
+        </ExpansionPanelSummary> */}
         <ExpansionPanelDetails className="d-block p-0">
           <div>
             <div className="bg-composed-wrapper bg-asteroid">

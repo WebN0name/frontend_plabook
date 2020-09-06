@@ -7,37 +7,24 @@ import {
     TableCell, Button,
     TableBody, Table,
     TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, IconButton, Fab, Snackbar,Portal
+    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, Snackbar, Portal, IconButton
 } from '@material-ui/core';
 
-import Icon from '@mdi/react'
-import { mdiFilterOutline } from '@mdi/js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { PageTitle } from '../../layout-components';
 import Context from '../../../../Context'
 
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import avatar4 from '../../assets/images/avatars/avatar4.jpg';
-import avatar5 from '../../assets/images/avatars/avatar5.jpg';
-import avatar6 from '../../assets/images/avatars/avatar6.jpg';
-import avatar7 from '../../assets/images/avatars/avatar7.jpg';
-import { SyncLoader } from 'react-spinners';
-
 import {
     Clipboard,
+    UserPlus
 } from 'react-feather';
 
 import AvatarPicker from '../../../../components/AvatarPicker';
+import NewStudentDialog from '../AdminModals/NewStudentDialog';
 
 
 export default function Students() {
 
-    const { id } = useParams();
-
-    const teacherNames = ["JohnBell", "MariSiemens"]
     const rowsPerPageArray = [5, 10, 25]
     const [_rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0])
     const [_page, setPage] = useState(0)
@@ -46,7 +33,6 @@ export default function Students() {
     const [orderBy, setOrderBy] = useState('name');
     const [snackOpen, setSnackOpen] = useState(false);
     const [pervTimeout, setPervTimeout] = useState(null);
-    const [_students, setStudents] = useState([]);
     const history = useHistory();
 
     const { students, admin, studentsDispatch, studentDispatch } = useContext(Context)
@@ -89,7 +75,7 @@ export default function Students() {
     const fetchStudentsList = async () => {
         const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
         const result = await response.json()
-        result.map((elem,index)=>{
+        result.map((elem, index) => {
             elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
         })
         console.log(result)
@@ -121,15 +107,7 @@ export default function Students() {
         }
     ]
 
-    const avatars =[
-        avatar1,
-        avatar2,
-        avatar3,
-        avatar4,
-        avatar5,
-        avatar6,
-        avatar7,
-    ]
+
 
     //#region sorting
     function descendingComparator(a, b, orderBy) {
@@ -242,7 +220,7 @@ export default function Students() {
     const labels = [
         { name: "Name", align: "left", isSortable: true, propertyName: "name" },
         { name: "Pin code", align: "left", isSortable: false, propertyName: "pin" },
-        { name: "Login link", align: "center", isSortable: true, propertyName: "personalLink" },
+        { name: "Login link", align: "left", isSortable: true, propertyName: "personalLink" },
         { name: "Reading level", align: "left", isSortable: true, propertyName: "readingLevel" },
         { name: "Stage", align: "left", isSortable: true, propertyName: "stage" },
         { name: "Book read", align: "left", isSortable: true, propertyName: "bookRead" },
@@ -251,18 +229,20 @@ export default function Students() {
 
     const classes = useStyles();
 
-    const handleCopy = (plink) =>
-    {
+    const handleCopy = (plink) => {
         navigator.clipboard.writeText(plink);
         setSnackOpen(true);
         clearTimeout(pervTimeout)
         const id = setTimeout(() => {
             setSnackOpen(false)
-        }, 50000);
+        }, 1000);
         setPervTimeout(id)
     }
 
     const NewBL = () => {
+
+        const [createStudent, setCreateStudent] = useState(false)
+        const togleCreate = () => setCreateStudent(!createStudent)
         // строки из примера таблиц 4
         const Row = (props) => {
 
@@ -279,9 +259,15 @@ export default function Students() {
                         </div>
                     </td>
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
+<<<<<<< HEAD
                     <td className={`text-${labels[2]}`}>
                         <Button onClick={() => {handleCopy(student.personalLink)}} className="m-2">
                         Copy Login Link
+=======
+                    <td className={`text-left`}>
+                        <Button onClick={() => { handleCopy(student.personalLink) }}>
+                            Copy Link
+>>>>>>> master
                             <Clipboard className="font-size-lg ml-1" />
                         </Button>
                     </td>
@@ -315,8 +301,14 @@ export default function Students() {
 
         return (
             <Card className="card-box mb-4">
+                <NewStudentDialog open={createStudent} onClose={()=>{togleCreate()}}/>
                 <div className="card-header py-3">
                     <div className="card-header--title font-size-lg">Students</div>
+                    <div>
+                        <IconButton onClick={()=>{togleCreate()}}>
+                            <UserPlus />
+                        </IconButton>
+                    </div>
                     {/* <div className="card-header--actions">
                         <Button size="small" variant="outlined" color="secondary">
                             <span className="btn-wrapper--icon">
@@ -585,15 +577,15 @@ export default function Students() {
             </Paper>
             <NewBL />
             <Portal >
-            <Snackbar
-                // classes={{root: classes.bgColor}}
-                anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
-                open={snackOpen}
-                onClose={()=>{}}
-                message="Link copied"
-            />
-            </Portal>          
-            
+                <Snackbar
+                    // classes={{root: classes.bgColor}}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    open={snackOpen}
+                    onClose={() => { }}
+                    message="Link copied"
+                />
+            </Portal>
+
             {/* <Old/> */}
         </Fragment>
 

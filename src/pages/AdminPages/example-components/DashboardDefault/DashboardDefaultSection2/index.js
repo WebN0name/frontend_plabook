@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -35,6 +35,7 @@ import { Line } from 'react-chartjs-2';
 
 import Context from '../../../../../Context'
 import { useHistory } from 'react-router-dom';
+import NewStudentDialog from '../../../example-pages/AdminModals/NewStudentDialog';
 
 
 function TabPanel(props) {
@@ -155,7 +156,7 @@ export default function LivePreviewExample() {
     maintainAspectRatio: false
   };
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
 
   const avatars = [
@@ -395,6 +396,9 @@ export default function LivePreviewExample() {
 
     const { students, student, studentDispatch } = useContext(Context)
 
+  const [createStudent, setCreateStudent] = useState(false)
+  const togleCreate = () => setCreateStudent(!createStudent)
+
     // Отрефакторить  
     const getRandom = (array, amount) => {
       console.log(array)
@@ -483,13 +487,13 @@ export default function LivePreviewExample() {
         <Card className="card-box mb-4">
           <div className="card-header pr-2">
             <div className="card-header--title">Students</div>
-            <div className="card-header--actions">
+            {/* <div className="card-header--actions">
               <Tooltip arrow title="Refresh">
                 <IconButton size="small" color="primary" className="mr-3">
                   <FontAwesomeIcon icon={['fas', 'cog']} spin />
                 </IconButton>
               </Tooltip>
-            </div>
+            </div> */}
           </div>
           <CardContent className="p-3">
             <div className="table-responsive">
@@ -549,10 +553,11 @@ export default function LivePreviewExample() {
               </table>
             </div>
           </CardContent>
-          <div className="card-footer d-flex justify-content-between">
-            <Button color="primary" size="small">
-              Delete
-          </Button>
+          <div className="card-footer d-flex alig justify-content-end">
+          {/* <div className="card-footer d-flex alig justify-content-between"> */}
+            {/* <Button color="primary" size="small">
+              Delete student
+            </Button> */}
             <div>
               <Button
                 size="small"
@@ -562,9 +567,20 @@ export default function LivePreviewExample() {
                 onClick={() => { history.push("/StudentsQ") }}>
                 View all
             </Button>
+<<<<<<< HEAD
               <Button size="small" variant="contained" color="secondary">
                 Add new student
+=======
+              <Button 
+                size="small" 
+                variant="contained" 
+                color="secondary"
+                onClick={()=>{togleCreate()}}
+                >
+                Add new entry
+>>>>>>> master
             </Button>
+            <NewStudentDialog onClose={()=>{togleCreate()}} open={createStudent}/>
             </div>
           </div>
         </Card>

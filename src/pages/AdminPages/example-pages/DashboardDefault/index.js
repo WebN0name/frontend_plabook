@@ -7,12 +7,12 @@ import Context from '../../../../Context'
 
 import DashboardDefaultSection1 from '../../example-components/DashboardDefault/DashboardDefaultSection1';
 import DashboardDefaultSection2 from '../../example-components/DashboardDefault/DashboardDefaultSection2';
-import DashboardDefaultSection3 from '../../example-components/DashboardDefault/DashboardDefaultSection3';
-import DashboardDefaultSection4 from '../../example-components/DashboardDefault/DashboardDefaultSection4';
-import DashboardDefaultSection5 from '../../example-components/DashboardDefault/DashboardDefaultSection5';
-import DashboardDefaultSection6 from '../../example-components/DashboardDefault/DashboardDefaultSection6';
-import DashboardDefaultSection7 from '../../example-components/DashboardDefault/DashboardDefaultSection7';
-import DashboardDefaultSection8 from '../../example-components/DashboardDefault/DashboardDefaultSection8';
+// import DashboardDefaultSection3 from '../../example-components/DashboardDefault/DashboardDefaultSection3';
+// import DashboardDefaultSection4 from '../../example-components/DashboardDefault/DashboardDefaultSection4';
+// import DashboardDefaultSection5 from '../../example-components/DashboardDefault/DashboardDefaultSection5';
+// import DashboardDefaultSection6 from '../../example-components/DashboardDefault/DashboardDefaultSection6';
+// import DashboardDefaultSection7 from '../../example-components/DashboardDefault/DashboardDefaultSection7';
+// import DashboardDefaultSection8 from '../../example-components/DashboardDefault/DashboardDefaultSection8';
 import AvatarPicker from '../../../../components/AvatarPicker';
 export default function DashboardDefault() {
 

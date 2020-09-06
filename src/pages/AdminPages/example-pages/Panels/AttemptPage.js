@@ -63,23 +63,27 @@ export default function AttemptPage() {
     }
 
 
+    //#region Audio Visualisation
+
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var analyser = audioCtx.createAnalyser();
+
+    analyser.fftSize = 2048;
+   
+
+    //#endregion
+
     useEffect(() => {
+        var bufferLength = analyser.frequencyBinCount;
+        var dataArray = new Uint8Array(bufferLength);
+        const info = analyser.getByteTimeDomainData(dataArray);
+        console.log("Audion CHRENY")
+        console.log(bufferLength)
+        console.log(dataArray)
+        console.log(info)
     }, [])
 
 
-    const quareData =
-    {
-        method: "POST",
-        body: JSON.stringify({ studentId: id.replace(" ", "") }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-
-    const fetchDate = async () => {
-
-    }
 
 
     const useStyles = makeStyles({
@@ -147,9 +151,8 @@ export default function AttemptPage() {
 
     const classes = useStyles();
 
-    const LineWord = (props) =>
-    {
-        return(
+    const LineWord = (props) => {
+        return (
             <></>
         )
     }
@@ -183,7 +186,7 @@ export default function AttemptPage() {
                     </Grid>
                     <Grid item xs={6}>
                         <Box className={classes.audioContainer}>
-                        <audio className={classes.audio} controls src={attempt.audio} />
+                            <audio className={classes.audio} controls src={attempt.audio} />
                         </Box>
                     </Grid>
                 </Grid>
@@ -214,5 +217,5 @@ export default function AttemptPage() {
 
         </>
     );
-} 
+}
 

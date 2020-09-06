@@ -4,29 +4,18 @@ import theme from "./theme"
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    TableHead, TableRow,
-    TableCell, Button,
-    TableBody, Table,
-    TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, Grid, CardContent,
+     Button,
+     Card, Grid, CardContent,
 } from '@material-ui/core';
 
 import CountUp from 'react-countup';
 import Circle from 'react-circle';
 
 import Icon from '@mdi/react'
-import { mdiFilterOutline } from '@mdi/js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { PageTitle, ExampleWrapperSimple } from '../../layout-components';
 
-import avatar1 from '../../assets/images/avatars/avatar1.jpg';
-import avatar2 from '../../assets/images/avatars/avatar2.jpg';
-import avatar3 from '../../assets/images/avatars/avatar3.jpg';
-import avatar4 from '../../assets/images/avatars/avatar4.jpg';
-import avatar5 from '../../assets/images/avatars/avatar5.jpg';
-import avatar6 from '../../assets/images/avatars/avatar6.jpg';
-import avatar7 from '../../assets/images/avatars/avatar7.jpg';
 
 import Context from '../../../../Context'
 import { getByText } from '@testing-library/react';
@@ -39,6 +28,7 @@ export default function StudentAttempt() {
     const [text, setText] = useState('')
 
     console.log(attempt)
+    console.log(student)
 
     const history = useHistory();
 
@@ -93,6 +83,10 @@ export default function StudentAttempt() {
         paper:
         {
             marginBottom: theme.margin.main,
+        },
+        analysText:
+        {
+            fontSize: "0.925rem"
         }
     });
 
@@ -163,7 +157,7 @@ export default function StudentAttempt() {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+            return Math.floor(Math.random() * (max - min)) + min; 
         }
 
         const wcpm = getRandomInt(60,100)
@@ -357,17 +351,24 @@ export default function StudentAttempt() {
                         icon={['fa', 'chevron-left']}
                         size="sm"
                         className="font-size-xxl "
-                    />} onClick={() => window.history.back()}>Back</Button>
+                    />} onClick={() => window.history.back()}>Back to Student</Button>
             </div>
             <Grid container className="mb-1">
             <Rates />
+<<<<<<< HEAD
             <Grid item xs={12} sm={8}>
+=======
+            <HeadWraper sectionHeading="Source Text">
+                {text}
+            </HeadWraper>
+>>>>>>> master
             <HeadWraper sectionHeading={
                 <div className="d-flex align-items-center">
-                    <p className="m-2">Play Attempt Recording</p>
+                    <p className="m-2">Recording</p>
                 </div>} className="mb-4">
                 <audio className="m-0" controls src={source.Audiofile}></audio>
             </HeadWraper>
+<<<<<<< HEAD
             <HeadWraper sectionHeading="Source Text">
                 {text}
             </HeadWraper>
@@ -379,6 +380,12 @@ export default function StudentAttempt() {
             }
             </Grid>
             </Grid>
+=======
+            
+            <HeadWraper sectionHeading="Reading Analysis">
+                {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 ${classes.analysText} badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
+            </HeadWraper>
+>>>>>>> master
             {/* <NewBL /> */}
             {/* <Old/> */}
         </Fragment>

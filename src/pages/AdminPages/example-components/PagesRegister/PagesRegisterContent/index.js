@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 
@@ -86,23 +86,25 @@ TabPanel.propTypes = {
 const LivePreviewExample = () => {
   const [value, setValue] = useState(0);
   const [error, setError] = useState(false)
+  const [_password, setPassword] = useState("")
   const location = useLocation()
   const history = useHistory()
-  const {userDispatch, userBooksDispatch, adminDispatch} = useContext(Context)
+  const { userDispatch, userBooksDispatch, adminDispatch } = useContext(Context)
 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const [checked1, setChecked1] = React.useState(true);
+  const [checked1, setChecked1] = useState(true);
 
   const handleChange1 = event => {
+    setPassword(document.getElementById("password").value)
     setChecked1(event.target.checked);
   };
 
 
-  const toNames=/\p{Lu}\p{Ll}+[-]*\p{Ll}+/gu
+  const toNames = /\p{Lu}\p{Ll}+[-]*\p{Ll}+(\d+?)*/gu
   let urlParams = location.pathname.split('/')
   const names = urlParams[3] ? urlParams[3].match(toNames) : []
   let firstName = names[0]
@@ -112,13 +114,13 @@ const LivePreviewExample = () => {
 
   function sendPassword() {
     const password = document.getElementById("password").value
-    if(checked1) localStorage.setItem(`${userName}Password`,password)
-    else localStorage.removeItem(`${userName}Password`)
     axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3], {
       pin: password,
     }).then(r => {
-      if (!r.data.error) {        
-        if (urlParams[2] === 'teacher') {          
+      if (!r.data.error) {
+        if (checked1) localStorage.setItem(`${userName}Password`, password)
+        else localStorage.removeItem(`${userName}Password`)
+        if (urlParams[2] === 'teacher') {
           const tmp = {
             adminId: urlParams[3],
             adminName: userName
@@ -144,12 +146,21 @@ const LivePreviewExample = () => {
           setTimeout(() => {
             history.push('/BookPick')
           }, 200)
-        }       
+        }
       } else {
         setError(true)
       }
     })
   }
+
+  useEffect(()=>{
+    const passwordInput = document.getElementById("password")
+    if(_password.length > 0) 
+    {
+      passwordInput.value = _password
+    }
+    else passwordInput.value = localStorage.getItem(`${userName}Password`)
+  })
 
   const LeftSide = (props) => {
     return (
@@ -333,40 +344,39 @@ const LivePreviewExample = () => {
   const SingInTab = (props) => {
     const { index } = props
 
-    const WithSocial = (props) =>
-    {
-      return(
+    const WithSocial = (props) => {
+      return (
         <div className="card-header d-block p-3 mx-2 mb-0 mt-2 rounded border-0">
-        <div className="text-muted text-center mb-3">
-          <span>Sign in with</span>
-        </div>
-        <div className="text-center">
-          <Button
-            variant="outlined"
-            className="mr-2 text-facebook">
-            <span className="btn-wrapper--icon">
-              <FontAwesomeIcon
-                icon={['fab', 'facebook']}
-              />
-            </span>
-            <span className="btn-wrapper--label">
-              Facebook
+          <div className="text-muted text-center mb-3">
+            <span>Sign in with</span>
+          </div>
+          <div className="text-center">
+            <Button
+              variant="outlined"
+              className="mr-2 text-facebook">
+              <span className="btn-wrapper--icon">
+                <FontAwesomeIcon
+                  icon={['fab', 'facebook']}
+                />
+              </span>
+              <span className="btn-wrapper--label">
+                Facebook
                               </span>
-          </Button>
-          <Button
-            variant="outlined"
-            className="ml-2 text-twitter">
-            <span className="btn-wrapper--icon">
-              <FontAwesomeIcon
-                icon={['fab', 'twitter']}
-              />
-            </span>
-            <span className="btn-wrapper--label">
-              Twitter
+            </Button>
+            <Button
+              variant="outlined"
+              className="ml-2 text-twitter">
+              <span className="btn-wrapper--icon">
+                <FontAwesomeIcon
+                  icon={['fab', 'twitter']}
+                />
+              </span>
+              <span className="btn-wrapper--label">
+                Twitter
                               </span>
-          </Button>
+            </Button>
+          </div>
         </div>
-      </div>
       )
     }
     return (
@@ -375,7 +385,6 @@ const LivePreviewExample = () => {
           Existing account
                           </h3>
         <p className="font-size-lg mb-5 text-black-50">
-          {/* You already have an account?  */}
           Fill in the fields
           below to login into your dashboard.
                           </p>
@@ -383,7 +392,7 @@ const LivePreviewExample = () => {
           {/* <WithSocial/> */}
           <CardContent className="p-3">
             {error && <div className="text-center text-danger mb-3">
-              <span>Or sign in with credentials</span>
+              <span>Invalid personal URL or PIN code, please try again</span>
             </div>}
             <form className="px-5">
               <div className="mb-3">
@@ -410,8 +419,13 @@ const LivePreviewExample = () => {
                     Password
                   </InputLabel>
                   <Input
+<<<<<<< HEAD
                     id="password"
                     // value={localStorage.getItem(`${userName}Password`)}
+=======
+                    inputProps={{autocomplete:"new-password"}}
+                    id="password"                    
+>>>>>>> master
                     fullWidth
                     type="password"
                     startAdornment={
@@ -437,7 +451,7 @@ const LivePreviewExample = () => {
               </div>
               <div className="text-center">
                 <Button
-                onClick={()=>{sendPassword()}}
+                  onClick={() => { sendPassword() }}
                   color="primary"
                   variant="contained"
                   size="large"
