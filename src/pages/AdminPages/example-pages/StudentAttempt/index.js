@@ -4,8 +4,8 @@ import theme from "./theme"
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import {
-     Button,
-     Card, Grid, CardContent,
+    Button,
+    Card, Grid, CardContent, Popover, Box, Tooltip, ClickAwayListener, Portal,
 } from '@material-ui/core';
 
 import CountUp from 'react-countup';
@@ -16,10 +16,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { PageTitle, ExampleWrapperSimple } from '../../layout-components';
 
+import WordInfo from './components/WordInfo'
+import PropertyCard from './components/PropertyCard'
+import Phonemer from './components/Phonemer'
+
 
 import Context from '../../../../Context'
 import { getByText } from '@testing-library/react';
+import { withStyles } from '@material-ui/styles';
 
+import QuareFake from './words'
 
 export default function StudentAttempt() {
 
@@ -30,12 +36,19 @@ export default function StudentAttempt() {
     console.log(attempt)
     console.log(student)
 
+
+    const audio = QuareFake()
+    audio['wordInfo'] = []
+    for (let key in audio)
+        if (!isNaN(parseInt(key)))
+            audio.wordInfo.push(audio[key])
+    console.log(audio)
+
+
     const history = useHistory();
 
     useEffect(() => {
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
-            console.log('111111')
-            console.log(r)
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
                     getBook(element.pages, attempt.Page)
@@ -84,9 +97,16 @@ export default function StudentAttempt() {
         {
             marginBottom: theme.margin.main,
         },
+        pointer:
+        {
+            cursor: "pointer"
+        },
         analysText:
         {
             fontSize: "0.925rem"
+        },
+        tooltipText: {
+            fontSize: "0.825rem"
         }
     });
 
@@ -157,10 +177,10 @@ export default function StudentAttempt() {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; 
+            return Math.floor(Math.random() * (max - min)) + min;
         }
 
-        const wcpm = getRandomInt(60,100)
+        const wcpm = getRandomInt(60, 100)
         return (
             <Grid container className="mb-1" spacing={4}>
                 <Grid item xs={12} sm={6} lg={3}>
@@ -198,12 +218,12 @@ export default function StudentAttempt() {
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
                                     Proficiency
-                </div>
+                                </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
                                     {/* <span className="font-size-lg mr-2 text-success font-weight-bold">
                     +
                   </span> */}
-                                    <CountUp start={0} end={attempt.Proficiency.replace("%","")} />
+                                    <CountUp start={0} end={attempt.Proficiency.replace("%", "")} />
                                     <small className="opacity-6 pl-1 text-black-50">%</small>
                                 </h3>
                             </div>
@@ -214,7 +234,7 @@ export default function StudentAttempt() {
                                     responsive={false} // Boolean: Make SVG adapt to parent size
                                     size={60} // Number: Defines the size of the circle.
                                     lineWidth={20} // Number: Defines the thickness of the circle's stroke.
-                                    progress={parseFloat(attempt.Proficiency.replace("%",""))} // Number: Update to change the progress and percentage.
+                                    progress={parseFloat(attempt.Proficiency.replace("%", ""))} // Number: Update to change the progress and percentage.
                                     progressColor="#1bc943" // String: Color of "progress" portion of circle.
                                     bgColor="rgba(27, 201, 67, 0.15)" // String: Color of "empty" portion of circle.
                                     textColor="#3b3e66" // String: Color of percentage text color.percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
@@ -338,6 +358,96 @@ export default function StudentAttempt() {
         )
     }
 
+    const AnalyseWord = (props) => {
+        const { word } = props
+        const { index } = props
+
+        const [anchorEl, setAnchorEl] = useState(null);
+
+        const handlePopoverClick = (event) => {
+            // setPhonemes(fromJSON.phonemes)
+            setAnchorEl(event.currentTarget);
+        };
+
+        const example = {
+            state: word.isCorrect ? "Correct" : "Wrong",
+            reference: word.word,
+            transcription: word.word,
+            normolised: word.word,
+            confidence: 100,
+            start: 1.71,
+            end: 2.16
+
+        }
+        const fromJSONexample =
+        {
+            "align": "DELETION",
+            "reference": "asked.",
+            "normalized": "asked",
+            "recognized": "",
+            "transcription_index": 28,
+            "reference_index": 27,
+            "confidence": "-",
+            "start": "-",
+            "end": "-",
+            "wordquality": 39.0,
+            "phonemes": {
+                "ae": 85.0,
+                "s": 89.0,
+                "k": 17.0,
+                "t": 1.0
+            }
+        }
+
+        const wordInfo = audio.wordInfo[index]
+
+        const fromJSON = Boolean(wordInfo) ? wordInfo : fromJSONexample
+
+        let color = ""
+
+        switch (fromJSON.align) {
+            case "DELETION":color = "danger"
+                break;
+            case "SUBSTITUTION":color = "warning"
+                break;
+            case "CORRECT": color = "success"
+                break;
+            case "INSERTION":color = "warning"
+                break;
+            default: color = "warning"
+                break;
+        }
+        // danger|warning|info|success
+
+
+        return (
+            <Fragment>
+                <Box
+                    onClick={handlePopoverClick}
+                    className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
+                    {word.word}
+                </Box>
+                <Popover
+                    open={Boolean(anchorEl)}
+                    onClose={() => { setAnchorEl(null) }}
+                    onEnter={() => { }}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                >
+                    <WordInfo word={fromJSON} />
+                </Popover>
+            </Fragment>
+        )
+    }
+
+    
     return (
         <Fragment>
             <PageTitle
@@ -353,25 +463,38 @@ export default function StudentAttempt() {
                         className="font-size-xxl "
                     />} onClick={() => window.history.back()}>Back to Student</Button>
             </div>
-            <Grid container className="mb-1">
-            <Rates />
-            <Grid item xs={12} sm={8}>
-            <HeadWraper sectionHeading={
-                <div className="d-flex align-items-center">
-                    <p className="m-2">Recording</p>
-                </div>} className="mb-4">
-                <audio className="m-0" controls src={source.Audiofile}></audio>
-            </HeadWraper>
-            <HeadWraper sectionHeading="Source Text">
-                {text}
-            </HeadWraper>
-            {
-                source["Running Records"] !== null &&
-                <HeadWraper sectionHeading="Attempt Result">
-                    {source["Running Records"] ? ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 badge badge-${word.isCorrect ? "success" : "danger"} attemptWord`} onMouseOver = {console.log('1')} style = {{ cursor: 'pointer' }}>{word.word}</div>) : null}
-                </HeadWraper>
-            }
-            </Grid>
+            <Grid
+                container
+                direction="row"
+                spacing={4}
+                className="mb-1">
+                <Rates />
+                <Grid item xs={11} sm={8}>
+                    <HeadWraper sectionHeading={
+                        <div className="d-flex align-items-center">
+                            <p className="m-2">Recording</p>
+                        </div>} className="mb-4">
+                        <audio className="m-0" controls src={source.Audiofile}></audio>
+                    </HeadWraper>
+
+                    <HeadWraper sectionHeading="Phonemes">
+                        <Box id="phonemes-container">
+                            <Phonemer phonemes={audio.wordInfo[0].phonemes}/>
+                        </Box>
+                    </HeadWraper>
+                    <HeadWraper sectionHeading="Reading Analysis">
+                        {ConvertToArray(source["Running Records"]).map((word, index) =>
+                            <AnalyseWord index={index} word={word} />)}
+                    </HeadWraper>
+                </Grid>
+                <Grid item xs={1} sm={4}>
+                    <PropertyCard label="Duration" value={audio.duration} color={"info"} decimals={3} ending="s" />
+                    <PropertyCard label="Correct" value={audio.correct} color={"success"} decimals={0} />
+                    <PropertyCard label="Insertions" value={audio.insertions} color={"warning"} decimals={0} />
+                    <PropertyCard label="Deletions" value={audio.deletions} color={"danger"} decimals={0} />
+                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"warning"} decimals={0} />
+                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"info"} ending="%" decimals={1} />
+                </Grid>
             </Grid>
             {/* <NewBL /> */}
             {/* <Old/> */}

@@ -419,13 +419,10 @@ const LivePreviewExample = () => {
                     Password
                   </InputLabel>
                   <Input
-<<<<<<< HEAD
                     id="password"
                     // value={localStorage.getItem(`${userName}Password`)}
-=======
                     inputProps={{autocomplete:"new-password"}}
-                    id="password"                    
->>>>>>> master
+
                     fullWidth
                     type="password"
                     startAdornment={
