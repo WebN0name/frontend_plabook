@@ -26,6 +26,7 @@ export default function  ReadingPage ({history}){
         text: ''
     })
     const [Recorder, setRecorder] = useState(null)
+    const [wrongAudio, setWrongAudio] = useState([])
     const [audio, setAudio] = useState([])
     const [wrongWord, setWrongWord] = useState('')
     const [blockButton, setBlockButton] = useState(false)
@@ -41,10 +42,9 @@ export default function  ReadingPage ({history}){
         }else{
             localStorage.setItem('testQueue', JSON.stringify(false))
             localStorage.setItem('Page', JSON.stringify(0))
-            console.log(bookForReading)
             getPermission()
         }
-    }, [])
+    },[])
 
     async function getPermission(){
         try {
@@ -110,8 +110,7 @@ export default function  ReadingPage ({history}){
                             }
                         }
                     })
-                    console.log(audioFiles)
-                    setAudio(audioFiles)
+                    setWrongAudio(wrongAudio => [...wrongAudio, {page: r.data.bookPage - 1, audioFiles: audioFiles}])
                     let tmp = bookForReading
                     let cnt = 0
                     for(let i = 0; i < tmp.texts[r.data.bookPage - 1].length; i++){
@@ -366,10 +365,15 @@ export default function  ReadingPage ({history}){
     const setWrongWordFunc = async (value) => {
         setWrongWord(value)
         const player = new Audio()
-        for(let i = 0; i < audio.length; i++){
-            if(audio[i].word === value){
-                console.log('1')
-                player.src = 'data:audio/wav;base64,' + audio[i].sound
+        let audioArr = []
+        wrongAudio.forEach(element => {
+            if(element.page === currentIndex){
+                audioArr = element.audioFiles
+            }
+        })
+        for(let i = 0; i < audioArr.length; i++){
+            if(audioArr[i].word === value){
+                player.src = 'data:audio/wav;base64,' + audioArr[i].sound
                 break
             }
         }

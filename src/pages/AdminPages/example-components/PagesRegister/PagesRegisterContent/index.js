@@ -377,9 +377,7 @@ const LivePreviewExample = () => {
         <p className="font-size-lg mb-5 text-black-50">
           {/* You already have an account?  */}
           Fill in the fields
-          below to login into your 
-          {/* existing  */}
-          dashboard.
+          below to login into your dashboard.
                           </p>
         <Card className="mx-0 bg-secondary mt-0 w-100 p-0 mb-4 border-0">
           {/* <WithSocial/> */}
@@ -413,7 +411,7 @@ const LivePreviewExample = () => {
                   </InputLabel>
                   <Input
                     id="password"
-                    value={localStorage.getItem(`${userName}Password`)}
+                    // value={localStorage.getItem(`${userName}Password`)}
                     fullWidth
                     type="password"
                     startAdornment={
@@ -425,7 +423,7 @@ const LivePreviewExample = () => {
                 </FormControl>
               </div>
               <div className="w-100">
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={
                     <Checkbox
                       checked={checked1}
@@ -435,7 +433,7 @@ const LivePreviewExample = () => {
                     />
                   }
                   label="Remember me"
-                />
+                /> */}
               </div>
               <div className="text-center">
                 <Button

@@ -42,14 +42,14 @@ const SidebarUserbox = props => {
         className={clsx('app-sidebar-userbox', {
           'app-sidebar-userbox--collapsed': sidebarToggle && !sidebarHover
         })}>
-        <IconButton
+        {/* <IconButton
           aria-controls="userMenu"
           onClick={openUserMenu}
           className="app-sidebar-userbox-btn"
           size="small">
           <MoreVertIcon fontSize="inherit" />
-        </IconButton>
-        <Menu
+        </IconButton> */}
+        {/* <Menu
           id="userMenu"
           anchorEl={anchorEl}
           keepMounted
@@ -124,7 +124,7 @@ const SidebarUserbox = props => {
               </Button>
             </div>
           </div>
-        </Menu>
+        </Menu> */}
         <Avatar
           alt="Remy Sharp"
           src={AvatarPicker().GetAvatar(admin.adminId)}

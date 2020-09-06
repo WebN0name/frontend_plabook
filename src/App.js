@@ -66,10 +66,11 @@ function App() {
           <Route exact path = "/" render = {() => {
             return <Redirect to = "/Login"/>
           }} />
-          <Route path="/Login" component = { PagesRegister }/>
+          <Route path="/Login" component = { Login }/>
           <Route path="/BookPick" component = { BookPick }/>
           <Route path="/ReadingPage" component = { ReadingPage } />
           <Route path="/Admin" component = { AdminPage }/>
+          <Route path="/TeacherLogin" component = {PagesRegister} />
         </Switch>
       </Router> 
     </div>

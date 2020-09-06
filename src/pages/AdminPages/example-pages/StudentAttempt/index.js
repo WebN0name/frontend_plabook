@@ -44,9 +44,11 @@ export default function StudentAttempt() {
 
     useEffect(() => {
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
-            r.data.resultBooks.forEach(element => {
+            console.log('111111')
+            console.log(r)
+            r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
-                    getBook(element.bookPages, attempt.Page)
+                    getBook(element.pages, attempt.Page)
                 }
             });
         })
@@ -151,7 +153,7 @@ export default function StudentAttempt() {
         rate: 88,
         accuracy: 97,
         comprehension: 40,
-        level: "Intermidate"
+        level: "intermediate"
     }
 
     const source = attempt ? attempt : example
@@ -357,7 +359,9 @@ export default function StudentAttempt() {
                         className="font-size-xxl "
                     />} onClick={() => window.history.back()}>Back</Button>
             </div>
+            <Grid container className="mb-1">
             <Rates />
+            <Grid item xs={12} sm={8}>
             <HeadWraper sectionHeading={
                 <div className="d-flex align-items-center">
                     <p className="m-2">Play Attempt Recording</p>
@@ -367,12 +371,16 @@ export default function StudentAttempt() {
             <HeadWraper sectionHeading="Source Text">
                 {text}
             </HeadWraper>
-            <HeadWraper sectionHeading="Attempt Result ">
-                {ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 badge badge-${word.isCorrect ? "success" : "danger"}`}>{word.word}</div>)}
-            </HeadWraper>
+            {
+                source["Running Records"] !== null &&
+                <HeadWraper sectionHeading="Attempt Result">
+                    {source["Running Records"] ? ConvertToArray(source["Running Records"]).map(word => <div className={`m-1 badge badge-${word.isCorrect ? "success" : "danger"} attemptWord`} onMouseOver = {console.log('1')} style = {{ cursor: 'pointer' }}>{word.word}</div>) : null}
+                </HeadWraper>
+            }
+            </Grid>
+            </Grid>
             {/* <NewBL /> */}
             {/* <Old/> */}
         </Fragment>
-
     );
 }

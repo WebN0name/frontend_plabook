@@ -281,7 +281,7 @@ export default function Students() {
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
                     <td className={`text-${labels[2]}`}>
                         <Button onClick={() => {handleCopy(student.personalLink)}} className="m-2">
-                            Copy Link
+                        Copy Login Link
                             <Clipboard className="font-size-lg ml-1" />
                         </Button>
                     </td>

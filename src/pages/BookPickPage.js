@@ -26,28 +26,28 @@ export default function BookPick({ history }){
             })
             let allTexts = []
             // let _id = 0
-            //     for(let i = 0; i< Allbooks.resultBooks.length; i++){
+            //     for(let i = 0; i< Allbooks.length; i++){
             //         for(let j = 0; j <userBooks.length; j++){
-            //             if(Allbooks.resultBooks[i].name === userBooks[j]){
+            //             if(Allbooks[i].name === userBooks[j]){
             //                 let tmp = {
             //                     id: _id,
-            //                     author: Allbooks.resultBooks[i].author,
-            //                     name: Allbooks.resultBooks[i].name,
-            //                     image: Allbooks.resultBooks[i].image,
-            //                     bookPages: Allbooks.resultBooks[i].bookPages
+            //                     author: Allbooks[i].author,
+            //                     name: Allbooks[i].name,
+            //                     image: Allbooks[i].image,
+            //                     bookPages: Allbooks[i].bookPages
             //                 }
             //                 _id++
             //                 allTexts.push(tmp)
             //             }
             //         }
             //     }
-            for(let i = 0; i< Allbooks.resultBooks.length; i++){
+            for(let i = 0; i< Allbooks.length; i++){
                 let tmp = {
                     id: i,
-                    author: Allbooks.resultBooks[i].author,
-                    name: Allbooks.resultBooks[i].name,
-                    image: Allbooks.resultBooks[i].image,
-                    bookPages: Allbooks.resultBooks[i].bookPages
+                    author: Allbooks[i].author,
+                    name: Allbooks[i].name,
+                    image: "https://plabookeducation.com/"+Allbooks[i].image,
+                    bookPages: Allbooks[i].pages
                 }
                 allTexts.push(tmp)
             }
@@ -65,15 +65,15 @@ export default function BookPick({ history }){
                 localStorage.setItem('allBooks', JSON.stringify(r.data))
                 let allTexts = []
                 let _id = 0
-                for(let i = 0; i< r.data.resultBooks.length; i++){
+                for(let i = 0; i< r.data.length; i++){
                     for(let j = 0; j <userBooks.length; j++){
-                        if(r.data.resultBooks[i].name === userBooks[j]){
+                        if(r.data[i].name === userBooks[j]){
                             let tmp = {
                                 id: _id,
-                                author: r.data.resultBooks[i].author,
-                                name: r.data.resultBooks[i].name,
-                                image: r.data.resultBooks[i].image,
-                                bookPages: r.data.resultBooks[i].bookPages
+                                author: r.data[i].author,
+                                name: r.data[i].name,
+                                image: "https://plabookeducation.com/"+r.data[i].image,
+                                bookPages: r.data[i].pages
                             }
                             _id++
                             allTexts.push(tmp)

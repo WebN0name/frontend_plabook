@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {useLocation} from 'react-router-dom'
 import axios from 'axios'
 import nextOff from '../assets/img/next_off.svg'
@@ -14,8 +14,17 @@ export default function Login({ history }){
     const [password, setPassword] = useState('')
     const [next, setNext] = useState(nextOn)
 
+    useEffect(() =>{
+        let urlParams = location.pathname.split('/')
+
+        if(urlParams[2] === 'teacher'){
+            history.push(`/TeacherLogin/${urlParams[2]}/${urlParams[3]}`)
+        }
+    }, [])
+
     function sendPassword(){
         let urlParams = location.pathname.split('/')
+        console.log(password)
         axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3],{
             pin: password,
         }).then(r => {
@@ -79,6 +88,7 @@ export default function Login({ history }){
                         history.push('/Admin')
                     }, 200);
                 }else{
+                    console.log(r.data)
                     userBooksDispatch({
                         type: 'setUserBooks',
                         payload: r.data
@@ -95,10 +105,10 @@ export default function Login({ history }){
                     }, 200)
                 }
 
-                // setNext(nextOff)
-                // setTimeout(() => {
-                //     history.push('/BookPick')
-                // }, 200)
+                setNext(nextOff)
+                setTimeout(() => {
+                    history.push('/BookPick')
+                }, 200)
             }else{
                 setError(true)
             }
@@ -122,6 +132,8 @@ export default function Login({ history }){
             sendPassword()
         }
     }
+
+    //for commit
 
     return(
         <div className = "loginWrapper">

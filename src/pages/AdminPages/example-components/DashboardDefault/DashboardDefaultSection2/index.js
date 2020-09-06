@@ -563,7 +563,7 @@ export default function LivePreviewExample() {
                 View all
             </Button>
               <Button size="small" variant="contained" color="secondary">
-                Add new entry
+                Add new student
             </Button>
             </div>
           </div>
@@ -595,14 +595,14 @@ export default function LivePreviewExample() {
               <Tab label="Last year" />
             </Tabs>
           </div>
-          <div className="p-4">
+          {/* <div className="p-4">
             <h6 className="font-weight-bold font-size-lg mb-1 text-black">
               Performance
               </h6>
             <p className="text-black-50 mb-0">
               Portfolio performance for selected period.
               </p>
-          </div>
+          </div> */}
           <Divider />
           <TabPanel value={value} index={0}>
             <Grid container spacing={4}>
@@ -655,7 +655,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Projects</div>
+                    <div className="font-weight-bold">Books read</div>
                     <div className="font-size-lg font-weight-bold text-success">
                       936
                       </div>
@@ -676,7 +676,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Customers</div>
+                    <div className="font-weight-bold">Attempts</div>
                     <div className="font-size-lg font-weight-bold text-warning">
                       435
                       </div>
@@ -701,7 +701,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Files</div>
+                    <div className="font-weight-bold">Books read</div>
                     <div className="font-size-lg font-weight-bold text-second">
                       3,494
                       </div>
@@ -722,7 +722,7 @@ export default function LivePreviewExample() {
               <Grid item xs={6}>
                 <div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div className="font-weight-bold">Uploads</div>
+                    <div className="font-weight-bold">Attempts</div>
                     <div className="font-size-lg font-weight-bold text-primary">
                       57,467
                       </div>

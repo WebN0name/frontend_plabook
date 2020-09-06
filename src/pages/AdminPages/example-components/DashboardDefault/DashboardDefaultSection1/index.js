@@ -19,7 +19,7 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-first text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'keyboard']} />
               </div>
-              <div className="text-black-50">Avarage Mark</div>
+              <div className="text-black-50">Average Mark</div>
             </div>
             <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon
@@ -39,7 +39,7 @@ export default function LivePreviewExample() {
               <div className="d-40 rounded-circle bg-success text-white text-center font-size-lg mr-3">
                 <FontAwesomeIcon icon={['far', 'file-excel']} />
               </div>
-              <div className="text-black-50">Avarage error</div>
+              <div className="text-black-50">Average error</div>
             </div>
             <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
               <FontAwesomeIcon

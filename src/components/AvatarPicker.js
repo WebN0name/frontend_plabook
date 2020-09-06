@@ -28,15 +28,15 @@ export default function AvatarPicker()
 {
     const persons=[
         {
-            id: 'Student1',
+            id: 'JaneDoe',
             avatar: avatar3,
         },
         {
-            id: 'Student2',
+            id: 'DannyMalkou',
             avatar: avatar1,
         },
         {
-            id: 'Student3',
+            id: 'MarioRossi',
             avatar: avatar6,
         },
         {
@@ -76,13 +76,61 @@ export default function AvatarPicker()
             avatar: avatar11,
         },
         {
+            id: 'MariBell',
+            avatar: tavatar7,
+        },
+        {
+            id: 'MariSiemens',
+            avatar: tavatar1,
+        },
+        {
             id: 'Teacher1',
-            avatar: tavatar3,
+            avatar: tavatar1,
         },
         {
             id: 'Teacher2',
             avatar: tavatar1,
         },
+        {
+            id: 'Student1',
+            avatar: avatar1,
+        },
+        {
+            id: 'Student2',
+            avatar: avatar2,
+        },
+        {
+            id: 'Student3',
+            avatar: avatar3,
+        },
+        {
+            id: 'Student4',
+            avatar: avatar4,
+        },
+        {
+            id: 'Student5',
+            avatar: avatar5,
+        },
+        {
+            id: 'Student6',
+            avatar: avatar6,
+        },
+        {
+            id: 'Student7',
+            avatar: avatar7,
+        },
+        {
+            id: 'Student8',
+            avatar: avatar8,
+        },
+        {
+            id: 'Student9',
+            avatar: avatar9,
+        },
+        {
+            id: 'Student10',
+            avatar: avatar10,
+        }
     ]
 
     return{
