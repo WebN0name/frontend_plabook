@@ -45,11 +45,12 @@ export default function StudentAttempt() {
     const history = useHistory();
 
     useEffect(() => {
-        if(attempt["Recognizer"] === 'soapbox'){
-            console.log(JSON.parse(attempt["JSON"]))
-        }else{
+        // if(attempt["Recognizer"] === 'soapbox'){
+        //     console.log("JSON с запроса")
+        //     console.log(JSON.parse(attempt["JSON"]))
+        // }else{
             
-        }
+        // }
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
@@ -409,7 +410,7 @@ export default function StudentAttempt() {
             }
         }
 
-        const wordInfo = audio.wordInfo[index]
+        const wordInfo = JSON.parse(attempt["JSON"]).wordInfo[index]
 
         const fromJSON = Boolean(wordInfo) ? wordInfo : fromJSONexample
 
@@ -493,7 +494,7 @@ export default function StudentAttempt() {
                         </Box>
                     </HeadWraper>
                     <HeadWraper sectionHeading="Reading Analysis">
-                        {ConvertToArray(source["Running Records"]).map((word, index) =>
+                        {attempt && attempt.JSON && ConvertToArray(source["Running Records"]).map((word, index) =>
                             <AnalyseWord index={index} word={word} />)}
                     </HeadWraper>
                 </Grid>
