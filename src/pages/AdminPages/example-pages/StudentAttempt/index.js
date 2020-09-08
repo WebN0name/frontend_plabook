@@ -32,6 +32,7 @@ export default function StudentAttempt() {
     const { id } = useParams();
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
+    
 
 
     const audio = QuareFake()
@@ -39,12 +40,16 @@ export default function StudentAttempt() {
     for (let key in audio)
         if (!isNaN(parseInt(key)))
             audio.wordInfo.push(audio[key])
-    console.log(audio)
 
 
     const history = useHistory();
 
     useEffect(() => {
+        if(attempt["Recognizer"] === 'soapbox'){
+            console.log(JSON.parse(attempt["JSON"]))
+        }else{
+            
+        }
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
