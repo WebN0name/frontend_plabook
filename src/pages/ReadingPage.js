@@ -92,7 +92,8 @@ export default function  ReadingPage ({history}){
                 recordId: id,
                 username: user,
                 textName : bookForReading.name,
-                bookPage: page.currentIndex + 1
+                bookPage: page.currentIndex + 1,
+                record: page.finalString
             }).then(r => {
                 console.log(r)
                 if(!r.data.error){

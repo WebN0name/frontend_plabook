@@ -62,7 +62,7 @@ export default function BookPick({ history }){
             })
             axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             if(r.data){
-                localStorage.setItem('allBooks', JSON.stringify(r.data))
+                // localStorage.setItem('allBooks', JSON.stringify(r.data))
                 let allTexts = []
                 let _id = 0
                 for(let i = 0; i< r.data.length; i++){

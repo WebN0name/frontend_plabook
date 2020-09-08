@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useContext, useRef } from 'react';
 import { useParams, useHistory } from "react-router-dom"
 import theme from "./theme"
 import axios from 'axios'
@@ -32,9 +32,6 @@ export default function StudentAttempt() {
     const { id } = useParams();
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
-
-    console.log(attempt)
-    console.log(student)
 
 
     const audio = QuareFake()
@@ -133,6 +130,12 @@ export default function StudentAttempt() {
         }
         return effected
     }
+
+    // function getAudioLength(){
+    //     var myAudio = document.getElmentById('my-audio')
+    //     console.log(myAudio)
+    //     return 15.3
+    // }
 
     //#endregion
 
@@ -358,16 +361,18 @@ export default function StudentAttempt() {
         )
     }
 
+
     const AnalyseWord = (props) => {
         const { word } = props
         const { index } = props
 
         const [anchorEl, setAnchorEl] = useState(null);
 
-        const handlePopoverClick = (event) => {
+        const handlePopoverEnter = (event) => {
             // setPhonemes(fromJSON.phonemes)
             setAnchorEl(event.currentTarget);
         };
+        
 
         const example = {
             state: word.isCorrect ? "Correct" : "Wrong",
@@ -423,8 +428,8 @@ export default function StudentAttempt() {
         return (
             <Fragment>
                 <Box
-                    onClick={handlePopoverClick}
-                    className={`m-1 text-white ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
+                    onMouseEnter={handlePopoverEnter}
+                    className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
                     {word.word}
                 </Box>
                 <Popover
