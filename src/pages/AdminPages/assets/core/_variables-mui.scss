@@ -1,9 +1,29 @@
-$primary: '#123A53';
+@import './plabook.scss';
+
+$primary: '#71bceb';
 $primaryLight: '#495368';
 $primaryDark: '#09142a';
 $secondary: '#3d4977';
 $inheritDefault1: '#fefefe';
 $inheritDefault2: '#f8f9ff';
+
+$second: '#070919';
+$indigo: '#7420ff';
+$purple: '#793de6';
+$pink: '#fc26a4';
+$red: '#f83245';
+$orange: '#f4772e';
+$yellow: '#ffc926';
+$green: '#1bc943';
+$teal: '#18e1a5';
+$cyan: '#27dcf3';
+
+$primary: '#{$plabook-primary}';
+$primaryLight: '#{$plabook-secondary}';
+$primaryDark: '#{$plabook-primary}';
+$secondary:  '#{$plabook-secondary}';
+$inheritDefault1: '#98179e';
+$inheritDefault2: '#98179e';
 
 $second: '#070919';
 $indigo: '#7420ff';

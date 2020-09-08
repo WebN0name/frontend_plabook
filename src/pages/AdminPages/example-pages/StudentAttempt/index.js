@@ -184,7 +184,7 @@ export default function StudentAttempt() {
         return (
             <Grid container className="mb-1" spacing={4}>
                 <Grid item xs={12} sm={6} lg={3}>
-                    <Card className="card-box card-box-border-bottom border-danger card-shadow-danger mb-4">
+                    <Card className="card-box card-box-border-bottom border-plabook-info card-shadow-plabook-info mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
@@ -213,7 +213,7 @@ export default function StudentAttempt() {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={6} lg={3}>
-                    <Card className="card-box card-box-border-bottom border-success card-shadow-success mb-4">
+                    <Card className="card-box card-box-border-bottom border-plabook-success card-shadow-plabook-success mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
@@ -235,7 +235,7 @@ export default function StudentAttempt() {
                                     size={60} // Number: Defines the size of the circle.
                                     lineWidth={20} // Number: Defines the thickness of the circle's stroke.
                                     progress={parseFloat(attempt.Proficiency.replace("%", ""))} // Number: Update to change the progress and percentage.
-                                    progressColor="#1bc943" // String: Color of "progress" portion of circle.
+                                    progressColor="#BAD628" // String: Color of "progress" portion of circle.
                                     bgColor="rgba(27, 201, 67, 0.15)" // String: Color of "empty" portion of circle.
                                     textColor="#3b3e66" // String: Color of percentage text color.percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
                                     roundedStroke={true}
@@ -251,7 +251,7 @@ export default function StudentAttempt() {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={6} lg={3}>
-                    <Card className="card-box card-box-border-bottom border-warning card-shadow-warning mb-4">
+                    <Card className="card-box card-box-border-bottom border-plabook-info card-shadow-plabook-info mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
@@ -274,7 +274,7 @@ export default function StudentAttempt() {
                                     size={60} // Number: Defines the size of the circle.
                                     lineWidth={20} // Number: Defines the thickness of the circle's stroke.
                                     progress={example.comprehension} // Number: Update to change the progress and percentage.
-                                    progressColor="#f4772e" // String: Color of "progress" portion of circle.
+                                    progressColor="#44AEC9" // String: Color of "progress" portion of circle.
                                     bgColor="rgba(17, 197, 219, 0.15)" // String: Color of "empty" portion of circle.
                                     textColor="#3b3e66" // String: Color of percentage text color.percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
                                     roundedStroke={true}
@@ -290,12 +290,12 @@ export default function StudentAttempt() {
                     </Card>
                 </Grid>
                 <Grid item xs={12} sm={6} lg={3}>
-                    <Card className="card-box card-box-border-bottom border-info card-shadow-info mb-4">
+                    <Card className="card-box card-box-border-bottom border-plabook-info-light card-shadow-plabook-info-light mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
                                 <div className=" text-uppercase pb-2 font-size-sm">
                                     Level
-                </div>
+                                </div>
                                 <h3 className="font-weight-bold display-4 mb-0 text-black">
                                     {/* <FontAwesomeIcon
                     icon={['fas', 'chevron-down']}
@@ -408,13 +408,13 @@ export default function StudentAttempt() {
         switch (fromJSON.align) {
             case "DELETION":color = "danger"
                 break;
-            case "SUBSTITUTION":color = "warning"
+            case "SUBSTITUTION":color = "plabook-warning-light"
                 break;
-            case "CORRECT": color = "success"
+            case "CORRECT": color = "plabook-success"
                 break;
-            case "INSERTION":color = "warning"
+            case "INSERTION":color = "plabook-warning"
                 break;
-            default: color = "warning"
+            default: color = "plabook-warning"
                 break;
         }
         // danger|warning|info|success
@@ -424,7 +424,7 @@ export default function StudentAttempt() {
             <Fragment>
                 <Box
                     onClick={handlePopoverClick}
-                    className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
+                    className={`m-1 text-white ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
                     {word.word}
                 </Box>
                 <Popover
@@ -488,12 +488,12 @@ export default function StudentAttempt() {
                     </HeadWraper>
                 </Grid>
                 <Grid item xs={1} sm={4}>
-                    <PropertyCard label="Duration" value={audio.duration} color={"info"} decimals={3} ending="s" />
-                    <PropertyCard label="Correct" value={audio.correct} color={"success"} decimals={0} />
-                    <PropertyCard label="Insertions" value={audio.insertions} color={"warning"} decimals={0} />
+                    <PropertyCard label="Duration" value={audio.duration} color={"plabook-info"} decimals={3} ending="s" />
+                    <PropertyCard label="Correct" value={audio.correct} color={"plabook-success"} decimals={0} />
+                    <PropertyCard label="Insertions" value={audio.insertions} color={"plabook-warning"} decimals={0} />
                     <PropertyCard label="Deletions" value={audio.deletions} color={"danger"} decimals={0} />
-                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"warning"} decimals={0} />
-                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"info"} ending="%" decimals={1} />
+                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"plabook-warning-light"} decimals={0} />
+                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"plabook-info-light"} ending="%" decimals={1} />
                 </Grid>
             </Grid>
             {/* <NewBL /> */}

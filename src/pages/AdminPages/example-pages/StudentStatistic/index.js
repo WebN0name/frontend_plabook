@@ -330,7 +330,7 @@ export default function StudentsStatistic() {
     return (
         <Fragment>
             <PageTitle
-                titleHeading={`${student && student.name}'${student.name[student.name.length-1].toLowerCase() =="s" ? "" :"s"} Statistic`}
+                titleHeading={`${student && student.name}'${student.name[student.name.length-1].toLowerCase() =="s" ? "" :"s"} Progress`}
             /> 
             <Button
                 className="m-1"

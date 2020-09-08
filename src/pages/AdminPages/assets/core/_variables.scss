@@ -34,7 +34,7 @@ $grays: map-merge(
     $grays
 );
 
-$first:   #5383ff;
+$first:   #161ea3; //#161ea3
 $second:  $black;
 $blue:    #263055;
 $indigo:  #7420ff;
@@ -98,6 +98,22 @@ $slack:         #3aaf85;
 $dribbble:      #ea4c89;
 $github:        #222222;
 
+//Plabook colors
+@import './plabook.scss';
+
+$plabook-theme: (
+        "plabook-primary":              $plabook-primary,
+        "plabook-secondary":            $plabook-secondary,
+        "plabook-success":              $plabook-success,
+        "plabook-success-light":        $plabook-success-light,
+        "plabook-warning":              $plabook-warning,
+        "plabook-warning-light":        $plabook-warning-light,
+        "plabook-info":                 $plabook-info,
+        "plabook-info-light":           $plabook-info-light,
+        "plabook-light":                $plabook-light,
+        "plabook-dark":                 $plabook-dark,
+);
+
 $theme-colors: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
@@ -116,6 +132,8 @@ $theme-colors: map-merge(
     ),
     $theme-colors
 );
+
+$theme-colors: map-merge($plabook-theme, $theme-colors);
 
 $theme-colors-neutral: ();
 $theme-colors-neutral: map-merge(

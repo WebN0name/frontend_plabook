@@ -22,7 +22,8 @@ export default function PropertyCard(props) {
     const classes = useStyles();
 
     return (
-        <Card className={`card-box card-box-border-bottom border-${color} card-shadow-${color} mb-4`}>
+        // <Card className={`card-box card-box-border-bottom border-${color} card-shadow-${color} mb-4`}>
+        <Card className={`card-box  mb-4`}>
             <div className="d-flex justify-content-between align-items-center">
                 <div className="p-3">
                     <div className=" text-uppercase pb-2 font-size-sm">

@@ -56,7 +56,6 @@ const SidebarMenuListItem = props => {
         className={clsx('app-sidebar-item', className)}
         disableGutters>
         <Button
-          color="primary"
           className={clsx('app-sidebar-button', { active: open })}
           onClick={handleToggle}
           style={style}>
