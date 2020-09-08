@@ -142,6 +142,7 @@ export default function  ReadingPage ({history}){
                         payload: tmp
                     })
                 }else{
+                    localStorage.setItem('testQueue', JSON.stringify(false))
                     let tmp = bookForReading
                     tmp.dots.forEach(element => {
                         if(element.id === page.currentIndex){
