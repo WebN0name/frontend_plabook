@@ -8,7 +8,7 @@ import Context from '../Context'
 export default function Login({ history }){
     let location = useLocation()
 
-    const {userDispatch, userBooksDispatch, adminDispatch} = useContext(Context)
+    const {userDispatch, userBooksDispatch, adminDispatch, booksDispatch} = useContext(Context)
     const [error, setError] = useState(false)
 
     const [password, setPassword] = useState('')
@@ -24,7 +24,6 @@ export default function Login({ history }){
 
     function sendPassword(){
         let urlParams = location.pathname.split('/')
-        console.log(password)
         axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3],{
             pin: password,
         }).then(r => {
@@ -89,14 +88,33 @@ export default function Login({ history }){
                     }, 200);
                 }else{
                     console.log(r.data)
-                    userBooksDispatch({
-                        type: 'setUserBooks',
-                        payload: r.data
-                    })
+                    // userBooksDispatch({
+                    //     type: 'setUserBooks',
+                    //     payload: r.data
+                    // })
 
                     userDispatch({
                         type: 'setUser',
                         payload: urlParams[3]
+                    })
+
+                    let allTexts = []
+
+                    for(let i=0; i<r.data.length; i++){
+                        let tmp = {
+                            id: i,
+                            author:r.data[i].author,
+                            name: r.data[i].name,
+                            image: r.data[i].image,
+                            bookPages: r.data[i].pages
+                        }
+
+                        allTexts.push(tmp)
+                    }
+
+                    booksDispatch({
+                        type: 'setBooks',
+                        payload: allTexts
                     })
                     
                     setNext(nextOff)
@@ -105,10 +123,10 @@ export default function Login({ history }){
                     }, 200)
                 }
 
-                setNext(nextOff)
-                setTimeout(() => {
-                    history.push('/BookPick')
-                }, 200)
+                // setNext(nextOff)
+                // setTimeout(() => {
+                //     history.push('/BookPick')
+                // }, 200)
             }else{
                 setError(true)
             }

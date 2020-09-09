@@ -36,10 +36,10 @@ export default function StudentAttempt() {
 
 
     const audio = QuareFake()
-    audio['wordInfo'] = []
-    for (let key in audio)
+    attempt['wordInfo'] = []
+    for (let key in JSON.parse(attempt.phonic))
         if (!isNaN(parseInt(key)))
-            audio.wordInfo.push(audio[key])
+        attempt.wordInfo.push(JSON.parse(attempt.phonic)[key])
 
 
     const history = useHistory();
@@ -51,6 +51,7 @@ export default function StudentAttempt() {
         // }else{
             
         // }
+        console.log(JSON.parse(attempt.phonic))
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
@@ -410,13 +411,13 @@ export default function StudentAttempt() {
             }
         }
 
-        const wordInfo = JSON.parse(attempt["JSON"]).wordInfo[index]
+        const wordInfo = JSON.parse(attempt.phonic).wordInfo[index]
 
         const fromJSON = Boolean(wordInfo) ? wordInfo : fromJSONexample
 
         let color = ""
 
-        switch (fromJSON.align) {
+        switch (word.align) {
             case "DELETION":color = "danger"
                 break;
             case "SUBSTITUTION":color = "plabook-warning-light"
@@ -434,9 +435,9 @@ export default function StudentAttempt() {
         return (
             <Fragment>
                 <Box
-                    onMouseEnter={handlePopoverEnter}
+                    onClick={handlePopoverEnter}
                     className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
-                    {word.word}
+                    {word.recognized}
                 </Box>
                 <Popover
                     open={Boolean(anchorEl)}
@@ -490,12 +491,14 @@ export default function StudentAttempt() {
 
                     <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
-                            <Phonemer phonemes={audio.wordInfo[0].phonemes}/>
+                            <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes}/>
                         </Box>
                     </HeadWraper>
                     <HeadWraper sectionHeading="Reading Analysis">
-                        {attempt && attempt.JSON && ConvertToArray(source["Running Records"]).map((word, index) =>
-                            <AnalyseWord index={index} word={word} />)}
+                        {
+                        attempt.wordInfo.map((word) =>
+                            <AnalyseWord word={word} />)
+                        }
                     </HeadWraper>
                 </Grid>
                 <Grid item xs={1} sm={4}>

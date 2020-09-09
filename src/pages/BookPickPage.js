@@ -13,7 +13,8 @@ export default function BookPick({ history }){
     const [currentBook, setCurrentBook] = useState(null)
 
     useEffect(() => {
-        getAllBooks()
+        // getAllBooks()
+        // console.log(books)
     }, [])
 
     function getAllBooks(){
@@ -25,22 +26,22 @@ export default function BookPick({ history }){
                 payload: Allbooks.stopWords
             })
             let allTexts = []
-            // let _id = 0
-            //     for(let i = 0; i< Allbooks.length; i++){
-            //         for(let j = 0; j <userBooks.length; j++){
-            //             if(Allbooks[i].name === userBooks[j]){
-            //                 let tmp = {
-            //                     id: _id,
-            //                     author: Allbooks[i].author,
-            //                     name: Allbooks[i].name,
-            //                     image: Allbooks[i].image,
-            //                     bookPages: Allbooks[i].bookPages
-            //                 }
-            //                 _id++
-            //                 allTexts.push(tmp)
-            //             }
-            //         }
-            //     }
+            let _id = 0
+                for(let i = 0; i< Allbooks.length; i++){
+                    for(let j = 0; j <userBooks.length; j++){
+                        if(Allbooks[i].name === userBooks[j]){
+                            let tmp = {
+                                id: _id,
+                                author: Allbooks[i].author,
+                                name: Allbooks[i].name,
+                                image: Allbooks[i].image,
+                                bookPages: Allbooks[i].bookPages
+                            }
+                            _id++
+                            allTexts.push(tmp)
+                        }
+                    }
+                }
             for(let i = 0; i< Allbooks.length; i++){
                 let tmp = {
                     id: i,
@@ -62,7 +63,7 @@ export default function BookPick({ history }){
             })
             axios.get('https://plabookeducation.com/getAllBooks').then(r => {
             if(r.data){
-                // localStorage.setItem('allBooks', JSON.stringify(r.data))
+                localStorage.setItem('allBooks', JSON.stringify(r.data))
                 let allTexts = []
                 let _id = 0
                 for(let i = 0; i< r.data.length; i++){
@@ -108,6 +109,7 @@ export default function BookPick({ history }){
         if(currentBook !== null){
             setButtonGo(Go_off)
             setTimeout(() => {
+                console.log(books)
                 books.forEach(element => {
                     if(element.id === currentBook){
                         let textsArrays = []
@@ -217,7 +219,7 @@ export default function BookPick({ history }){
         return finalText
     }
 
-    if(userBooks){
+    // if(userBooks){
         return(
             <>
             <Preloader loader = {loaderState}/>
@@ -228,10 +230,10 @@ export default function BookPick({ history }){
             </div>
             </>
         )
-    }else{
-        history.push('/Login')
-        return null
-    }
+    // }else{
+    //     history.push('/Login')
+    //     return null
+    // }
 
     
 }

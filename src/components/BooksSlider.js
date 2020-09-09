@@ -7,6 +7,10 @@ const BooksSlider = ({books, setBook}) =>{
     const [booksSlideIndex, setIndex] = useState(3)
     const [currentBook, setCurrentBook] = useState(null)
 
+    useEffect(() =>{
+        console.log(books[0])
+    },[])
+
     function booksVision(id, index){
         if((id <= index - 4) || (id > index)){
             return{
@@ -63,7 +67,7 @@ const BooksSlider = ({books, setBook}) =>{
                     <div className = "book" key ={ book.id } style = { booksVision(book.id, booksSlideIndex) }>
                         <p className = "bookName">{book.name}</p>
                         <div>
-                            <img src = { book.image } alt = { 'book' } onClick = {() => BookPick(book.id)} style = { currentBookStyle(currentBook, book.id) }/>
+                            <img src = { `https://plabookeducation.com/${book.image}` } alt = { 'book' } onClick = {() => BookPick(book.id)} style = { currentBookStyle(currentBook, book.id) }/>
                             <p className = "author">{book.author}</p>
                         </div>
                     </div>
