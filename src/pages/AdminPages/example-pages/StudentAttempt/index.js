@@ -33,6 +33,11 @@ export default function StudentAttempt() {
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
 
+<<<<<<< Updated upstream
+=======
+    const[wordIndex, setWordIndex] = useState(0)
+    
+>>>>>>> Stashed changes
 
 
     const audio = QuareFake()
@@ -369,6 +374,7 @@ export default function StudentAttempt() {
     }
 
 
+<<<<<<< Updated upstream
     const AnalysePreview = (props) => {        
 
         const [anchorEl, setAnchorEl] = useState(null);
@@ -444,12 +450,14 @@ export default function StudentAttempt() {
     const AnalyseWord = (props) => {
         const { word } = props
         const { index } = props
+=======
+    const AnalyseWord = ({word, index}) => {
+>>>>>>> Stashed changes
 
         const [anchorEl, setAnchorEl] = useState(null);
 
         const handlePopoverEnter = (event) => {
-            // setPhonemes(fromJSON.phonemes)
-            setAnchorEl(event.currentTarget);
+            setAnchorEl(event.currentTarget)
         };
 
 
@@ -531,7 +539,16 @@ export default function StudentAttempt() {
         )
     }
 
+<<<<<<< Updated upstream
 
+=======
+    function SetPhonemes(index){
+        console.log(index)
+        setWordIndex(index)
+    }
+
+    
+>>>>>>> Stashed changes
     return (
         <Fragment>
             <PageTitle
@@ -563,13 +580,22 @@ export default function StudentAttempt() {
                     <AnalysePreview/>    
                     {/* <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
+<<<<<<< Updated upstream
                             <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />
+=======
+                            <Phonemer phonemes={JSON.parse(attempt.phonic)[wordIndex].phonemes}/>
+>>>>>>> Stashed changes
                         </Box>
                     </HeadWraper>
                     <HeadWraper sectionHeading="Reading Analysis">
                         {
+<<<<<<< Updated upstream
                             attempt.wordInfo.map((word) =>
                                 <AnalyseWord word={word} />)
+=======
+                        attempt.wordInfo.map((word) =>
+                            <AnalyseWord word={word} onClick = {() => SetPhonemes(word.reference_index)}/>)
+>>>>>>> Stashed changes
                         }
                     </HeadWraper> */}
                 </Grid>
