@@ -105,3 +105,4 @@ export { default as Maps } from './Maps';
 export { default as ListGroups } from './ListGroups';
 export { default as StudentsQ } from './StudentsQ';
 export { default as StudentsStatistic } from './StudentsStatistic';
+export { default as AddBook } from './AddBook';

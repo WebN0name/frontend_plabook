@@ -32,14 +32,14 @@ export default function StudentAttempt() {
     const { id } = useParams();
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
-    
+
 
 
     const audio = QuareFake()
     attempt['wordInfo'] = []
     for (let key in JSON.parse(attempt.phonic))
         if (!isNaN(parseInt(key)))
-        attempt.wordInfo.push(JSON.parse(attempt.phonic)[key])
+            attempt.wordInfo.push(JSON.parse(attempt.phonic)[key])
 
 
     const history = useHistory();
@@ -49,7 +49,7 @@ export default function StudentAttempt() {
         //     console.log("JSON с запроса")
         //     console.log(JSON.parse(attempt["JSON"]))
         // }else{
-            
+
         // }
         console.log(JSON.parse(attempt.phonic))
         axios.get('https://plabookeducation.com/getAllBooks').then(r => {
@@ -369,6 +369,78 @@ export default function StudentAttempt() {
     }
 
 
+    const AnalysePreview = (props) => {        
+
+        const [anchorEl, setAnchorEl] = useState(null);
+        const [phonemes, setPhonemes] = useState(null);
+
+        const handlePopoverEnter = (event) => {
+            setPhonemes(null)
+            setAnchorEl(event.currentTarget);
+        };
+
+        return (
+            <Fragment>
+                <HeadWraper sectionHeading="Phonemes">
+                    <Box id="phonemes-container">
+                        <Phonemer phonemes={phonemes} />
+                    </Box>
+                </HeadWraper>
+                <HeadWraper sectionHeading="Reading Analysis">
+                    {
+                        attempt.wordInfo.map((word) => {
+
+                            let color = ""
+
+                            switch (word.align) {
+                                case "DELETION": color = "danger"
+                                    break;
+                                case "SUBSTITUTION": color = "plabook-warning-light"
+                                    break;
+                                case "CORRECT": color = "plabook-success"
+                                    break;
+                                case "INSERTION": color = "plabook-warning"
+                                    break;
+                                default: color = "plabook-warning"
+                                    break;
+                            }
+
+                            return (
+                                <Fragment>
+                                    <Box
+                                        onClick={(event) => {
+                                            setPhonemes(word.phonemes)
+                                            setAnchorEl(event.currentTarget);
+                                        }}
+                                        className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
+                                        {word.recognized}
+                                    </Box>
+                                    <Popover
+                                        open={Boolean(anchorEl)}
+                                        onClose={() => { setAnchorEl(null) }}
+                                        onEnter={() => { }}
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'center',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center',
+                                        }}
+                                    >
+                                        <WordInfo word={word} />
+                                    </Popover>
+                                </Fragment>
+                            )
+                        }
+                        )
+                    }
+                </HeadWraper>
+            </Fragment>
+        )
+    }
+
     const AnalyseWord = (props) => {
         const { word } = props
         const { index } = props
@@ -379,7 +451,7 @@ export default function StudentAttempt() {
             // setPhonemes(fromJSON.phonemes)
             setAnchorEl(event.currentTarget);
         };
-        
+
 
         const example = {
             state: word.isCorrect ? "Correct" : "Wrong",
@@ -418,13 +490,13 @@ export default function StudentAttempt() {
         let color = ""
 
         switch (word.align) {
-            case "DELETION":color = "danger"
+            case "DELETION": color = "danger"
                 break;
-            case "SUBSTITUTION":color = "plabook-warning-light"
+            case "SUBSTITUTION": color = "plabook-warning-light"
                 break;
             case "CORRECT": color = "plabook-success"
                 break;
-            case "INSERTION":color = "plabook-warning"
+            case "INSERTION": color = "plabook-warning"
                 break;
             default: color = "plabook-warning"
                 break;
@@ -459,7 +531,7 @@ export default function StudentAttempt() {
         )
     }
 
-    
+
     return (
         <Fragment>
             <PageTitle
@@ -488,18 +560,18 @@ export default function StudentAttempt() {
                         </div>} className="mb-4">
                         <audio className="m-0" controls src={source.Audiofile}></audio>
                     </HeadWraper>
-
-                    <HeadWraper sectionHeading="Phonemes">
+                    <AnalysePreview/>    
+                    {/* <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
-                            <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes}/>
+                            <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />
                         </Box>
                     </HeadWraper>
                     <HeadWraper sectionHeading="Reading Analysis">
                         {
-                        attempt.wordInfo.map((word) =>
-                            <AnalyseWord word={word} />)
+                            attempt.wordInfo.map((word) =>
+                                <AnalyseWord word={word} />)
                         }
-                    </HeadWraper>
+                    </HeadWraper> */}
                 </Grid>
                 <Grid item xs={1} sm={4}>
                     <PropertyCard label="Duration" value={audio.duration} color={"plabook-info"} decimals={3} ending="s" />
