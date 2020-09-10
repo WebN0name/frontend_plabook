@@ -441,10 +441,10 @@ export default function StudentAttempt() {
                                     Normolised: {word.normalized}
                                 </Box>
                                 <Box className={`m-2 ${classes.fs1o05}`}>
-                                    Confidence: {isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "s" : "-"}%
+                                    Confidence: {isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "%" : "-"}
                                 </Box>
                                 <Box className={`m-2 ${classes.fs1o05}`}>
-                                    Word quality: {word.wordquality}%
+                                    Word quality: {isFinite(parseFloat(word.wordquality)) ? word.wordquality.toFixed(2) + "%" : "-"}
                                 </Box>
                                 <Box className={`m-2 ${classes.fs1o05}`}>
                                     Start: {isFinite(parseFloat(word.start)) ? word.start.toFixed(3) + "s" : "-"}
