@@ -12,10 +12,10 @@ export default function Phonemer(props) {
     const useStyles = makeStyles({
 
         phonem: {
+            width: "4.5rem",
             backgroundColor: "#44AEC9",
             color: "white",
             fontSize: "0.8rem",
-            width: "max-content",
             textTransform: "uppercase",
             lineHeight: "0.875rem",
             // display: "inline-block",
@@ -33,7 +33,7 @@ export default function Phonemer(props) {
 
     for (let phonem in phonemes)
         info.push(
-            <Grid container spacing={1} direction="row" className={`m-1  ${classes.phonem}`}>
+            <Grid container justify="space-between" spacing={1} direction="row" className={`m-1  ${classes.phonem}`}>
                 <Grid item>
                     {phonem + " "}
                 </Grid>

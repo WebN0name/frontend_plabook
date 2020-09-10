@@ -37,10 +37,10 @@ export default function StudentAttempt() {
 
     const audio = QuareFake()
     attempt['wordInfo'] = []
-    if(attempt.phonic){
+    if (attempt.phonic) {
         for (let key in JSON.parse(attempt.phonic))
-        if (!isNaN(parseInt(key)))
-            attempt.wordInfo.push(JSON.parse(attempt.phonic)[key])
+            if (!isNaN(parseInt(key)))
+                attempt.wordInfo.push(JSON.parse(attempt.phonic)[key])
     }
 
 
@@ -106,13 +106,6 @@ export default function StudentAttempt() {
         {
             cursor: "pointer"
         },
-        analysText:
-        {
-            fontSize: "0.925rem"
-        },
-        tooltipText: {
-            fontSize: "0.825rem"
-        }
     });
 
     const classes = useStyles();
@@ -372,23 +365,29 @@ export default function StudentAttempt() {
 
     const AnalysePreview = (props) => {
 
-        const [anchorEl, setAnchorEl] = useState(null);
         const [word, setWord] = useState(null);
 
-        const handlePopoverEnter = (event) => {
-            // setPhonemes(null)
-            setAnchorEl(event.currentTarget);
-        };
+        const useStyles = makeStyles({
+            pointer:
+            {
+                cursor: "pointer"
+            },
+            analysText:
+            {
+                fontSize: "0.925rem"
+            },
+            tooltipText: {
+                fontSize: "0.825rem"
+            },
+            fs1o05: {
+                fontSize:"1.0525rem"
+            }
+        });
+    
+        const classes = useStyles();
 
         return (
-            <Fragment>
-                <HeadWraper sectionHeading="Phonemes">
-                    {word &&
-                        <Box id="phonemes-container">
-                            <Phonemer phonemes={word.phonemes} />
-                        </Box>
-                    }
-                </HeadWraper>
+            <Fragment>               
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
                         attempt.wordInfo.map((word) => {
@@ -413,7 +412,6 @@ export default function StudentAttempt() {
                                     <Box
                                         onClick={(event) => {
                                             setWord(word)
-                                            setAnchorEl(event.currentTarget);
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
                                         {word.recognized}
@@ -424,24 +422,48 @@ export default function StudentAttempt() {
                         )
                     }
                 </HeadWraper>
-                {word && 
-                    <Popover
-                    open={Boolean(anchorEl)}
-                    onClose={() => { setAnchorEl(null) }}
-                    onEnter={() => { }}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                >
-                    <WordInfo word={word} />
-                </Popover>
-                }
+                <HeadWraper sectionHeading="Word information">
+                    {word &&
+                        <Grid container className={`${classes.tooltipText}`}>
+                            <Grid item className="p-2">
+                                <Box className="m-1">
+                                    <h4>
+                                        {word.align}
+                                    </h4>
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Reference: {word.reference}
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Recognized: {word.recognized}
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Normolised: {word.normalized}
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Confidence: {isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "s" : "-"}%
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Word quality: {word.wordquality}%
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    Start: {isFinite(parseFloat(word.start)) ? word.start.toFixed(3) + "s" : "-"}
+                                </Box>
+                                <Box className={`m-2 ${classes.fs1o05}`}>
+                                    End: {isFinite(parseFloat(word.end)) ? word.end.toFixed(3) + "s" : "-"}
+                                </Box>
+                            </Grid>
+                            <Grid item className={`${classes.MVSBox} p-2`}>
+                                <Box className="m-1">
+                                    <h4>
+                                        Phonemes
+                                    </h4>
+                                </Box>
+                                <Phonemer phonemes={word.phonemes} />
+                            </Grid>
+                        </Grid>
+                    }
+                </HeadWraper>                
             </Fragment>
         )
     }
