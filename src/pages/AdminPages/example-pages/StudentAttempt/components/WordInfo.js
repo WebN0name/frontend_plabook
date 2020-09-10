@@ -37,7 +37,7 @@ export default function WordInfo(props) {
                     Recognized: {word.recognized}
                 </Box>
                 <Box className="m-2">
-                    Normolised: {word.normalized}
+                    Normalize: {word.normalized}
                 </Box>
                 <Box className="m-2">
                     Confidence: {isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "s" : "-"}%

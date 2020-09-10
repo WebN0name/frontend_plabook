@@ -45,6 +45,7 @@ export default function StudentAttempt() {
 
 
     const history = useHistory();
+    const audioFile = useRef(null)
 
     useEffect(() => {
         // if(attempt["Recognizer"] === 'soapbox'){
@@ -53,6 +54,7 @@ export default function StudentAttempt() {
         // }else{
 
         // }
+        console.log(attempt)
         axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
@@ -380,14 +382,14 @@ export default function StudentAttempt() {
                 fontSize: "0.825rem"
             },
             fs1o05: {
-                fontSize:"1.0525rem"
+                fontSize: "1.0525rem"
             }
         });
-    
+
         const classes = useStyles();
 
         return (
-            <Fragment>               
+            <Fragment>
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
                         attempt.wordInfo.map((word) => {
@@ -438,7 +440,7 @@ export default function StudentAttempt() {
                                     Recognized: {word.recognized}
                                 </Box>
                                 <Box className={`m-2 ${classes.fs1o05}`}>
-                                    Normolised: {word.normalized}
+                                    Normalized: {word.normalized}
                                 </Box>
                                 <Box className={`m-2 ${classes.fs1o05}`}>
                                     Confidence: {isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "%" : "-"}
@@ -463,7 +465,7 @@ export default function StudentAttempt() {
                             </Grid>
                         </Grid>
                     }
-                </HeadWraper>                
+                </HeadWraper>
             </Fragment>
         )
     }
@@ -583,7 +585,13 @@ export default function StudentAttempt() {
                         <div className="d-flex align-items-center">
                             <p className="m-2">Recording</p>
                         </div>} className="mb-4">
-                        <audio className="m-0" controls src={source.Audiofile}></audio>
+                        <audio ref={audioFile} className="m-0" controls src={source.Audiofile}></audio>
+                    </HeadWraper>
+                    <HeadWraper sectionHeading={
+                        <div className="d-flex align-items-center">
+                            <p className="m-2">Source text</p>
+                        </div>} className="mb-4">
+                        <p>{text}</p>
                     </HeadWraper>
                     <AnalysePreview />
                     {/* <HeadWraper sectionHeading="Phonemes">
@@ -599,12 +607,12 @@ export default function StudentAttempt() {
                     </HeadWraper> */}
                 </Grid>
                 <Grid item xs={1} sm={4}>
-                    <PropertyCard label="Duration" value={audio.duration} color={"plabook-info"} decimals={3} ending="s" />
-                    <PropertyCard label="Correct" value={audio.correct} color={"plabook-success"} decimals={0} />
-                    <PropertyCard label="Insertions" value={audio.insertions} color={"plabook-warning"} decimals={0} />
-                    <PropertyCard label="Deletions" value={audio.deletions} color={"danger"} decimals={0} />
-                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"plabook-warning-light"} decimals={0} />
-                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"plabook-info-light"} ending="%" decimals={1} />
+                    <PropertyCard label="Duration" value={attempt.wordInfo[attempt.wordInfo.length - 1].end} color={"plabook-info"} ending="s" />
+                    <PropertyCard label="Correct" value={audio.correct} color={"plabook-success"} />
+                    <PropertyCard label="Insertions" value={audio.insertions} color={"plabook-warning"} />
+                    <PropertyCard label="Deletions" value={audio.deletions} color={"danger"}/>
+                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"plabook-warning-light"}/>
+                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"plabook-info-light"} ending="%"/>
                 </Grid>
             </Grid>
             {/* <NewBL /> */}
