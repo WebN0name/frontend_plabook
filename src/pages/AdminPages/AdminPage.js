@@ -260,7 +260,7 @@ const store = configureStore();
 function AdminPage({history}) {
 
   const {admin} = useContext(Context)
-  // if(Object.keys(admin).length !== 0){
+  if(Object.keys(admin).length !== 0){
     return (
       <Provider store={store}>
         <BrowserRouter basename="/Admin/">
@@ -271,9 +271,9 @@ function AdminPage({history}) {
         </BrowserRouter>
       </Provider>
     )
-  // }else{
-  //   history.push('/Login')
-  //   return null
-  // }
+  }else{
+    history.push(`/TeacherLogin`)
+    return null
+  }
   }
 export default AdminPage;

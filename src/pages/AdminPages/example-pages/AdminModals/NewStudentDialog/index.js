@@ -123,7 +123,7 @@ export default function NewStudentDialog(props) {
             name: `${firstName} ${lastName}`,
             id: `${firstName}${lastName}`,
             pin: `${getRandomInt(1000,10000)}`,
-            link: `https://plabookeducation.com/Login/student/${firstName}${lastName}`,
+            link: `https://dev.plabookeducation.com/Login/student/${firstName}${lastName}`,
             readingLevel: readingLevel,
             stage: stage,
         }

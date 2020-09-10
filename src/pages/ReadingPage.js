@@ -79,7 +79,7 @@ export default function  ReadingPage ({history}){
         const page = tmp[0]
         tmp.shift()
         setAudioQueue(tmp)
-        axios.post('https://plabookeducation.com/saveRecord',{
+        axios.post('https://dev.plabookeducation.com/saveRecord',{
             textName : bookForReading.name,
             record: page.finalString
         }).then(r => {
@@ -87,7 +87,7 @@ export default function  ReadingPage ({history}){
             const id = r.data.result._id
             const httpsClient = axios.create()
             httpsClient.defaults.timeout = 900000
-            httpsClient.post('https://plabookeducation.com/recordCheck',{ 
+            httpsClient.post('https://dev.plabookeducation.com/recordCheck',{ 
                 text : bookForReading.textsForSale[page.currentIndex],
                 recordId: id,
                 username: user,
@@ -95,7 +95,8 @@ export default function  ReadingPage ({history}){
                 bookPage: page.currentIndex + 1,
                 record: page.finalString
             }).then(r => {
-                console.log(r)
+                try {
+                    console.log(r)
                 if(!r.data.error){
                     const wrongWords = r.data.mlResult
                     for(let i=0; i< wrongWords.length; i++){
@@ -155,6 +156,20 @@ export default function  ReadingPage ({history}){
                         payload: tmp
                     })
                 }
+                } catch (error) {
+                    console.log(error)
+                    localStorage.setItem('testQueue', JSON.stringify(false))
+                    let tmp = bookForReading
+                    tmp.dots.forEach(element => {
+                        if(element.id === page.currentIndex){
+                            element.status = 'error'
+                        }
+                    })
+                    bookForReadingDispatch({
+                        type: 'setBookFroReading',
+                        payload: tmp
+                    })
+                }
             })
         })
     }
@@ -166,14 +181,14 @@ export default function  ReadingPage ({history}){
     //     let tmp = audioQueue
     //     tmp.shift()
     //     setAudioQueue(tmp)
-        // axios.post('https://plabookeducation.com/saveRecord',{
+        // axios.post('https://dev.plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: finalString
         // }).then(r => {
         //     const id = r.data.result._id
         //     const httpsClient = axios.create()
         //     httpsClient.defaults.timeout = 900000
-        //     httpsClient.post('https://plabookeducation.com/recordCheck',{ 
+        //     httpsClient.post('https://dev.plabookeducation.com/recordCheck',{ 
         //         text : bookForReading.textsForSale[Page],
         //         recordId: id,
         //         username: user,
@@ -408,12 +423,12 @@ export default function  ReadingPage ({history}){
         // loaderDispatch({
         //     type: 'isLoading',
         // })
-        // axios.post('https://plabookeducation.com/saveRecord',{
+        // axios.post('https://dev.plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: value
         // }).then(r => {
         //     const id = r.data.result._id
-        //     axios.post('https://plabookeducation.com/recordCheck', { 
+        //     axios.post('https://dev.plabookeducation.com/recordCheck', { 
         //         text : bookForReading.textsForSale[currentIndex],
         //         recordId: id,
         //         username: user,

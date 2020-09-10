@@ -53,7 +53,7 @@ export default function StudentAttempt() {
         // }else{
 
         // }
-        axios.get('https://plabookeducation.com/getAllBooks').then(r => {
+        axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
                     getBook(element.pages, attempt.Page)
@@ -157,7 +157,7 @@ export default function StudentAttempt() {
     }
 
     const example = {
-        Audiofile: "https://plabookeducation.com/recordFile/5f4509602341a60295c492ee",
+        Audiofile: "https://dev.plabookeducation.com/recordFile/5f4509602341a60295c492ee",
         "Book ID": "EARTH DAY BIRTHDAY",
         Date: "Fri Aug 28 2020 16: 06: 23 GMT + 0900(Якутск, стандартное время)",
         "Err M": "7",

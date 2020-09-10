@@ -67,7 +67,7 @@ const BooksSlider = ({books, setBook}) =>{
                     <div className = "book" key ={ book.id } style = { booksVision(book.id, booksSlideIndex) }>
                         <p className = "bookName">{book.name}</p>
                         <div>
-                            <img src = { `https://plabookeducation.com/${book.image}` } alt = { 'book' } onClick = {() => BookPick(book.id)} style = { currentBookStyle(currentBook, book.id) }/>
+                            <img src = { `https://dev.plabookeducation.com/${book.image}` } alt = { 'book' } onClick = {() => BookPick(book.id)} style = { currentBookStyle(currentBook, book.id) }/>
                             <p className = "author">{book.author}</p>
                         </div>
                     </div>

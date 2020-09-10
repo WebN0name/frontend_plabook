@@ -47,7 +47,7 @@ export default function BookPick({ history }){
                     id: i,
                     author: Allbooks[i].author,
                     name: Allbooks[i].name,
-                    image: "https://plabookeducation.com/"+Allbooks[i].image,
+                    image: "https://dev.plabookeducation.com/"+Allbooks[i].image,
                     bookPages: Allbooks[i].pages
                 }
                 allTexts.push(tmp)
@@ -61,7 +61,7 @@ export default function BookPick({ history }){
             loaderDispatch({
                 type: 'isLoading',
             })
-            axios.get('https://plabookeducation.com/getAllBooks').then(r => {
+            axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
             if(r.data){
                 localStorage.setItem('allBooks', JSON.stringify(r.data))
                 let allTexts = []
@@ -73,7 +73,7 @@ export default function BookPick({ history }){
                                 id: _id,
                                 author: r.data[i].author,
                                 name: r.data[i].name,
-                                image: "https://plabookeducation.com/"+r.data[i].image,
+                                image: "https://dev.plabookeducation.com/"+r.data[i].image,
                                 bookPages: r.data[i].pages
                             }
                             _id++

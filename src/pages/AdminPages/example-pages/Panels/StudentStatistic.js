@@ -89,7 +89,7 @@ export default function StudentStatistic() {
 
 
     const fetchDate = async () => {
-        const response = await fetch(`https://plabookeducation.com/studentStatistics`, quareData)
+        const response = await fetch(`https://dev.plabookeducation.com/studentStatistics`, quareData)
         const result = await response.json()
         result.map(item => item.Date = new Date(Date.parse(item["Time Stamp"])))
         result.reverse()

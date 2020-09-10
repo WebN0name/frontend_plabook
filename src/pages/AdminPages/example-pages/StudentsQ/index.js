@@ -46,7 +46,7 @@ export default function Students() {
     const quareData =
     {
         students: {
-            url: "https://plabookeducation.com/studentList",
+            url: "https://dev.plabookeducation.com/studentList",
             options: (id) => {
                 return ({
                     method: "POST",
@@ -58,7 +58,7 @@ export default function Students() {
             }
         },
         studentStatistic: {
-            url: "https://plabookeducation.com/studentStatistics",
+            url: "https://dev.plabookeducation.com/studentStatistics",
             options: (id) => {
                 return ({
                     method: "POST",

@@ -114,7 +114,7 @@ const LivePreviewExample = () => {
 
   function sendPassword() {
     const password = document.getElementById("password").value
-    axios.post('https://plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3], {
+    axios.post('https://dev.plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3], {
       pin: password,
     }).then(r => {
       if (!r.data.error) {
