@@ -33,8 +33,6 @@ export default function StudentAttempt() {
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
 
-
-
     const audio = QuareFake()
     attempt['wordInfo'] = []
     if (attempt.phonic) {
@@ -54,7 +52,8 @@ export default function StudentAttempt() {
         // }else{
 
         // }
-        console.log(attempt)
+        console.log(JSON.parse(attempt.phonic))
+
         axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
@@ -204,7 +203,7 @@ export default function StudentAttempt() {
                                     <span>
                                         <CountUp
                                             start={0}
-                                            end={wcpm}
+                                            end={((JSON.parse(attempt.phonic).correct + JSON.parse(attempt.phonic).insertions + JSON.parse(attempt.phonic).deletions + JSON.parse(attempt.phonic).substitutions)/JSON.parse(attempt.phonic).duration)*60}
                                             duration={4}
                                             deplay={2}
                                             separator=""
@@ -365,9 +364,11 @@ export default function StudentAttempt() {
     }
 
 
-    const AnalysePreview = (props) => {
+    const AnalysePreview = ({audio}) => {
 
         const [word, setWord] = useState(null);
+        const player = new Audio()
+        player.src = audio
 
         const useStyles = makeStyles({
             pointer:
@@ -388,8 +389,30 @@ export default function StudentAttempt() {
 
         const classes = useStyles();
 
+        function clickWord(word, player){
+            setWord(word)
+            console.log(audio)
+            player.currentTime = word.start
+            player.play()
+            setTimeout(() =>{
+                player.pause()
+            }, ((word.end - word.start) * 1000) + 150)
+        }
+
         return (
             <Fragment>
+                <HeadWraper sectionHeading={
+                    'Running records result'}>
+                    {ConvertToArray(attempt["Running Records"]).map((item) => {
+                        const color = item.isCorrect ? 'plabook-success' : 'plabook-warning'
+                        return (
+                            <Box
+                                className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
+                                {item.word}
+                            </Box>
+                        )
+                    })}
+                </HeadWraper>
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
                         attempt.wordInfo.map((word) => {
@@ -409,11 +432,12 @@ export default function StudentAttempt() {
                                     break;
                             }
 
+
                             return (
                                 <Fragment>
                                     <Box
-                                        onClick={(event) => {
-                                            setWord(word)
+                                        onClick={() => {
+                                            clickWord(word, player)
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
                                         {word.recognized}
@@ -593,7 +617,7 @@ export default function StudentAttempt() {
                         </div>} className="mb-4">
                         <p>{text}</p>
                     </HeadWraper>
-                    <AnalysePreview />
+                    <AnalysePreview audio = {source.Audiofile}/>
                     {/* <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
                             <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />
@@ -607,12 +631,12 @@ export default function StudentAttempt() {
                     </HeadWraper> */}
                 </Grid>
                 <Grid item xs={1} sm={4}>
-                    <PropertyCard label="Duration" value={attempt.wordInfo[attempt.wordInfo.length - 1].end} color={"plabook-info"} ending="s" />
-                    <PropertyCard label="Correct" value={audio.correct} color={"plabook-success"} />
-                    <PropertyCard label="Insertions" value={audio.insertions} color={"plabook-warning"} />
-                    <PropertyCard label="Deletions" value={audio.deletions} color={"danger"}/>
-                    <PropertyCard label="Substitutions" value={audio.substitutions} color={"plabook-warning-light"}/>
-                    <PropertyCard label="Accuracy" value={audio.accuracy} color={"plabook-info-light"} ending="%"/>
+                    <PropertyCard label="Duration" value={JSON.parse(attempt.phonic).duration} color={"plabook-info"} ending="s" />
+                    <PropertyCard label="Correct" value={JSON.parse(attempt.phonic).correct} color={"plabook-success"} />
+                    <PropertyCard label="Insertions" value={JSON.parse(attempt.phonic).insertions} color={"plabook-warning"} />
+                    <PropertyCard label="Deletions" value={JSON.parse(attempt.phonic).deletions} color={"danger"} />
+                    <PropertyCard label="Substitutions" value={JSON.parse(attempt.phonic).substitutions} color={"plabook-warning-light"} />
+                    <PropertyCard label="Accuracy" value={JSON.parse(attempt.phonic).accuracy} color={"plabook-info-light"} ending="%" />
                 </Grid>
             </Grid>
             {/* <NewBL /> */}
