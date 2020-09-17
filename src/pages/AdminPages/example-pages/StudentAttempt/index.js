@@ -203,7 +203,7 @@ export default function StudentAttempt() {
                                     <span>
                                         <CountUp
                                             start={0}
-                                            end={((JSON.parse(attempt.phonic).correct + JSON.parse(attempt.phonic).insertions + JSON.parse(attempt.phonic).deletions + JSON.parse(attempt.phonic).substitutions)/JSON.parse(attempt.phonic).duration)*60}
+                                            end={((JSON.parse(attempt.phonic).correct + JSON.parse(attempt.phonic).insertions + JSON.parse(attempt.phonic).deletions + JSON.parse(attempt.phonic).substitutions) / JSON.parse(attempt.phonic).duration) * 60}
                                             duration={4}
                                             deplay={2}
                                             separator=""
@@ -364,7 +364,7 @@ export default function StudentAttempt() {
     }
 
 
-    const AnalysePreview = ({audio}) => {
+    const AnalysePreview = ({ audio }) => {
 
         const [word, setWord] = useState(null);
         const player = new Audio()
@@ -389,13 +389,16 @@ export default function StudentAttempt() {
 
         const classes = useStyles();
 
-        function clickWord(word, player){
+        function clickWord(word, index, player) {
+            word["index"] = index
             setWord(word)
             console.log(audio)
             player.currentTime = word.start
             player.play()
-            setTimeout(() =>{
+            setTimeout(() => {
                 player.pause()
+                word["index"] = -999
+                setWord(word)
             }, ((word.end - word.start) * 1000) + 150)
         }
 
@@ -415,11 +418,11 @@ export default function StudentAttempt() {
                 </HeadWraper>
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
-                        attempt.wordInfo.map((word) => {
+                        attempt.wordInfo.map((attemptWord, index) => {
 
                             let color = ""
 
-                            switch (word.align) {
+                            switch (attemptWord.align) {
                                 case "DELETION": color = "danger"
                                     break;
                                 case "SUBSTITUTION": color = "plabook-warning-light"
@@ -432,15 +435,21 @@ export default function StudentAttempt() {
                                     break;
                             }
 
+                            if (word) {
+                                if (index >= word.index - 2 && index <= word.index + 2)
+                                    color = "plabook-info"
+
+                                if (word.index == index) color = "plabook-info-light"
+                            }
 
                             return (
                                 <Fragment>
                                     <Box
                                         onClick={() => {
-                                            clickWord(word, player)
+                                            clickWord(attemptWord, index, player)
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
-                                        {word.recognized}
+                                        {attemptWord.recognized}
                                     </Box>
                                 </Fragment>
                             )
@@ -617,7 +626,7 @@ export default function StudentAttempt() {
                         </div>} className="mb-4">
                         <p>{text}</p>
                     </HeadWraper>
-                    <AnalysePreview audio = {source.Audiofile}/>
+                    <AnalysePreview audio={source.Audiofile} />
                     {/* <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
                             <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />

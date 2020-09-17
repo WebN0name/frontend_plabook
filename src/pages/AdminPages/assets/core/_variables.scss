@@ -112,7 +112,22 @@ $plabook-theme: (
         "plabook-info-light":           $plabook-info-light,
         "plabook-light":                $plabook-light,
         "plabook-dark":                 $plabook-dark,
+        "plabook-fluency-25":           $plabook-fluency-25,
+        "plabook-fluency-50":           $plabook-fluency-50,
+        "plabook-fluency-75":           $plabook-fluency-75,
+        "plabook-fluency-100":          $plabook-fluency-100,
+        "plabook-fluency-text-25":      $plabook-fluency-text-25,
+        "plabook-fluency-text-50":      $plabook-fluency-text-50,
+        "plabook-fluency-text-75":      $plabook-fluency-text-75,
+        "plabook-fluency-text-100":     $plabook-fluency-text-100,
+        "plabook-gray-1":               $plabook-gray-1,
 );
+
+@each $color, $value in $plabook-theme {
+        .t-color-#{$color}{
+                color: $value;
+        }
+}
 
 $theme-colors: ();
 // stylelint-disable-next-line scss/dollar-variable-default

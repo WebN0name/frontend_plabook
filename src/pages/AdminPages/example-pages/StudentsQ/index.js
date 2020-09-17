@@ -7,7 +7,7 @@ import {
     TableCell, Button,
     TableBody, Table,
     TableContainer, TablePagination,
-    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, Snackbar, Portal, IconButton
+    Avatar, Box, TextField, Paper, Typography, Divider, TableSortLabel, Card, Tooltip, Snackbar, Portal, IconButton, Grid
 } from '@material-ui/core';
 
 
@@ -21,6 +21,8 @@ import {
 
 import AvatarPicker from '../../../../components/AvatarPicker';
 import NewStudentDialog from '../AdminModals/NewStudentDialog';
+import StudentCard from './Components/StudentCard';
+import StudentCard2 from './Components/StudentCard2';
 
 
 export default function Students() {
@@ -78,7 +80,7 @@ export default function Students() {
         result.map((elem, index) => {
             elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
         })
-        console.log(result)
+        console.log(result)        
         studentsDispatch({
             type: 'setStudents',
             payload: result
@@ -569,7 +571,14 @@ export default function Students() {
                 <TextField onChange={(e) => { setSearchFillter(e.target.value) }} id="search" fullWidth type="search" label="Search" />
                 {/* <Icon path={mdiFilterOutline} size={1.2}></Icon> */}
             </Paper>
-            <NewBL />
+            {/* <NewBL /> */}
+            <Grid container spacing={2}>            
+            {students.filter(searchRequest).map((student,index)=>
+            <Grid item xs={4}>
+            <StudentCard key={`${student.id}-${index}`} student={student}/>
+            </Grid>
+            )}
+            </Grid>
             <Portal >
                 <Snackbar
                     // classes={{root: classes.bgColor}}

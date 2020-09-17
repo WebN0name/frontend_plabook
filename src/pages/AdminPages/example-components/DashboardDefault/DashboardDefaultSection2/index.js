@@ -159,15 +159,6 @@ export default function LivePreviewExample() {
   const [value, setValue] = useState(0);
 
 
-  const avatars = [
-    avatar1,
-    avatar2,
-    avatar3,
-    avatar4,
-    avatar5,
-    avatar6,
-    avatar7,
-  ]
 
   const fake = [
     {
