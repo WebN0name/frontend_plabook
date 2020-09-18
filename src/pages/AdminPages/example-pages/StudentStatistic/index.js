@@ -121,7 +121,7 @@ export default function StudentsStatistic() {
     const quareData =
     {
         studentStatistic: {
-            url: "https://demo.plabookeducation.com/studentStatistics",
+            url: "https://dev.plabookeducation.com/studentStatistics",
             options: (id) => {
                 return ({
                     method: "POST",
@@ -136,7 +136,7 @@ export default function StudentsStatistic() {
 
     useEffect(() => {        
         if (Boolean(student)) fetchStudentsStatistic();
-        // axios.post('https://demo.plabookeducation.com/studentStatistic', {'studentId': student.id}).then(r =>{
+        // axios.post('https://dev.plabookeducation.com/studentStatistic', {'studentId': student.id}).then(r =>{
         //     console.log('info:')
         //     console.log(r)
         // })

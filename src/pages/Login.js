@@ -27,7 +27,7 @@ export default function Login({ history }){
 
     function sendPassword(){
         let urlParams = location.pathname.split('/')
-        axios.post('https://demo.plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3],{
+        axios.post('https://dev.plabookeducation.com/auth/' + urlParams[2] + '/' + urlParams[3],{
             pin: password,
         }).then(r => {
             if(!r.data.error){

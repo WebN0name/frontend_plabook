@@ -150,7 +150,7 @@ export default function SchoolPage() {
 
 
     const fetchDate = async () => {
-        const response = await fetch(`https://demo.plabookeducation.com/studentStatistics`, quareData)
+        const response = await fetch(`https://dev.plabookeducation.com/studentStatistics`, quareData)
         const result = await response.json()
         result.map(item => item.Date = new Date(Date.parse(item["Time Stamp"])))
         result.reverse()

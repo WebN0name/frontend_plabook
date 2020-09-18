@@ -44,11 +44,38 @@ export default function StudentAttempt() {
     }
 
 
+    function colorPercent(value){
+        if(value >= 95){
+            return{
+                color: '#65C6DE'
+            }
+        }
+
+        if((value >= 80) && (value <= 94)){
+            return{
+                color: '#5EAD60'
+            }
+        }
+
+        if((value >= 65) && (value <= 79)){
+            return{
+                color: '#EDC91B'
+            }
+        }
+
+        if(value <= 64){
+            return{
+                color: '#E25744'
+            }
+        }
+    }
+
+
     const history = useHistory();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        console.log(JSON.parse(attempt.phonic))
+        console.log(attempt)
         getAudio(attempt.Audiofile)
         // console.log(audioFile)
         // if(attempt["Recognizer"] === 'soapbox'){
@@ -68,7 +95,7 @@ export default function StudentAttempt() {
         //     response.pipe(file)
         // })
 
-        axios.get('https://demo.plabookeducation.com/getAllBooks').then(r => {
+        axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
                     getBook(element.pages, attempt.Page)
@@ -183,7 +210,7 @@ export default function StudentAttempt() {
     }
 
     const example = {
-        Audiofile: "https://demo.plabookeducation.com/recordFile/5f4509602341a60295c492ee",
+        Audiofile: "https://dev.plabookeducation.com/recordFile/5f4509602341a60295c492ee",
         "Book ID": "EARTH DAY BIRTHDAY",
         Date: "Fri Aug 28 2020 16: 06: 23 GMT + 0900(Якутск, стандартное время)",
         "Err M": "7",
@@ -434,6 +461,9 @@ export default function StudentAttempt() {
 
         return (
             <Fragment>
+                <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
+
+                </HeadWraper>
                 {/* <HeadWraper sectionHeading={
                     'Running records result'}>
                     {ConvertToArray(attempt["Running Records"]).map((item) => {
@@ -445,7 +475,7 @@ export default function StudentAttempt() {
                             </Box>
                         )
                     })}
-                </HeadWraper> */}
+                </HeadWraper>
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
                         attempt.wordInfo.map((attemptWord, index) => {
@@ -526,7 +556,7 @@ export default function StudentAttempt() {
                             </Grid>
                         </Grid>
                     }
-                </HeadWraper>
+                </HeadWraper> */}
             </Fragment>
         )
     }

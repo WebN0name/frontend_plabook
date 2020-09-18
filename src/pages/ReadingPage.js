@@ -79,7 +79,7 @@ export default function  ReadingPage ({history}){
         const page = tmp[0]
         tmp.shift()
         setAudioQueue(tmp)
-        axios.post('https://demo.plabookeducation.com/saveRecord',{
+        axios.post('https://dev.plabookeducation.com/saveRecord',{
             textName : bookForReading.name,
             record: page.finalString
         }).then(r => {
@@ -87,7 +87,7 @@ export default function  ReadingPage ({history}){
             const id = r.data.result._id
             const httpsClient = axios.create()
             httpsClient.defaults.timeout = 900000
-            httpsClient.post('https://demo.plabookeducation.com/recordCheck',{ 
+            httpsClient.post('https://dev.plabookeducation.com/recordCheck',{ 
                 text : bookForReading.textsForSale[page.currentIndex],
                 recordId: id,
                 username: user,
@@ -181,14 +181,14 @@ export default function  ReadingPage ({history}){
     //     let tmp = audioQueue
     //     tmp.shift()
     //     setAudioQueue(tmp)
-        // axios.post('https://demo.plabookeducation.com/saveRecord',{
+        // axios.post('https://dev.plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: finalString
         // }).then(r => {
         //     const id = r.data.result._id
         //     const httpsClient = axios.create()
         //     httpsClient.defaults.timeout = 900000
-        //     httpsClient.post('https://demo.plabookeducation.com/recordCheck',{ 
+        //     httpsClient.post('https://dev.plabookeducation.com/recordCheck',{ 
         //         text : bookForReading.textsForSale[Page],
         //         recordId: id,
         //         username: user,
@@ -423,12 +423,12 @@ export default function  ReadingPage ({history}){
         // loaderDispatch({
         //     type: 'isLoading',
         // })
-        // axios.post('https://demo.plabookeducation.com/saveRecord',{
+        // axios.post('https://dev.plabookeducation.com/saveRecord',{
         //     textName : bookForReading.name,
         //     record: value
         // }).then(r => {
         //     const id = r.data.result._id
-        //     axios.post('https://demo.plabookeducation.com/recordCheck', { 
+        //     axios.post('https://dev.plabookeducation.com/recordCheck', { 
         //         text : bookForReading.textsForSale[currentIndex],
         //         recordId: id,
         //         username: user,
