@@ -20,8 +20,8 @@ export default function WordInfo(props) {
             // display: "inline-block",
             // padding: 0 0.7em,
             fontWeight: 700,
-            borderWidth: 2.45, 
-            borderStyle:"solid",
+            borderWidth: 2.45,
+            borderStyle: "solid",
             whiteSpace: "nowrap",
             borderRadius: "0.2rem",
             transition: "color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
@@ -50,7 +50,7 @@ export default function WordInfo(props) {
         }
     }
 
-    function colorPercent(value) {        
+    function colorPercent(value) {
         if (value >= 95) {
             return {
                 color: '#65C6DE'
@@ -79,15 +79,16 @@ export default function WordInfo(props) {
 
     const phonemsInfo = []
 
+    if(word)
     for (let phonem in word.phonemes)
         phonemsInfo.push(
-            <Grid 
-            container 
-            justify="space-between" 
-            spacing={1} 
-            direction="row" 
-            className={`m-1  ${classes.phonem}`}
-            style={{borderColor:colorPercent(word.phonemes[phonem]).color}}
+            <Grid
+                container
+                justify="space-between"
+                spacing={1}
+                direction="row"
+                className={`m-1  ${classes.phonem}`}
+                style={{ borderColor: colorPercent(word.phonemes[phonem]).color }}
             >
                 <Grid item>
                     {phonem + " "}
@@ -98,63 +99,67 @@ export default function WordInfo(props) {
             </Grid>
         )
 
-    
+
 
     return (
-        <div>
+        <div className="bg-plabook-gray-1 p-3" style={{ minHeight: 150 }}>
             <div className="fs-rem-7 mb-2">
                 Word details
             </div>
-            <div className="d-flex align-items-start">
-                <div className="mr-5">
-                    <div className="text-uppercase mb-1">
-                        Overview
+            {word &&
+                <div className="d-flex align-items-start">
+                    <div>
+                        <div className="text-uppercase mb-1">
+                            Overview
                     </div>
-                    <div className="d-flex align-items-start">
-                        <div className="mr-3">
-                            <div className="my-1">
-                                Word: <span className="fw-600">{word.reference}</span>
+                        <div className="d-flex align-items-start">
+                            <div>
+                                <div className="my-1">
+                                    Word: <span className="fw-600">{word.reference}</span>
+                                </div>
+                                <div className="my-1">
+                                    Recognized: <span className="fw-600">{word.recognized}</span>
+                                </div>
+                                <div className="my-1">
+                                    Normalize: <span className="fw-600">{word.normalized}</span>
+                                </div>
                             </div>
-                            <div className="my-1">
-                                Recognized: <span className="fw-600">{word.recognized}</span>
-                            </div>
-                            <div className="my-1">
-                                Normalize: <span className="fw-600">{word.normalized}</span>
+
+                            <div>
+                                <div className="my-1">
+                                    Use: <span className="fw-600">{word.align}</span>
+                                </div>
+                                <div className="my-1">
+                                    Word quality: <span className="fw-600">{isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "%" : "-"}</span>
+                                </div>
+                                <div className="my-1">
+                                    Confidence <span className="fw-600">{isFinite(parseFloat(word.wordquality)) ? word.wordquality.toFixed(2) + "%" : "-"}</span>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <div className="my-1">
-                                Use: <span className="fw-600">{word.align}</span>
-                            </div>
-                            <div className="my-1">
-                                Word quality: <span className="fw-600">{isFinite(parseFloat(word.confidence)) ? word.confidence.toFixed(2) + "%" : "-"}</span>
-                            </div>
-                            <div className="my-1">
-                                Confidence <span className="fw-600">{isFinite(parseFloat(word.wordquality)) ? word.wordquality.toFixed(2) + "%" : "-"}</span>
-                            </div>
+                    </div>
+                    <div className="bg-white mx-4 br-px-1" style={{ width: 5, alignSelf: "stretch" }} />
+                    <div>
+                        <div className="text-uppercase mb-1">
+                            Timing
+                    </div>
+                        <div className="my-1">
+                            Start: <span className="fw-600">{isFinite(parseFloat(word.start)) ? word.start.toFixed(3) + "s" : "-"}</span>
+                        </div>
+                        <div className="my-1">
+                            End: <span className="fw-600">{isFinite(parseFloat(word.end)) ? word.end.toFixed(3) + "s" : "-"}</span>
                         </div>
                     </div>
-                </div>
-                <div className="mr-5">
-                    <div className="text-uppercase mb-1">
-                        Timing
+                    <div className="bg-white mx-4 br-px-5" style={{ width: 5, alignSelf: "stretch" }} />
+                    <div>
+                        <div className="text-uppercase mb-1">
+                            Phonemes
                     </div>
-                    <div className="my-1">
-                        Start: <span className="fw-600">{isFinite(parseFloat(word.start)) ? word.start.toFixed(3) + "s" : "-"}</span>
+                        <Box className="d-flex justify-content-start">
+                            {phonemsInfo.map(item => { return (item) })}
+                        </Box>
                     </div>
-                    <div className="my-1">
-                        End: <span className="fw-600">{isFinite(parseFloat(word.end)) ? word.end.toFixed(3) + "s" : "-"}</span>
-                    </div>
-                </div>
-                <div className="mr-3">
-                    <div className="text-uppercase mb-1">
-                        Phonemes
-                    </div>
-                    <Box className="d-flex justify-content-start">
-                        {phonemsInfo.map(item => { return (item) })}
-                    </Box>
-                </div>
-            </div>
+                </div>}
         </div>
         // <Grid container className={`${classes.tooltipText}`}>
         //     <Grid item className="p-2">

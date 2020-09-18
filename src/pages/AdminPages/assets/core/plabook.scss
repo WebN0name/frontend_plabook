@@ -69,6 +69,13 @@ $step : 0.5rem;
     }
 }
 
+@for $i from 1 through 10 {
+    .h-percent-#{$i*10}
+    {
+        height:  10%* $i !important;
+    }
+}
+
 
 @for $i from 0 through 20 {
     .fw-#{$i*50}
@@ -81,6 +88,13 @@ $step : 0.5rem;
     .br-#{$i*10}
     {
         border-radius:  10%* $i !important;
+    }
+}
+
+@for $i from 1 through 20 {
+    .br-px-#{$i*10}
+    {
+        border-radius:  5px* $i !important;
     }
 }
 

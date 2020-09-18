@@ -44,27 +44,27 @@ export default function StudentAttempt() {
     }
 
 
-    function colorPercent(value){
-        if(value >= 95){
-            return{
+    function colorPercent(value) {
+        if (value >= 95) {
+            return {
                 color: '#65C6DE'
             }
         }
 
-        if((value >= 80) && (value <= 94)){
-            return{
+        if ((value >= 80) && (value <= 94)) {
+            return {
                 color: '#5EAD60'
             }
         }
 
-        if((value >= 65) && (value <= 79)){
-            return{
+        if ((value >= 65) && (value <= 79)) {
+            return {
                 color: '#EDC91B'
             }
         }
 
-        if(value <= 64){
-            return{
+        if (value <= 64) {
+            return {
                 color: '#E25744'
             }
         }
@@ -481,13 +481,27 @@ export default function StudentAttempt() {
 
         return (
             <Fragment>
+                <Card className="card-box mb-4-spacing overflow-visible">
+                    <div className="card-header">
+                        <div className="card-header--title font-size-lg font-weight-bold py-2">
+                            {`Assessment text and analysis > ${attempt["Book ID"]}`}
+                        </div>
+                    </div>
+                    <div>
+                        <div classname="resultText">
+                            {/* {Вова} */}
+                        </div>
+                        {<WordInfo word={word} />}
+                    </div>
+                </Card>
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
                     <div classname="resultText">
                         {/* {Вова} */}
                     </div>
                     <div className="wordInformation">
                         {/* {Антон} */}
-                        {word && <WordInfo word={word}/>}
+                        {word && <WordInfo word={word} />}
+                        {<WordInfo word={fromJSONexample} />}
                     </div>
                 </HeadWraper>
                 {/* <HeadWraper sectionHeading={
