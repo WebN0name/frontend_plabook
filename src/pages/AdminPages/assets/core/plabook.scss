@@ -8,4 +8,85 @@ $plabook-info: #44AEC9;
 $plabook-info-light: #9DE0F1;
 $plabook-light: #FBFAFB;
 $plabook-dark: #4C4B4C;
-$plabook-magenta:#98179e;
+$plabook-fluency-25:#faeaeb ;
+$plabook-fluency-50:#ffffc9;
+$plabook-fluency-75: #e0f8d4 ;
+$plabook-fluency-100: #e2f5f9;
+$plabook-fluency-text-25: #e03136 ;
+$plabook-fluency-text-50:#e8ac00;
+$plabook-fluency-text-75: #78cf32 ;
+$plabook-fluency-text-100: #44adca;
+$plabook-gray-1: #f6f6f6;
+
+$AvatarSizes: (
+    "10": 10px,
+    "20": 20px,
+    "30": 30px,
+    "40": 40px,
+    "50": 50px,
+    "60": 60px,
+    "70": 70px,
+    "80": 80px,
+    "90": 90px,
+    "100": 100px,
+    "110": 110px,
+    "120": 120px,
+    "130": 130px,
+    "140": 140px,
+    "150": 150px,
+);
+
+
+@each $size, $value in $AvatarSizes {
+    .avatar-#{$size}
+    {
+        height: $value !important;
+        width: $value !important;
+    }
+}
+
+$step : 0.5rem;
+ 
+@for $i from 1 through 10 {
+    .avatar-rem-#{$i}
+    {
+        height: 1 + $step * $i !important;
+        width: 1 + $step * $i!important;
+    }
+}
+
+@for $i from 0 through 20 {
+    .fs-rem-#{$i}
+    {
+        font-size:  0.5rem+0.1* $i!important;
+    }
+}
+
+@for $i from 1 through 10 {
+    .w-percent-#{$i*10}
+    {
+        width:  10%* $i !important;
+    }
+}
+
+
+@for $i from 0 through 20 {
+    .fw-#{$i*50}
+    {
+        font-weight:  50* $i !important;
+    }
+}
+
+@for $i from 0 through 10 {
+    .br-#{$i*10}
+    {
+        border-radius:  10%* $i !important;
+    }
+}
+
+// .student-card
+// {
+//     // flex-basis: 36rem;
+//     // flex-shrink: 0;
+//     // flex-grow: 1;    
+// }

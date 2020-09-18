@@ -448,11 +448,11 @@ export default function StudentAttempt() {
                 </HeadWraper> */}
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
-                        attempt.wordInfo.map((word) => {
+                        attempt.wordInfo.map((attemptWord, index) => {
 
                             let color = ""
 
-                            switch (word.align) {
+                            switch (attemptWord.align) {
                                 case "DELETION": color = "danger"
                                     break;
                                 case "SUBSTITUTION": color = "plabook-warning-light"
@@ -474,7 +474,7 @@ export default function StudentAttempt() {
                                 <Fragment>
                                     <Box
                                         onClick={() => {
-                                            clickWord(word, player)
+                                            clickWord(attemptWord, index, player)
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
                                         {word.normalized}
