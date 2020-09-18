@@ -68,7 +68,7 @@ export default function StudentCard(props) {
     return (
         <Fragment>
             <Card className="card-box m-2 student-card">
-                <div className="p-2 d-flex justify-content-between align-items-center">
+                <div onClick={handleClick} className="cursor-pointer p-2 d-flex justify-content-between align-items-center">
                     <div className="fs-rem-7">
                         {student.name}
                     </div>
@@ -79,11 +79,11 @@ export default function StudentCard(props) {
                 <div className="d-flex w-100">
                     <div
                         xs={10}
-                        className={`mr-1 pl-1 pt-3 pr-3 pb-3 w-percent-70 bg-plabook-fluency-${color} d-flex justify-content-center align-items-center`}
+                        className={`mr-1 pl-2 pt-3 pr-3 pb-3 w-percent-70 bg-plabook-fluency-${color} d-flex justify-content-center align-items-center`}
                     >
                         <div className="d-flex align-items-end">
                             <div className="p-1 pr-2">
-                                <img src={student.avatar} className="avatar-rem-8" />
+                                <Avatar src={student.avatar} className="w-rem-8" variant="square" />
                             </div>
                             <div className="p-1">
                                 <div className="fw-550 fs-rem-5">
@@ -115,7 +115,7 @@ export default function StudentCard(props) {
                         xs={2}
                         className="w-percent-30 p-3 bg-plabook-gray-1 d-flex flex-column justify-content-center align-items-center"
                     >
-                        <div className={`avatar-rem-6 fw-500 fs-rem-10 br-100 p-3 bg-white t-color-plabook-fluency-text-${color} d-flex justify-content-center align-items-center`}>
+                        <div className={`w-rem-6 fw-500 fs-rem-10 br-100 p-3 bg-white t-color-plabook-fluency-text-${color} d-flex justify-content-center align-items-center`}>
                             {fluencyLevel}
                         </div>
                         <div className="pt-2 text-center fs-rem-4">
