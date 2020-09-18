@@ -462,7 +462,12 @@ export default function StudentAttempt() {
         return (
             <Fragment>
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
-
+                    <div classname="resultText">
+                        {/* {Вова} */}
+                    </div>
+                    <div className="wordInformation">
+                        {/* {Антон} */}
+                    </div>
                 </HeadWraper>
                 {/* <HeadWraper sectionHeading={
                     'Running records result'}>
