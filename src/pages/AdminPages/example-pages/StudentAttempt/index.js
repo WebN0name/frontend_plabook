@@ -459,6 +459,26 @@ export default function StudentAttempt() {
             }
         }
 
+        const fromJSONexample =
+        {
+            "align": "DELETION",
+            "reference": "asked.",
+            "normalized": "asked",
+            "recognized": "",
+            "transcription_index": 28,
+            "reference_index": 27,
+            "confidence": 95.4,
+            "start": 0.569,
+            "end": 0.785,
+            "wordquality": 39.0,
+            "phonemes": {
+                "ae": 95.0,
+                "s": 89.0,
+                "k": 67.0,
+                "t": 32.0
+            }
+        }
+
         return (
             <Fragment>
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
@@ -467,6 +487,7 @@ export default function StudentAttempt() {
                     </div>
                     <div className="wordInformation">
                         {/* {Антон} */}
+                        {word && <WordInfo word={word}/>}
                     </div>
                 </HeadWraper>
                 {/* <HeadWraper sectionHeading={
@@ -595,9 +616,9 @@ export default function StudentAttempt() {
             "recognized": "",
             "transcription_index": 28,
             "reference_index": 27,
-            "confidence": "-",
-            "start": "-",
-            "end": "-",
+            "confidence": 95.4,
+            "start": 0.569,
+            "end": 0.785,
             "wordquality": 39.0,
             "phonemes": {
                 "ae": 85.0,

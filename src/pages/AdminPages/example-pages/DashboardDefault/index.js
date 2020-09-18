@@ -60,6 +60,8 @@ export default function DashboardDefault() {
     const result = await response.json()    
     result.map((elem, index) => {
       elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
+      elem["assessments"] = Math.floor(Math.random() * Math.floor(10));
+      elem["fluency"] = Math.floor(Math.random() * Math.floor(100));
     })
     console.log("Students")
     console.log(result)

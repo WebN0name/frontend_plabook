@@ -50,7 +50,7 @@ export default function StudentCard(props) {
         "avatar": "asjf;as"
     }
 
-    const fluencyLevel = Math.floor(Math.random() * Math.floor(100));
+    const fluencyLevel = student.fluency;
 
 
     let color = ""
@@ -103,7 +103,7 @@ export default function StudentCard(props) {
                             </div>
                             <div className="p-1">
                                 <div className="fw-550 fs-rem-5">
-                                    {student.assesments}
+                                    {student.assessments}
                                 </div>
                                 <div className="fw-400 fs-rem-3">
                                     Assessments Taken

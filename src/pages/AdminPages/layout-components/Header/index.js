@@ -43,7 +43,7 @@ const Header = props => {
   return (
     <Fragment>
       <AppBar
-        color="secondary"
+        color="primary"
         className={clsx('app-header', {
           'app-header-collapsed-sidebar': props.isCollapsedLayout
         })}

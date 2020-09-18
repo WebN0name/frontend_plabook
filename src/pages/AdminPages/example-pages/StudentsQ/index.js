@@ -82,7 +82,9 @@ export default function Students() {
         const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
         const result = await response.json()
         result.map((elem, index) => {
-            elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
+            elem["avatar"] = AvatarPicker().GetAvatar(elem.id);
+            elem["assessments"] = Math.floor(Math.random() * Math.floor(10));
+            elem["fluency"] = Math.floor(Math.random() * Math.floor(100));
         })
         console.log(result)
         studentsDispatch({
@@ -375,10 +377,12 @@ export default function Students() {
         return isNaN(result) ? 0 : result
     }
 
-    const reduceByProperty = (array,propertyName) =>
+    const reduceByProperty = (array, propertyName) =>
     {
        return array.reduce((total,current)=> {
-           return {propertyName : toInt(total.readingLevel)+toInt(current.readingLevel)}
+           const output = {};
+           output[`${propertyName}`] = toInt(total[`${propertyName}`])+toInt(current[`${propertyName}`]);
+           return output;
         })
     }
 
@@ -389,7 +393,7 @@ export default function Students() {
                 titleHeading="Students"
             />
             <div className="px-2">
-                <Grid container spacing={3}>
+                <Grid container spacing={4} className="mb-2">
                     <Grid item xs={3}>
                         <StatsCard
                             header="Fluency level"
@@ -397,16 +401,8 @@ export default function Students() {
                             icon={
                                 <Square color="white" className="w-rem-1" />
                             }
-                            // text={Math.round(students.reduce((total,current)=> toInt(total)+toInt(current.readingLevel))/students.length)}
-                            text={students.reduce((total,current)=> {return {readingLevel: toInt(total.readingLevel)+toInt(current.readingLevel)}}).readingLevel/students.length}
-                        />
-                        {console.log(students.length)}
-                        {
-                            console.log(students.reduce((total,current)=> parseInt(total.readingLevel)+parseInt(current.readingLevel)))
-                        }
-                        {
-                            students.map((item,current)=> console.log(parseInt(item.readingLevel)))
-                        }
+                            text={Math.round(reduceByProperty(students,"fluency").fluency/students.length)}
+                        />                        
                     </Grid>
                     <Grid item xs={3}>
                         <StatsCard
@@ -415,7 +411,7 @@ export default function Students() {
                             icon={
                                 <MousePointer color="white" className="w-rem-1" />
                             }
-                            text={2}
+                            text={Math.round(reduceByProperty(students,"readingLevel").readingLevel/students.length)}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -425,7 +421,7 @@ export default function Students() {
                             icon={
                                 <MessageSquare color="white" className="w-rem-1" />
                             }
-                            text={2}
+                            text={Math.round(reduceByProperty(students,"assessments").assessments/students.length)}
                         />
                     </Grid>
                     <Grid item xs={3}>
