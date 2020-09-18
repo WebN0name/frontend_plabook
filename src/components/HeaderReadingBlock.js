@@ -15,7 +15,7 @@ const HeaderReadingBlock = ({ bookImage, bookPick, wrongWord}) =>{
     return(
         <div className = "headerContainer">
             <div className = "images">
-                <img src = { `https://dev.plabookeducation.com/${bookImage}` } alt="BookImage" className = "headerBookImage"/>
+                <img src = { `https://demo.plabookeducation.com/${bookImage}` } alt="BookImage" className = "headerBookImage"/>
                 <img  src = { BookPickIcon } alt="SelectBookIcon" className="selctBookIcon" onClick = { () => bookPick()  }/>
             </div>
             <div className = "rubiiBlock">

@@ -45,7 +45,7 @@ const Controls = ({dots, index, clickRecordButton, frequency, isRecord}) =>{
             <p className ="micro" onClick = {() => clickRecordButton()} style = {activeMicro(frequency)}><FontAwesomeIcon icon = { faMicrophone }/></p>
             <div className = "breadCrumbs">
                 {dots.map((item) => (
-                    <div className = "crumb crumbDisActiveColor" key={item.id} style = {dotStyle(item.status)}></div>
+                    <div className = "crumb crumbDisActiveColor" key={item.id} style = {dotStyle(item.status, item.id)}></div>
                 ))}
             </div>
         </div>

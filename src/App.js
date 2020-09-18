@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import './assets/css/App.css'
-import './assets/css/GothamPro.css'
+import './assets/css/Montserrat.css'
 import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import BookPick from './pages/BookPickPage'
 import ReadingPage from './pages/ReadingPage'

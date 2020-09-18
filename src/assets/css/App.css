@@ -1,6 +1,6 @@
 html{
     box-sizing: border-box;
-    font-family: "Gotham Pro"
+    font-family: "Montserrat"
 }
 
 .App{
@@ -230,7 +230,7 @@ html{
     font-size: 2.688rem;
     margin: 0;
     color: #383b41;
-    font-family: "Gotham Pro";
+    font-family: "Montserrat";
     font-weight: 300;
     text-align: justify;
     line-height: 3.375rem;
@@ -288,7 +288,7 @@ html{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: "Gotham Pro";
+    font-family: "Montserrat";
     font-weight: 300;
   }
   

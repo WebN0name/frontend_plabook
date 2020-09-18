@@ -31,7 +31,7 @@ const Text = ({pages, index, nextPage, previousPage, setWrongWord, isTalking}) =
     function setAnswerColor(style){
         if(style === 'wrong'){
             return{
-                fontFamily: 'Gotham Pro',
+                fontFamily: 'Montserrat Black',
                 fontWeight: 900,
                 color: '#f96e88',
                 cursor: 'pointer'
@@ -40,7 +40,7 @@ const Text = ({pages, index, nextPage, previousPage, setWrongWord, isTalking}) =
 
         if(style === 'right'){
             return{
-                fontFamily: 'Gotham Pro',
+                fontFamily: 'Montserrat',
                 fontWeight: 300,
                 color: '#aeaeae'
             }
@@ -48,7 +48,7 @@ const Text = ({pages, index, nextPage, previousPage, setWrongWord, isTalking}) =
 
         if(style === 'readed'){
             return{
-                fontFamily: 'Gotham Pro',
+                fontFamily: 'Montserrat',
                 fontWeight: 300,
                 color: '#aeaeae'
             }

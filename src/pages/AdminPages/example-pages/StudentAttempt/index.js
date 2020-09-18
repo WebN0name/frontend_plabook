@@ -26,12 +26,14 @@ import { getByText } from '@testing-library/react';
 import { withStyles } from '@material-ui/styles';
 
 import QuareFake from './words'
+import { mdiConsoleLine } from '@mdi/js';
 
 export default function StudentAttempt() {
 
     const { id } = useParams();
     const { attempt, student } = useContext(Context)
     const [text, setText] = useState('')
+    const [audioFile, setAudioFile] = useState('')
 
     const audio = QuareFake()
     attempt['wordInfo'] = []
@@ -43,18 +45,30 @@ export default function StudentAttempt() {
 
 
     const history = useHistory();
-    const audioFile = useRef(null)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
+        console.log(JSON.parse(attempt.phonic))
+        getAudio(attempt.Audiofile)
+        // console.log(audioFile)
         // if(attempt["Recognizer"] === 'soapbox'){
         //     console.log("JSON с запроса")
         //     console.log(JSON.parse(attempt["JSON"]))
         // }else{
 
         // }
-        console.log(JSON.parse(attempt.phonic))
+        // axios.get(attempt.Audiofile).then(r =>{
+        //     console.log(r.data)
+        // fs.writeFile('./my.wav', r.data, (err) => {
+        //     if (err) throw err;
+        //     console.log('The file has been saved!');
+        // })
+        // })
+        // const request = http.get(attempt.Audiofile, function(response){
+        //     response.pipe(file)
+        // })
 
-        axios.get('https://dev.plabookeducation.com/getAllBooks').then(r => {
+        axios.get('https://demo.plabookeducation.com/getAllBooks').then(r => {
             r.data.forEach(element => {
                 if (element.name === attempt['Book ID']) {
                     getBook(element.pages, attempt.Page)
@@ -62,6 +76,24 @@ export default function StudentAttempt() {
             });
         })
     }, [])
+
+    async function getAudio(url) {
+        fetch(url).then(r => r.blob()).then(async blob => {
+            const audio = await getAudioData(blob)
+            setAudioFile(audio)
+        })
+    }
+
+    function getAudioData(blob) {
+        return new Promise((resolve, rejects) => {
+            const reader = new FileReader()
+            reader.onload = () => {
+                resolve(reader.result)
+            }
+            reader.onerror = rejects
+            reader.readAsDataURL(blob)
+        })
+    }
 
     function getBook(pages, num) {
         setText(pages[num - 1])
@@ -151,7 +183,7 @@ export default function StudentAttempt() {
     }
 
     const example = {
-        Audiofile: "https://dev.plabookeducation.com/recordFile/5f4509602341a60295c492ee",
+        Audiofile: "https://demo.plabookeducation.com/recordFile/5f4509602341a60295c492ee",
         "Book ID": "EARTH DAY BIRTHDAY",
         Date: "Fri Aug 28 2020 16: 06: 23 GMT + 0900(Якутск, стандартное время)",
         "Err M": "7",
@@ -203,7 +235,7 @@ export default function StudentAttempt() {
                                     <span>
                                         <CountUp
                                             start={0}
-                                            end={((JSON.parse(attempt.phonic).correct + JSON.parse(attempt.phonic).insertions + JSON.parse(attempt.phonic).deletions + JSON.parse(attempt.phonic).substitutions)/JSON.parse(attempt.phonic).duration)*60}
+                                            end={((JSON.parse(attempt.phonic).correct + JSON.parse(attempt.phonic).insertions + JSON.parse(attempt.phonic).deletions + JSON.parse(attempt.phonic).substitutions) / JSON.parse(attempt.phonic).duration) * 60}
                                             duration={4}
                                             deplay={2}
                                             separator=""
@@ -364,7 +396,7 @@ export default function StudentAttempt() {
     }
 
 
-    const AnalysePreview = ({audio}) => {
+    const AnalysePreview = ({ audio }) => {
 
         const [word, setWord] = useState(null);
         const player = new Audio()
@@ -389,19 +421,20 @@ export default function StudentAttempt() {
 
         const classes = useStyles();
 
-        function clickWord(word, player){
+        function clickWord(word, player) {
             setWord(word)
-            console.log(audio)
-            player.currentTime = word.start
-            player.play()
-            setTimeout(() =>{
-                player.pause()
-            }, ((word.end - word.start) * 1000) + 150)
+            if (word.align !== 'DELETION') {
+                player.currentTime = word.start
+                player.play()
+                setTimeout(() => {
+                    player.pause()
+                }, ((word.end - word.start) * 1000) + 150)
+            }
         }
 
         return (
             <Fragment>
-                <HeadWraper sectionHeading={
+                {/* <HeadWraper sectionHeading={
                     'Running records result'}>
                     {ConvertToArray(attempt["Running Records"]).map((item) => {
                         const color = item.isCorrect ? 'plabook-success' : 'plabook-warning'
@@ -412,7 +445,7 @@ export default function StudentAttempt() {
                             </Box>
                         )
                     })}
-                </HeadWraper>
+                </HeadWraper> */}
                 <HeadWraper sectionHeading="Reading Analysis">
                     {
                         attempt.wordInfo.map((word) => {
@@ -432,6 +465,10 @@ export default function StudentAttempt() {
                                     break;
                             }
 
+                            if ((word.align === 'INSERTION') && (word.normalized === '')) {
+                                word.normalized = '_'
+                            }
+
 
                             return (
                                 <Fragment>
@@ -440,7 +477,7 @@ export default function StudentAttempt() {
                                             clickWord(word, player)
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
-                                        {word.recognized}
+                                        {word.normalized}
                                     </Box>
                                 </Fragment>
                             )
@@ -555,13 +592,17 @@ export default function StudentAttempt() {
         }
         // danger|warning|info|success
 
+        if (word.align === 'INSERTION') {
+
+        }
+
 
         return (
             <Fragment>
                 <Box
                     onClick={handlePopoverEnter}
                     className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
-                    {word.recognized}
+                    {word.normalized}
                 </Box>
                 <Popover
                     open={Boolean(anchorEl)}
@@ -609,7 +650,7 @@ export default function StudentAttempt() {
                         <div className="d-flex align-items-center">
                             <p className="m-2">Recording</p>
                         </div>} className="mb-4">
-                        <audio ref={audioFile} className="m-0" controls src={source.Audiofile}></audio>
+                        <audio className="m-0" controls src={audioFile}></audio>
                     </HeadWraper>
                     <HeadWraper sectionHeading={
                         <div className="d-flex align-items-center">
@@ -617,7 +658,7 @@ export default function StudentAttempt() {
                         </div>} className="mb-4">
                         <p>{text}</p>
                     </HeadWraper>
-                    <AnalysePreview audio = {source.Audiofile}/>
+                    <AnalysePreview audio={audioFile} />
                     {/* <HeadWraper sectionHeading="Phonemes">
                         <Box id="phonemes-container">
                             <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />

@@ -93,7 +93,7 @@ export default function Students() {
     }, [])
 
     const fetchDate = async () => {
-        const response = await fetch(`https://dev.plabookeducation.com/studentList`, quareData)
+        const response = await fetch(`https://demo.plabookeducation.com/studentList`, quareData)
         const result = await response.json();
         setStudents(result);
     }
