@@ -44,27 +44,27 @@ export default function StudentAttempt() {
     }
 
 
-    function colorPercent(value){
-        if(value >= 95){
-            return{
+    function colorPercent(value) {
+        if (value >= 95) {
+            return {
                 color: '#65C6DE'
             }
         }
 
-        if((value >= 80) && (value <= 94)){
-            return{
+        if ((value >= 80) && (value <= 94)) {
+            return {
                 color: '#5EAD60'
             }
         }
 
-        if((value >= 65) && (value <= 79)){
-            return{
+        if ((value >= 65) && (value <= 79)) {
+            return {
                 color: '#EDC91B'
             }
         }
 
-        if(value <= 64){
-            return{
+        if (value <= 64) {
+            return {
                 color: '#E25744'
             }
         }
@@ -459,11 +459,30 @@ export default function StudentAttempt() {
             }
         }
 
+        function wordStyle(){
+            const insertion = {
+                color: '#6B1E65',
+                display: 'block',
+                "::before":{
+                    content: '&and'
+                }
+            }
+            return insertion
+        }
+
         return (
             <Fragment>
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
                     <div classname="resultText">
-                        {/* {Вова} */}
+                        <p>
+                            {attempt.wordInfo.map((attemptWord) => {
+                                return (
+                                    <span
+                                        className={`m-1 ${classes.analysText} ${classes.pointer}`} style = {wordStyle()}
+                                    >{attemptWord.normalized}</span>
+                                )
+                            })}
+                        </p>
                     </div>
                     <div className="wordInformation">
                         {/* {Антон} */}
