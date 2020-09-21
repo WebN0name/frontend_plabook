@@ -8,6 +8,7 @@ import Preloader from '../components/Preloader'
 import Modalpermission from '../components/Modalpermission'
 import TestButton from '../components/TestButton'
 import ModalTest from '../components/ModalTest'
+import { RecordRTCPromisesHandler, StereoAudioRecorder } from 'recordrtc'
 
 export default function  ReadingPage ({history}){
 
@@ -25,7 +26,7 @@ export default function  ReadingPage ({history}){
         error: '',
         text: ''
     })
-    const [Recorder, setRecorder] = useState(null)
+    const [RecorderTCR, setRecorderTCR] = useState(null)
     const [wrongAudio, setWrongAudio] = useState([])
     const [audio, setAudio] = useState([])
     const [wrongWord, setWrongWord] = useState('')
@@ -33,6 +34,7 @@ export default function  ReadingPage ({history}){
     const [isTest, setIsTest] = useState(false)
     const [audioQueue, setAudioQueue] = useState([])
     const [checkAudioTime, setCheckAudioTime] = useState([])
+    const [audioStream, setStream] = useState(null)
 
     
 
@@ -49,9 +51,8 @@ export default function  ReadingPage ({history}){
     async function getPermission(){
         try {
             let stream = null
-            stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false})
-            const Rec = new MediaRecorder(stream)
-            setRecorder(Rec)
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+            setStream(stream)
             const context = new AudioContext()
             analizer = context.createAnalyser()
             const src = context.createMediaStreamSource(stream)
@@ -69,21 +70,22 @@ export default function  ReadingPage ({history}){
         analizer.getByteFrequencyData(frequency)
         setFrequency(frequency[0])
         if((audioQueue.length !==0) && (localStorage.getItem('testQueue') === 'false')){
+            console.log('1')
             getAudioResult()
         }
     }
 
-    function getAudioResult(){
+    async function getAudioResult(){
         localStorage.setItem('testQueue', JSON.stringify(true))
         let tmp = audioQueue
         const page = tmp[0]
         tmp.shift()
         setAudioQueue(tmp)
+        console.log(page)
         axios.post('https://dev.plabookeducation.com/saveRecord',{
             textName : bookForReading.name,
-            record: page.finalString
+            record: page.testString
         }).then(r => {
-            console.log(r)
             const id = r.data.result._id
             const httpsClient = axios.create()
             httpsClient.defaults.timeout = 900000
@@ -93,10 +95,9 @@ export default function  ReadingPage ({history}){
                 username: user,
                 textName : bookForReading.name,
                 bookPage: page.currentIndex + 1,
-                record: page.finalString
+                record: page.testString
             }).then(r => {
                 try {
-                    console.log(r)
                 if(!r.data.error){
                     const wrongWords = r.data.mlResult
                     for(let i=0; i< wrongWords.length; i++){
@@ -287,7 +288,14 @@ export default function  ReadingPage ({history}){
     }
 
     function startRecod(){
-        Recorder.start()
+        // Recorder.start()
+        const RecTCR = new RecordRTCPromisesHandler(audioStream, {
+            type: 'audio',
+            recorderType: StereoAudioRecorder, // force for all browsers
+            numberOfAudioChannels: 2, 
+            mimeType: 'audio/wav'})
+        setRecorderTCR(RecTCR)
+        RecTCR.startRecording()
     }
     
     function checkTime(){
@@ -308,16 +316,20 @@ export default function  ReadingPage ({history}){
     }
 
     async function stopRecord(){
-        Recorder.stop()
-        const result = await getResult()
-        let voice = []
-        voice.push(result)
-        const voiceBlob = new Blob(voice, {
-            type: 'audio/wav'
-        })
-        const finalString = await getBinaryString(voiceBlob)
+        // Recorder.stop()
+        await RecorderTCR.stopRecording()
+        let blob = await RecorderTCR.getBlob()
+        console.log(RecorderTCR)
+        const testString = await getBinaryString(blob)
+        // const result = await getResult()
+        // let voice = []
+        // voice.push(result)
+        // const voiceBlob = new Blob(voice, {
+        //     'type': 'audio/; codecs=opus'
+        // })
+        // const finalString = await getBinaryString(voiceBlob)
         let tmp = audioQueue
-        tmp.push({finalString, currentIndex})
+        tmp.push({testString, currentIndex})
         setAudioQueue(tmp)
         tmp = bookForReading
         tmp.dots.forEach(element => {
@@ -356,13 +368,13 @@ export default function  ReadingPage ({history}){
           })
     }
 
-    function getResult(){
-        return new Promise((resolve) => {
-            Recorder.ondataavailable = (e) => {
-              resolve(e.data)
-            }
-        })
-    }
+    // function getResult(){
+    //     return new Promise((resolve) => {
+    //         Recorder.ondataavailable = (e) => {
+    //           resolve(e.data)
+    //         }
+    //     })
+    // }
 
 
     function refreshErrors (){
@@ -464,6 +476,7 @@ export default function  ReadingPage ({history}){
         //         })
         //     })
         // })
+        //123
         let tmp = audioQueue
         tmp.push({finalString: value, currentIndex})
         setAudioQueue(tmp)

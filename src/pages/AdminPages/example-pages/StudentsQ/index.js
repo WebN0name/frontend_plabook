@@ -16,6 +16,9 @@ import Context from '../../../../Context'
 
 import {
     Clipboard,
+    MessageSquare,
+    MousePointer,
+    Square,
     UserPlus
 } from 'react-feather';
 
@@ -23,6 +26,7 @@ import AvatarPicker from '../../../../components/AvatarPicker';
 import NewStudentDialog from '../AdminModals/NewStudentDialog';
 import StudentCard from './Components/StudentCard';
 import StudentCard2 from './Components/StudentCard2';
+import StatsCard from './Components/StatsCard';
 
 
 export default function Students() {
@@ -78,9 +82,11 @@ export default function Students() {
         const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
         const result = await response.json()
         result.map((elem, index) => {
-            elem["avatar"] = AvatarPicker().GetAvatar(elem.id)
+            elem["avatar"] = AvatarPicker().GetAvatar(elem.id);
+            elem["assessments"] = Math.floor(Math.random() * Math.floor(10));
+            elem["fluency"] = Math.floor(Math.random() * Math.floor(100));
         })
-        console.log(result)        
+        console.log(result)
         studentsDispatch({
             type: 'setStudents',
             payload: result
@@ -262,8 +268,8 @@ export default function Students() {
                     </td>
                     <td className={`text-${labels[1]}`}>{student.pin}</td>
                     <td className={`text-${labels[2]}`}>
-                        <Button onClick={() => {handleCopy(student.personalLink)}} className="m-2">
-                        Copy Login Link
+                        <Button onClick={() => { handleCopy(student.personalLink) }} className="m-2">
+                            Copy Login Link
                             <Clipboard className="font-size-lg ml-1" />
                         </Button>
                     </td>
@@ -297,11 +303,11 @@ export default function Students() {
 
         return (
             <Card className="card-box mb-4">
-                <NewStudentDialog open={createStudent} onClose={()=>{togleCreate()}}/>
+                <NewStudentDialog open={createStudent} onClose={() => { togleCreate() }} />
                 <div className="card-header py-3">
                     <div className="card-header--title font-size-lg">Students</div>
                     <div>
-                        <IconButton onClick={()=>{togleCreate()}}>
+                        <IconButton onClick={() => { togleCreate() }}>
                             <UserPlus />
                         </IconButton>
                     </div>
@@ -348,142 +354,6 @@ export default function Students() {
                                     <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
                                 </TableRow>)
                             }
-                            {/* <tr>
-                                <td className="font-weight-bold">#453</td>
-                                <td>
-                                    <div className="d-flex align-items-center">
-                                        <Avatar alt="..." className="mr-2" src={avatar1} />
-                                        <div>Shanelle Wynn</div>
-                                    </div>
-                                </td>
-                                <td>When, while the lovely valley teems</td>
-                                <td className="text-center">
-                                    <Avatar alt="..." src={avatar2} />
-                                </td>
-                                <td className="text-center">
-                                    <div className="badge bg-neutral-danger text-danger">
-                                        High
-                                    </div>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-dark badge badge-neutral-dark">
-                                        Closed
-                                    </div>
-                                </td>
-                                <td className="text-center text-muted">12/12/2020</td>
-                                <td className="text-center text-muted">08/30/2021</td>
-                                <td className="text-center">
-                                    <Button size="small" color="primary">
-                                        <FontAwesomeIcon
-                                            icon={['fas', 'ellipsis-h']}
-                                            className="font-size-lg"
-                                        />
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-weight-bold">#584</td>
-                                <td>
-                                    <div className="d-flex align-items-center">
-                                        <Avatar alt="..." className="mr-2" src={avatar3} />
-                                        <div>Brody Dixon</div>
-                                    </div>
-                                </td>
-                                <td>I am so happy, my dear friend</td>
-                                <td className="text-center">
-                                    <Tooltip arrow title="Arvin Weston">
-                                        <Avatar alt="Remy Sharp" src={avatar4} />
-                                    </Tooltip>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-warning badge badge-neutral-warning">
-                                        Low
-                  </div>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-success badge badge-neutral-success">
-                                        Open
-                  </div>
-                                </td>
-                                <td className="text-center text-muted">06/08/2022</td>
-                                <td className="text-center text-muted">07/25/2023</td>
-                                <td className="text-center">
-                                    <Button size="small" color="primary">
-                                        <FontAwesomeIcon
-                                            icon={['fas', 'ellipsis-h']}
-                                            className="font-size-lg"
-                                        />
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-weight-bold">#764</td>
-                                <td>
-                                    <div className="d-flex align-items-center">
-                                        <Avatar alt="..." className="mr-2" src={avatar5} />
-                                        <div>Milton Ayala</div>
-                                    </div>
-                                </td>
-                                <td>His own image, and the breath</td>
-                                <td className="text-center">
-                                    <Tooltip arrow title="Mali Rosario">
-                                        <Avatar alt="Mali Rosario" src={avatar6} />
-                                    </Tooltip>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-info badge badge-neutral-info">
-                                        Medium
-                  </div>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-dark badge badge-neutral-dark">
-                                        Closed
-                  </div>
-                                </td>
-                                <td className="text-center text-muted">12/12/2020</td>
-                                <td className="text-center text-muted">08/30/2021</td>
-                                <td className="text-center">
-                                    <Button size="small" color="primary">
-                                        <FontAwesomeIcon
-                                            icon={['fas', 'ellipsis-h']}
-                                            className="font-size-lg"
-                                        />
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-weight-bold">#453</td>
-                                <td>
-                                    <div className="d-flex align-items-center">
-                                        <Avatar alt="..." className="mr-2" src={avatar1} />
-                                        <div>Kane Gentry</div>
-                                    </div>
-                                </td>
-                                <td>When I hear the buzz</td>
-                                <td className="text-center">
-                                    <Avatar alt="..." className="mr-2" src={avatar7} />
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-warning badge badge-neutral-warning">
-                                        Low
-                  </div>
-                                </td>
-                                <td className="text-center">
-                                    <div className="text-success badge badge-neutral-success">
-                                        Open
-                  </div>
-                                </td>
-                                <td className="text-center text-muted">12/12/2020</td>
-                                <td className="text-center text-muted">08/30/2021</td>
-                                <td className="text-center">
-                                    <Button size="small" color="primary">
-                                        <FontAwesomeIcon
-                                            icon={['fas', 'ellipsis-h']}
-                                            className="font-size-lg"
-                                        />
-                                    </Button>
-                                </td>
-                            </tr> */}
                         </tbody>
                     </table>
                     <Divider />
@@ -501,83 +371,74 @@ export default function Students() {
         )
     }
 
-    const Old = () => {
-        return (
-            <Paper style={{ marginBottom: 30 }} elevation={1}>
-                <Box className={classes.TabHead}><Typography gutterBottom variant="h5" >Students</Typography></Box>
-                <Divider />
-                <TableContainer>
-                    <Table title="Students">
-                        <TableHead>
-                            <TableRow>
-                                {labels.map((label) => (
-                                    <TableCell key={label.name} align={label.align}>
-                                        <TableSortLabel
-                                            active={orderBy === label.propertyName}
-                                            direction={orderBy === label.propertyName ? order : 'asc'}
-                                            onClick={(event) => { handleRequestSort(event, label.propertyName) }}
-                                        >
-                                            {label.name}
-                                        </TableSortLabel>
-                                    </TableCell>))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                GetPageRows().map((student, index) =>
-                                    <TableRow hover key={student.name + index}>
-                                        <TableCell onClick={() => { history.push(`/Admin/StudentStatistic/${student.name}`) }} className={classes.nameCell} align="left"><Box className={classes.flexRow}><Avatar alt={student.name} src="" />{student.name}</Box></TableCell>
-                                        <TableCell className={classes.cell} align="left">{student.pin}</TableCell>
-                                        <TableCell className={classes.cell} align="left"><a>{student.personalLink}</a></TableCell>
-                                        <TableCell className={classes.cell} align="left">{student.readingLevel}</TableCell>
-                                        <TableCell className={classes.cell} align="left">{student.stage}</TableCell>
-                                        <TableCell className={classes.cell} align="left">{student.bookRead}</TableCell>
-                                        <TableCell className={classes.cell} align="left">{student.fluency}</TableCell>
-                                    </TableRow>)
-                            }
-                            {
-                                GetPageRows().length === 0 && (<TableRow>
-                                    <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
-                                </TableRow>)
-                            }
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 75 * emptyRows }} >
-
-                                </TableRow>
-                            )}
-                        </TableBody>
-
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={rowsPerPageArray}
-                    component="div"
-                    count={GetPageRows().length}
-                    rowsPerPage={_rowsPerPage}
-                    page={_page}
-                    onChangePage={(e, newPage) => { setPage(newPage) }}
-                    onChangeRowsPerPage={(e) => { HandelRowCountChange(e.target.value) }}
-                />
-            </Paper>
-        )
+    const toInt = (value) =>
+    {
+        const result = parseInt(value)
+        return isNaN(result) ? 0 : result
     }
+
+    const reduceByProperty = (array, propertyName) =>
+    {
+       return array.reduce((total,current)=> {
+           const output = {};
+           output[`${propertyName}`] = toInt(total[`${propertyName}`])+toInt(current[`${propertyName}`]);
+           return output;
+        })
+    }
+
     const emptyRows = Math.abs(GetPageRows().length - _rowsPerPage);
     return (
         <Fragment>
             <PageTitle
                 titleHeading="Students"
             />
-            <Paper className={classes.search} elevation={1}>
-                <TextField onChange={(e) => { setSearchFillter(e.target.value) }} id="search" fullWidth type="search" label="Search" />
-                {/* <Icon path={mdiFilterOutline} size={1.2}></Icon> */}
-            </Paper>
-            {/* <NewBL /> */}
-            <Grid container spacing={2}>            
-            {students.filter(searchRequest).map((student,index)=>
-            <Grid item xs={4}>
-            <StudentCard key={`${student.id}-${index}`} student={student}/>
-            </Grid>
-            )}
+            <div className="px-2">
+                <Grid container spacing={4} className="mb-2">
+                    <Grid item xs={3}>
+                        <StatsCard
+                            header="Fluency level"
+                            color="plabook-info"
+                            icon={
+                                <Square color="white" className="w-rem-1" />
+                            }
+                            text={Math.round(reduceByProperty(students,"fluency").fluency/students.length)}
+                        />                        
+                    </Grid>
+                    <Grid item xs={3}>
+                        <StatsCard
+                            header="Reading grade level"
+                            color="plabook-info-light"
+                            icon={
+                                <MousePointer color="white" className="w-rem-1" />
+                            }
+                            text={Math.round(reduceByProperty(students,"readingLevel").readingLevel/students.length)}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <StatsCard
+                            header="Assessments"
+                            color="plabook-info"
+                            icon={
+                                <MessageSquare color="white" className="w-rem-1" />
+                            }
+                            text={Math.round(reduceByProperty(students,"assessments").assessments/students.length)}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <StatsCard header="Something" icon={<UserPlus />} text={2} />
+                    </Grid>
+                </Grid>
+                <Paper className={classes.search} elevation={1}>
+                    <TextField onChange={(e) => { setSearchFillter(e.target.value) }} id="search" fullWidth type="search" label="Search" />
+                    {/* <Icon path={mdiFilterOutline} size={1.2}></Icon> */}
+                </Paper>
+            </div>
+            <Grid container spacing={2}>
+                {students.filter(searchRequest).map((student, index) =>
+                    <Grid item xs={4}>
+                        <StudentCard key={`${student.id}-${index}`} student={student} />
+                    </Grid>
+                )}
             </Grid>
             <Portal >
                 <Snackbar

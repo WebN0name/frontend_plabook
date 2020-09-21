@@ -247,7 +247,7 @@ export default function StudentAttempt() {
         const wcpm = getRandomInt(60, 100)
         return (
             <Grid container className="mb-1" spacing={4}>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={3} sm={6} lg={3}>
                     <Card className="card-box card-box-border-bottom border-plabook-info card-shadow-plabook-info mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
@@ -276,7 +276,7 @@ export default function StudentAttempt() {
                         </div>
                     </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={3} sm={6} lg={3}>
                     <Card className="card-box card-box-border-bottom border-plabook-success card-shadow-plabook-success mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
@@ -314,7 +314,7 @@ export default function StudentAttempt() {
                         </div>
                     </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={3} sm={6} lg={3}>
                     <Card className="card-box card-box-border-bottom border-plabook-info card-shadow-plabook-info mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
@@ -353,7 +353,7 @@ export default function StudentAttempt() {
                         </div>
                     </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} lg={3}>
+                <Grid item xs={3} sm={6} lg={3}>
                     <Card className="card-box card-box-border-bottom border-plabook-info-light card-shadow-plabook-info-light mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="p-3">
@@ -475,10 +475,13 @@ export default function StudentAttempt() {
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
                     <div classname="resultText">
                         <p>
-                            {attempt.wordInfo.map((attemptWord) => {
+                            {attempt.wordInfo.map((attemptWord, index) => {
                                 return (
                                     <span
                                         className={`m-1 ${classes.analysText} ${classes.pointer}`} style = {wordStyle()}
+                                        onClick={() => {
+                                            clickWord(attemptWord, index, player)
+                                        }}
                                     >{attemptWord.normalized}</span>
                                 )
                             })}
@@ -486,6 +489,7 @@ export default function StudentAttempt() {
                     </div>
                     <div className="wordInformation">
                         {/* {Антон} */}
+                        {word && <WordInfo word={word}/>}
                     </div>
                 </HeadWraper>
                 {/* <HeadWraper sectionHeading={
@@ -519,8 +523,8 @@ export default function StudentAttempt() {
                                     break;
                             }
 
-                            if ((word.align === 'INSERTION') && (word.normalized === '')) {
-                                word.normalized = '_'
+                            if ((attemptWord.align === 'INSERTION') && (attemptWord.normalized === '')) {
+                                attemptWord.normalized = '_'
                             }
 
 
@@ -531,7 +535,7 @@ export default function StudentAttempt() {
                                             clickWord(attemptWord, index, player)
                                         }}
                                         className={`m-1 ${classes.analysText} ${classes.pointer} badge badge-${color}`}>
-                                        {word.normalized}
+                                        {attemptWord.normalized}
                                     </Box>
                                 </Fragment>
                             )
@@ -614,9 +618,9 @@ export default function StudentAttempt() {
             "recognized": "",
             "transcription_index": 28,
             "reference_index": 27,
-            "confidence": "-",
-            "start": "-",
-            "end": "-",
+            "confidence": 95.4,
+            "start": 0.569,
+            "end": 0.785,
             "wordquality": 39.0,
             "phonemes": {
                 "ae": 85.0,
@@ -693,12 +697,12 @@ export default function StudentAttempt() {
                         className="font-size-xxl "
                     />} onClick={() => window.history.back()}>Back to Student</Button>
             </div>
+            <Rates />
             <Grid
                 container
                 direction="row"
                 spacing={4}
                 className="mb-1">
-                <Rates />
                 <Grid item xs={11} sm={8}>
                     <HeadWraper sectionHeading={
                         <div className="d-flex align-items-center">
@@ -713,17 +717,6 @@ export default function StudentAttempt() {
                         <p>{text}</p>
                     </HeadWraper>
                     <AnalysePreview audio={audioFile} />
-                    {/* <HeadWraper sectionHeading="Phonemes">
-                        <Box id="phonemes-container">
-                            <Phonemer phonemes={JSON.parse(attempt.phonic)[1].phonemes} />
-                        </Box>
-                    </HeadWraper>
-                    <HeadWraper sectionHeading="Reading Analysis">
-                        {
-                            attempt.wordInfo.map((word) =>
-                                <AnalyseWord word={word} />)
-                        }
-                    </HeadWraper> */}
                 </Grid>
                 <Grid item xs={1} sm={4}>
                     <PropertyCard label="Duration" value={JSON.parse(attempt.phonic).duration} color={"plabook-info"} ending="s" />
