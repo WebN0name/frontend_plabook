@@ -484,7 +484,8 @@ export default function StudentAttempt() {
                         <div className="resultText d-flex flex-wrap p-2">
                             {attempt.wordInfo.map((attemptWord, index) => {
                                 return (
-                                    <WordMark
+                                    <WordMark 
+                                    selected={JSON.stringify(word) === JSON.stringify(attemptWord)}
                                     key={index+attemptWord.recognized}
                                         onClick={() => {
                                             clickWord(attemptWord, player)

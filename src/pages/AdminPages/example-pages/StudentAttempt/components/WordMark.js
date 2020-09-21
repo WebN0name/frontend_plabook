@@ -13,6 +13,7 @@ export default function WordMark(props) {
     variant = variant ? variant : "none";
     const { word } = props
     const { corretion } = props
+    const { selected } = props
 
     const useStyles = makeStyles({
 
@@ -63,6 +64,7 @@ export default function WordMark(props) {
             </div>
             <div
                 className={`word-mark-content 
+                ${selected ? "word-mark-selected" : ""} 
                 word-mark-${variant === "repeat" ? "repeat" : ""}${variant === "deletion" ? "deletion" : ""}`}
             >
                 {typeof(word) === 'object' ? word.recognized : word}
