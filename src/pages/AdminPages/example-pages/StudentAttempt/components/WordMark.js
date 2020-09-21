@@ -55,6 +55,7 @@ export default function WordMark(props) {
         }
     }
 
+
     return (
         <div {...props} className={`m-1 cursor-pointer w-fit-content ${variant !== "none" ? "t-color-plabook-magenta" : ""}`}>
             <div className={`word-mark-section w-fit-content ${variant === "substitution" ? "word-mark-substitution" : ""}`}>
@@ -64,7 +65,7 @@ export default function WordMark(props) {
                 className={`word-mark-content 
                 word-mark-${variant === "repeat" ? "repeat" : ""}${variant === "deletion" ? "deletion" : ""}`}
             >
-                {word.reference ? word.recognized : word}
+                {typeof(word) === 'object' ? word.recognized : word}
                 {variant === "deletion" ? word.normalized : ""}
             </div>
             <div className="word-mark-center word-mark-section">
