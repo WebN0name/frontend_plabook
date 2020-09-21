@@ -18,6 +18,7 @@ import { PageTitle, ExampleWrapperSimple } from '../../layout-components';
 
 import WordInfo from './components/WordInfo'
 import PropertyCard from './components/PropertyCard'
+import PropertyCard2 from './components/PropertyCard2'
 import Phonemer from './components/Phonemer'
 
 
@@ -27,6 +28,7 @@ import { withStyles } from '@material-ui/styles';
 
 import QuareFake from './words'
 import { mdiConsoleLine } from '@mdi/js';
+import WordMark from './components/WordMark';
 
 export default function StudentAttempt() {
 
@@ -472,6 +474,19 @@ export default function StudentAttempt() {
 
         return (
             <Fragment>
+                <Card className="card-box mb-4-spacing overflow-visible">
+                    <div className="card-header">
+                        <div className="card-header--title font-size-lg font-weight-bold py-2">
+                            {`Assessment text and analysis > ${attempt["Book ID"]}`}
+                        </div>
+                    </div>
+                    <div>
+                        <div classname="resultText">
+                            {/* {Вова} */}
+                        </div>
+                        {<WordInfo word={word} />}
+                    </div>
+                </Card>
                 <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
                     <div classname="resultText">
                         <p>
@@ -489,7 +504,8 @@ export default function StudentAttempt() {
                     </div>
                     <div className="wordInformation">
                         {/* {Антон} */}
-                        {word && <WordInfo word={word}/>}
+                        {word && <WordInfo word={word} />}
+                        {<WordInfo word={fromJSONexample} />}
                     </div>
                 </HeadWraper>
                 {/* <HeadWraper sectionHeading={
@@ -719,12 +735,48 @@ export default function StudentAttempt() {
                     <AnalysePreview audio={audioFile} />
                 </Grid>
                 <Grid item xs={1} sm={4}>
-                    <PropertyCard label="Duration" value={JSON.parse(attempt.phonic).duration} color={"plabook-info"} ending="s" />
-                    <PropertyCard label="Correct" value={JSON.parse(attempt.phonic).correct} color={"plabook-success"} />
-                    <PropertyCard label="Insertions" value={JSON.parse(attempt.phonic).insertions} color={"plabook-warning"} />
-                    <PropertyCard label="Deletions" value={JSON.parse(attempt.phonic).deletions} color={"danger"} />
-                    <PropertyCard label="Substitutions" value={JSON.parse(attempt.phonic).substitutions} color={"plabook-warning-light"} />
-                    <PropertyCard label="Accuracy" value={JSON.parse(attempt.phonic).accuracy} color={"plabook-info-light"} ending="%" />
+                    <PropertyCard2
+                        label="Duration"
+                        value={JSON.parse(attempt.phonic).duration}
+                        valuePostfix="s"
+                    />
+                    <PropertyCard2
+                        label="Correct"
+                        value={JSON.parse(attempt.phonic).correct}
+                    />
+                    <PropertyCard2
+                        label="Insertions"
+                        value={JSON.parse(attempt.phonic).insertions}
+                        ending={<WordMark word="Insert" variant="insertion" />}
+                    />
+                    <PropertyCard2
+                        label="Deletions"
+                        value={JSON.parse(attempt.phonic).deletions}
+                        ending={<WordMark word="Omit" variant="deletion" />}
+                    />
+                    <PropertyCard2
+                        label="Substitutions"
+                        value={JSON.parse(attempt.phonic).substitutions}
+                        ending={<WordMark word="Substitue" corretion="Substitue" variant="substitution" />}
+                    />
+                    <PropertyCard2
+                        label="Accuracy"
+                        value={JSON.parse(attempt.phonic).accuracy}
+                        color={"plabook-fluency-text-75"}
+                        valuePostfix="%"
+                    />
+                    <Card className={`mb-4 p-3`}>
+                        <div className=" text-uppercase pb-2 fw-500 fs-rem-5">  
+                            Comprehension error legend
+                        </div>
+                        <div className="d-flex" style={{justifyContent: "space-evenly"}}>
+                            <WordMark word="Insert" variant="insertion" />
+                            <WordMark word="Omit" variant="deletion" />
+                            <WordMark word="Substitue" corretion="Substitue" variant="substitution" />
+                            <WordMark word="Repeat" variant="repeat" />
+                        </div>
+                    </Card>
+
                 </Grid>
             </Grid>
             {/* <NewBL /> */}

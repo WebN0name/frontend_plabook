@@ -17,6 +17,8 @@ $plabook-fluency-text-50:#e8ac00;
 $plabook-fluency-text-75: #78cf32 ;
 $plabook-fluency-text-100: #44adca;
 $plabook-gray-1: #f6f6f6;
+$plabook-magenta:#6B1E65;
+
 
 $AvatarSizes: (
     "10": 10px,
@@ -69,6 +71,13 @@ $step : 0.5rem;
     }
 }
 
+@for $i from 1 through 10 {
+    .h-percent-#{$i*10}
+    {
+        height:  10%* $i !important;
+    }
+}
+
 
 @for $i from 0 through 20 {
     .fw-#{$i*50}
@@ -84,9 +93,49 @@ $step : 0.5rem;
     }
 }
 
+@for $i from 1 through 20 {
+    .br-px-#{$i*5}
+    {
+        border-radius:  5px* $i !important;
+    }
+}
+
 .cursor-pointer
 {
     cursor: pointer;
+}
+
+.word-mark
+{
+    width: fit-content;
+    
+}
+.word-mark-content
+{
+    padding:2px;
+}
+.word-mark-center
+{
+    position: relative;
+    transform:  translateX(45%);
+}
+.word-mark-repeat
+{
+    border-style:solid;
+    border-width:1.2px;
+    border-radius:5px;
+}
+.word-mark-substitution
+{
+    text-decoration: underline;
+}
+.word-mark-deletion
+{
+    text-decoration: line-through;
+}
+.word-mark-section
+{
+    height: 1rem;
 }
 
 // .student-card

@@ -121,6 +121,7 @@ $plabook-theme: (
         "plabook-fluency-text-75":      $plabook-fluency-text-75,
         "plabook-fluency-text-100":     $plabook-fluency-text-100,
         "plabook-gray-1":               $plabook-gray-1,
+        "plabook-magenta":               $plabook-magenta,
 );
 
 @each $color, $value in $plabook-theme {
