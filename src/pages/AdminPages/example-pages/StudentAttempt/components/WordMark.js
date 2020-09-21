@@ -61,13 +61,13 @@ export default function WordMark(props) {
                 {variant === "substitution" ? corretion ? corretion : word.normalized ? word.normalized : "" :""}
             </div>
             <div
-                class={`word-mark-content 
+                className={`word-mark-content 
                 word-mark-${variant === "repeat" ? "repeat" : ""}${variant === "deletion" ? "deletion" : ""}`}
             >
                 {word.reference ? word.recognized : word}
                 {variant === "deletion" ? word.normalized : ""}
             </div>
-            <div class="word-mark-center word-mark-section">
+            <div className="word-mark-center word-mark-section">
                 {variant === "insertion" ? "^" : " "}
             </div>
         </div>

@@ -292,7 +292,8 @@ export default function  ReadingPage ({history}){
         const RecTCR = new RecordRTCPromisesHandler(audioStream, {
             type: 'audio',
             recorderType: StereoAudioRecorder, // force for all browsers
-            numberOfAudioChannels: 2, 
+            numberOfAudioChannels: 1,
+            desiredSampRate: 16000,
             mimeType: 'audio/wav'})
         setRecorderTCR(RecTCR)
         RecTCR.startRecording()
