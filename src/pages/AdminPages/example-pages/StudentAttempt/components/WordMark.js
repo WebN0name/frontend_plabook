@@ -20,17 +20,52 @@ export default function WordMark(props) {
 
     const classes = useStyles();
 
+    if(word.align){
+        switch (word.align) {
+            case "DELETION": variant = "deletion"
+                break;
+            case "SUBSTITUTION": variant = "substitution"
+                break;
+            case "CORRECT": variant = "none"
+                break;
+            case "INSERTION": variant = "insertion"
+                break;
+            default: variant = "none"
+                break;
+        }
+    }
+
+    const fromJSONexample =
+    {
+        "align": "DELETION",
+        "reference": "asked.",
+        "normalized": "asked",
+        "recognized": "",
+        "transcription_index": 28,
+        "reference_index": 27,
+        "confidence": 95.4,
+        "start": 0.569,
+        "end": 0.785,
+        "wordquality": 39.0,
+        "phonemes": {
+            "ae": 95.0,
+            "s": 89.0,
+            "k": 68.0,
+            "t": 32.0
+        }
+    }
 
     return (
-        <div class={`${variant !== "none" ? "t-color-plabook-magenta" : ""}`}>
-            <div className={`word-mark-section ${variant === "substitution" ? "word-mark-substitution" : ""}`}>
-                {corretion ? corretion : ' '}
+        <div {...props} className={`m-1 cursor-pointer w-fit-content ${variant !== "none" ? "t-color-plabook-magenta" : ""}`}>
+            <div className={`word-mark-section w-fit-content ${variant === "substitution" ? "word-mark-substitution" : ""}`}>
+                {variant === "substitution" ? corretion ? corretion : word.normalized ? word.normalized : "" :""}
             </div>
             <div
                 class={`word-mark-content 
                 word-mark-${variant === "repeat" ? "repeat" : ""}${variant === "deletion" ? "deletion" : ""}`}
             >
-                {word}
+                {word.reference ? word.recognized : word}
+                {variant === "deletion" ? word.normalized : ""}
             </div>
             <div class="word-mark-center word-mark-section">
                 {variant === "insertion" ? "^" : " "}

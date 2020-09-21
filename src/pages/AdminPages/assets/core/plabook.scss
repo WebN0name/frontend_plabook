@@ -113,11 +113,12 @@ $step : 0.5rem;
 .word-mark-content
 {
     padding:2px;
+    width: fit-content;
+
 }
 .word-mark-center
 {
-    position: relative;
-    transform:  translateX(45%);
+    text-align: center;
 }
 .word-mark-repeat
 {
@@ -136,6 +137,10 @@ $step : 0.5rem;
 .word-mark-section
 {
     height: 1rem;
+}
+.w-fit-content
+{
+    width: fit-content;
 }
 
 // .student-card

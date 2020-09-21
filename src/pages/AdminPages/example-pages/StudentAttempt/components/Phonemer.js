@@ -12,7 +12,7 @@ export default function Phonemer(props) {
     const useStyles = makeStyles({
 
         phonem: {
-            width: "4.5rem",
+            width: "4.67575rem",
             backgroundColor: "#44AEC9",
             color: "white",
             fontSize: "0.8rem",

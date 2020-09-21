@@ -113,7 +113,7 @@ export default function WordInfo(props) {
                             Overview
                     </div>
                         <div className="d-flex align-items-start">
-                            <div>
+                            <div className="mr-3">
                                 <div className="my-1">
                                     Word: <span className="fw-600">{word.reference}</span>
                                 </div>

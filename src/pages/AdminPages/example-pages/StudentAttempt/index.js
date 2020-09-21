@@ -461,11 +461,11 @@ export default function StudentAttempt() {
             }
         }
 
-        function wordStyle(){
+        function wordStyle() {
             const insertion = {
                 color: '#6B1E65',
                 display: 'block',
-                "::before":{
+                "::before": {
                     content: '&and'
                 }
             }
@@ -481,21 +481,32 @@ export default function StudentAttempt() {
                         </div>
                     </div>
                     <div>
-                        <div classname="resultText">
-                            {/* {Вова} */}
+                        <div className="resultText d-flex flex-wrap p-2">
+                            {attempt.wordInfo.map((attemptWord, index) => {
+                                return (
+                                    <WordMark
+                                    key={index+attemptWord.recognized}
+                                        onClick={() => {
+                                            clickWord(attemptWord, player)
+                                        }}
+                                        className={`m-1 ${classes.pointer}`}
+                                        word={attemptWord}
+                                    />
+                                )
+                            })}
                         </div>
                         {<WordInfo word={word} />}
                     </div>
                 </Card>
-                <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
+                {/* <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
                     <div classname="resultText">
                         <p>
                             {attempt.wordInfo.map((attemptWord, index) => {
                                 return (
                                     <span
-                                        className={`m-1 ${classes.analysText} ${classes.pointer}`} style = {wordStyle()}
+                                        className={`m-1 ${classes.analysText} ${classes.pointer}`} style={wordStyle()}
                                         onClick={() => {
-                                            clickWord(attemptWord, index, player)
+                                            clickWord(attemptWord, player)
                                         }}
                                     >{attemptWord.normalized}</span>
                                 )
@@ -503,11 +514,10 @@ export default function StudentAttempt() {
                         </p>
                     </div>
                     <div className="wordInformation">
-                        {/* {Антон} */}
+                        {Антон}
                         {word && <WordInfo word={word} />}
-                        {<WordInfo word={fromJSONexample} />}
                     </div>
-                </HeadWraper>
+                </HeadWraper> */}
                 {/* <HeadWraper sectionHeading={
                     'Running records result'}>
                     {ConvertToArray(attempt["Running Records"]).map((item) => {
@@ -766,10 +776,10 @@ export default function StudentAttempt() {
                         valuePostfix="%"
                     />
                     <Card className={`mb-4 p-3`}>
-                        <div className=" text-uppercase pb-2 fw-500 fs-rem-5">  
+                        <div className=" text-uppercase pb-2 fw-500 fs-rem-5">
                             Comprehension error legend
                         </div>
-                        <div className="d-flex" style={{justifyContent: "space-evenly"}}>
+                        <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
                             <WordMark word="Insert" variant="insertion" />
                             <WordMark word="Omit" variant="deletion" />
                             <WordMark word="Substitue" corretion="Substitue" variant="substitution" />
