@@ -479,7 +479,7 @@ export default function  ReadingPage ({history}){
         // })
         //123
         let tmp = audioQueue
-        tmp.push({finalString: value, currentIndex})
+        tmp.push({testString: value, currentIndex})
         setAudioQueue(tmp)
         tmp = bookForReading
         tmp.dots.forEach(element => {
