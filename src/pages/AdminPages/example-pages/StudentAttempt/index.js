@@ -768,7 +768,7 @@ export default function StudentAttempt() {
                     <PropertyCard2
                         label="Substitutions"
                         value={JSON.parse(attempt.phonic).substitutions}
-                        ending={<WordMark word="Substitue" corretion="Substitue" variant="substitution" />}
+                        ending={<WordMark word="Substitute" corretion="Substitute" variant="substitution" />}
                     />
                     <PropertyCard2
                         label="Accuracy"
@@ -783,7 +783,7 @@ export default function StudentAttempt() {
                         <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
                             <WordMark word="Insert" variant="insertion" />
                             <WordMark word="Omit" variant="deletion" />
-                            <WordMark word="Substitue" corretion="Substitue" variant="substitution" />
+                            <WordMark word="Substitute" corretion="Substitute" variant="substitution" />
                             <WordMark word="Repeat" variant="repeat" />
                         </div>
                     </Card>

@@ -124,7 +124,7 @@ export default function StudentCard(props) {
                     </div>
                 </div>
                 <div className="p-3 fs-rem-4">
-                    Joinded
+                    Joined
                 </div>
             </Card>
         </Fragment>
