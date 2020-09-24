@@ -53,7 +53,7 @@ $step : 0.5rem;
     .w-rem-#{$i}
     {
         height: 1 + $step * $i !important;
-        width: 1 + $step * $i!important;
+        width: 1 + $step * $i !important;
     }
 }
 
@@ -69,14 +69,16 @@ $step : 0.5rem;
     {
         width:  10%* $i !important;
     }
-}
-
-@for $i from 1 through 10 {
     .h-percent-#{$i*10}
     {
         height:  10%* $i !important;
     }
+    .s-percent-#{$i*10}
+    {
+        height:  10%* $i !important;
+    }
 }
+
 
 
 @for $i from 0 through 20 {
@@ -150,6 +152,36 @@ $step : 0.5rem;
     width: fit-content;
 }
 
+
+.place-items-center
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll-box
+{
+    overflow-y: auto;
+}
+.scroll-box::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .scroll-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb {
+    background: rgb(180, 180, 180);
+    border-radius: 10px;
+  }
+  
+  .scroll-box::-webkit-scrollbar-thumb:hover {
+    background: rgb(160, 160, 160);
+  }
+  
 // .student-card
 // {
 //     // flex-basis: 36rem;

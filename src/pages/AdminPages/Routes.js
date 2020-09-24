@@ -55,6 +55,7 @@ const StudentsQ = lazy(() => import('./example-pages/StudentsQ'));
 const StudentStatistic = lazy(() => import('./example-pages/StudentStatistic'));
 const StudentAttempt = lazy(() => import('./example-pages/StudentAttempt'));
 const AddBook = lazy(() => import('./example-pages/AddBook'));
+const StudentProfile = lazy(() => import('./example-pages/StudentProfile'));
 
 const DashboardAnalytics = lazy(() =>
   import('./example-pages/DashboardAnalytics')
@@ -307,6 +308,7 @@ const Routes = () => {
                 '/StudentStatistic',
                 '/StudentAttempt',
                 '/AddBook',
+                '/StudentProfile',
                 '/DashboardAnalytics',
                 '/DashboardSales',
                 '/DashboardReports',
@@ -426,7 +428,11 @@ const Routes = () => {
                     />
                     <Route
                       path="/AddBook"
-                      component={AddBook}
+                      component={AddBook} 
+                    />
+                    <Route
+                      path="/StudentProfile"
+                      component={StudentProfile} 
                     />
                     <Route path="/DashboardSales" component={DashboardSales} />
                     <Route
