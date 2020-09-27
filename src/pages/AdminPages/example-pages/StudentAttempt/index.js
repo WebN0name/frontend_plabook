@@ -496,7 +496,7 @@ export default function StudentAttempt() {
                                 )
                             })}
                         </div>
-                        {<WordInfo word={word} />}
+                        {word && <WordInfo word={word} />}
                     </div>
                 </Card>
                 {/* <HeadWraper sectionHeading={`Assessment text and analysis > ${attempt["Book ID"]}`}>
@@ -737,12 +737,12 @@ export default function StudentAttempt() {
                         </div>} className="mb-4">
                         <audio className="m-0" controls src={audioFile}></audio>
                     </HeadWraper>
-                    <HeadWraper sectionHeading={
+                    {/* <HeadWraper sectionHeading={
                         <div className="d-flex align-items-center">
                             <p className="m-2">Source text</p>
                         </div>} className="mb-4">
                         <p>{text}</p>
-                    </HeadWraper>
+                    </HeadWraper> */}
                     <AnalysePreview audio={audioFile} />
                 </Grid>
                 <Grid item xs={1} sm={4}>

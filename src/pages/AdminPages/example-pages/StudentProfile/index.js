@@ -231,7 +231,7 @@ export default function StudentProfile() {
         { name: "Date/Time", align: "left", isSortable: true, propertyName: "Date" },
         { name: "Page", align: "left", isSortable: true, propertyName: "Page" },
         { name: "Proficiency", align: "left", isSortable: true, propertyName: "Proficiency" },
-        { name: "Number of running", align: "left", isSortable: true, propertyName: "Number of Running Words" },
+        { name: "Number of Running Words", align: "left", isSortable: true, propertyName: "Number of Running Words" },
         { name: "Errors", align: "left", isSortable: true, propertyName: "Errors" },
         { name: "Self correction", align: "left", isSortable: true, propertyName: "Self Correction" },
         { name: "Err M/S/V", align: "left", isSortable: true, propertyName: "Err M" },
