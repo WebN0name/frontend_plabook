@@ -61,8 +61,8 @@ export default function StudentCard(props) {
 
     const handleClick = () =>
     {
-        studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name } });
-        history.push(`StudentStatistic/${student.name}`) 
+        studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name, avatar: student.avatar, readingLevel: student.readingLevel, bookRead: student.bookRead, assessmentsTaken: student.assessmentsTaken, fluency: student.fluency} });
+        history.push(`StudentProfile/${student.name}`) 
     }
 
     return (

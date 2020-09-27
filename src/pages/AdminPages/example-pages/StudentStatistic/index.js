@@ -44,8 +44,6 @@ export default function StudentsStatistic() {
    
     console.log(!Boolean(student))
 
-    console.log(student)
-
     const teacherNames = ["JohnBell", "MariSiemens"]
     const [statistic, setStatistic] = useState([])
     const rowsPerPageArray = [5, 10, 25]
@@ -110,6 +108,8 @@ export default function StudentsStatistic() {
         });
         return stabilizedThis.map((el) => el[0]);
     }
+
+    
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';

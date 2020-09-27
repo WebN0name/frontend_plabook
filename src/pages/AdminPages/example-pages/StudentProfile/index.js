@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
     Card, Grid, CardContent, Popover, Box,
-    Tooltip, ClickAwayListener, Portal, IconButton, Tab, Tabs, List, ListItem
+    Tooltip, ClickAwayListener, Portal, IconButton, Tab, Tabs, List, ListItem, TableSortLabel, TableRow, TableCell, Divider, TablePagination
 } from '@material-ui/core';
 
 import CountUp from 'react-countup';
@@ -30,9 +30,20 @@ import ScrollBox from './components/ScrollBox';
 
 export default function StudentProfile() {
 
+    const { student, attemptDispatch } = useContext(Context)
+
+    console.log(student)
+
     const history = useHistory();
 
     const [value, setValue] = React.useState(0);
+
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
+    const [statistic, setStatistic] = useState([])
+    const rowsPerPageArray = [5, 10, 25]
+    const [_rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0])
+    const [_page, setPage] = useState(0)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -42,18 +53,54 @@ export default function StudentProfile() {
 
     });
 
+
+    const quareData =
+    {
+        studentStatistic: {
+            url: "https://dev.plabookeducation.com/studentStatistics",
+            options: (id) => {
+                return ({
+                    method: "POST",
+                    body: JSON.stringify({ studentId: id.replace(" ", "") }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+            }
+        }
+    }
+
+    useEffect(() => {        
+        if (Boolean(student)) fetchStudentsStatistic();
+        // axios.post('https://dev.plabookeducation.com/studentStatistic', {'studentId': student.id}).then(r =>{
+        //     console.log('info:')
+        //     console.log(r)
+        // })
+
+        // if (!Boolean(student)) studentDispatch({type:"setStudent", payload: fallback})
+    }, [])
+
+    const fetchStudentsStatistic = async () => {
+        const response = await fetch(quareData.studentStatistic.url, quareData.studentStatistic.options(student.id))
+        const result = await response.json()
+        result.map(item => item.Date = new Date(Date.parse(item["Time Stamp"])))
+        result.reverse()
+        console.log(result)
+        setStatistic(result)
+    }
+
     const classes = useStyles();
 
-    const student = {
-        assessments: 3,
-        avatar: "/static/media/avatar4.944a383e.jpg",
-        bookRead: "3",
-        fluency: 29,
-        id: "BelleRobinette",
-        name: "Belle Robinette",
+    const studentTmp = {
+        assessments: student.assessments,
+        avatar: student.avatar,
+        bookRead: student.bookRead,
+        fluency: student.fluency,
+        id: student.id,
+        name: student.name,
         personalLink: "https://dev.plabookeducation.com/Login/student/BelleRobinette",
         pin: "7799",
-        readingLevel: "4",
+        readingLevel: student.readingLevel,
         stage: "Phonemic Awareness",
     }
 
@@ -179,6 +226,180 @@ export default function StudentProfile() {
         );
     }
 
+    const labels = [
+        { name: "Book ID", align: "left", isSortable: true, propertyName: "Book ID" },
+        { name: "Date/Time", align: "left", isSortable: true, propertyName: "Date" },
+        { name: "Page", align: "left", isSortable: true, propertyName: "Page" },
+        { name: "Proficiency", align: "left", isSortable: true, propertyName: "Proficiency" },
+        { name: "Number of running", align: "left", isSortable: true, propertyName: "Number of Running Words" },
+        { name: "Errors", align: "left", isSortable: true, propertyName: "Errors" },
+        { name: "Self correction", align: "left", isSortable: true, propertyName: "Self Correction" },
+        { name: "Err M/S/V", align: "left", isSortable: true, propertyName: "Err M" },
+        // { name: "Err S", align: "left", isSortable: true, propertyName: "Err S" },
+        // { name: "Err V", align: "left", isSortable: true, propertyName: "Err V" },
+        { name: "SC M/S/V", align: "left", isSortable: true, propertyName: "SC M" },
+        // { name: "SC S", align: "left", isSortable: true, propertyName: "SC S" },
+        // { name: "SC V", align: "left", isSortable: true, propertyName: "iSC V" },
+        { name: "Running records", align: "left", isSortable: false, propertyName: "id" },
+    ]
+
+    const handelAttemtClick = (attempt) =>{
+        attemptDispatch({
+            type:"setAttempt",
+            payload: attempt
+        })
+        history.push(`/StudentAttempt`) 
+    }
+
+    const handleRequestSort = (event, property) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const GetPageRows = () => {
+        console.log(statistic)
+        return stableSort(statistic, getComparator(order, orderBy)).slice(_page * _rowsPerPage, _page * _rowsPerPage + _rowsPerPage)
+    }
+
+    function stableSort(array, comparator) {
+        const stabilizedThis = array.map((el, index) => [el, index]);
+        stabilizedThis.sort((a, b) => {
+            const order = comparator(a[0], b[0]);
+            if (order !== 0) return order;
+            return a[1] - b[1];
+        });
+        return stabilizedThis.map((el) => el[0]);
+    }
+
+    function getComparator(order, orderBy) {
+        return order === 'desc'
+            ? (a, b) => descendingComparator(a, b, orderBy)
+            : (a, b) => -descendingComparator(a, b, orderBy);
+    }
+
+    function descendingComparator(a, b, orderBy) {
+        const isNumber = Boolean(parseFloat(a[orderBy]))
+        let valA = a[orderBy]
+        let valB = b[orderBy]
+        if (isNumber) {
+            valA = parseFloat(a[orderBy])
+            valB = parseFloat(b[orderBy])
+        }
+        if (valB < valA) {
+            return -1;
+        }
+        if (valB > valA) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const HandelRowCountChange = (count) => {
+        setRowsPerPage(count);
+        setPage(0)
+        // setTimeout(() => { document.getElementById("content").scrollTop = 0 }, 1)
+    }
+
+
+    const NewBL = () => {
+        // строки из примера таблиц 4
+        const Row = (props) => {
+
+            const { attempt } = props
+
+            if (!Boolean(attempt)) return <></>
+            
+            return (
+                <tr>
+                    <td className={`text-${labels[1]}`}>{attempt["Book ID"]}</td>
+                    <td className={`text-${labels[0]}`}>{attempt.Date.toLocaleDateString()} {attempt.Date.toLocaleTimeString()}</td>
+                    <td className={`text-${labels[2]}`}>{attempt.Page}</td>
+                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>                    
+                    <td className={`text-${labels[5]}`}>{attempt["Number of Running Words"]}</td>
+                    <td className={`text-${labels[6]}`}>{attempt.Errors}</td>
+                    <td className={`text-${labels[7]}`}>{attempt["Self Correction"]}</td>
+                    <td className={`text-${labels[8]}`}>{String(attempt["Err M"]) + '/' + String(attempt["Err S"]) + '/' + String(attempt["Err V"])}</td>
+                    {/* <td className={`text-${labels[9]}`}>{attempt["Err S"]}</td>
+                    <td className={`text-${labels[10]}`}>{attempt["Err V"]}</td> */}
+                    <td className={`text-${labels[11]}`}>{String(attempt["SC M"]) + '/' + String(attempt["SC S"]) + '/' + String(attempt["SC V"])}</td>
+                    {/* <td className={`text-${labels[12]}`}>{attempt["SC S"]}</td>
+                    <td className={`text-${labels[13]}`}>{attempt["SC V"]}</td> */}
+                    <td className={`text-${labels[4]}`}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => { handelAttemtClick(attempt)}}>
+                            More details
+                        </Button>
+                    </td>
+                </tr>
+            )
+        }
+
+        return (
+            <Card className="card-box mb-4">
+                <div className="card-header py-3">
+                    <div className="card-header--title font-size-lg">Reading Log</div>
+                    {/* <div className="card-header--actions">
+                        <Button size="small" variant="outlined" color="secondary">
+                            <span className="btn-wrapper--icon">
+                                <FontAwesomeIcon
+                                    icon={['fas', 'plus-circle']}
+                                    className="text-success"
+                                />
+                            </span>
+                            <span className="btn-wrapper--label">Add ticket</span>
+                        </Button>
+                    </div> */}
+                </div>
+
+                <div className="table-responsive">
+                    <table className="table table-hover text-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                {labels.map(label =>
+                                    <th className={`bg-white text-${label.align}`}>
+                                        <TableSortLabel
+                                            classes={{ root: "tabel" }}handleRequestSort
+                                            active={orderBy === label.propertyName}
+                                            direction={orderBy === label.propertyName ? order : 'asc'}
+                                            onClick={(event) => { handleRequestSort(event, label.propertyName) }}
+                                        >
+                                            <div className={`bg-white tabel text-${label.align}`}>
+                                                {label.name}
+                                            </div>
+                                        </TableSortLabel>
+                                    </th>
+                                )}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                GetPageRows().map((attempt, index) =>
+                                    <Row attempt={attempt} />)
+                            }                                
+                            {
+                                statistic.length === 0 && (<TableRow>
+                                    <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
+                                </TableRow>)
+                            }                        
+                        </tbody>
+                    </table>
+                    <Divider />
+                    <TablePagination
+                        rowsPerPageOptions={rowsPerPageArray}
+                        component="div"
+                        count={statistic.length}
+                        rowsPerPage={_rowsPerPage}
+                        page={_page}
+                        onChangePage={(e, newPage) => { setPage(newPage) }}
+                        onChangeRowsPerPage={(e) => { HandelRowCountChange(e.target.value) }}
+                    />
+                </div>
+            </Card>
+        )
+    }
+
     return (
         <Fragment>
             <PageTitle
@@ -191,7 +412,7 @@ export default function StudentProfile() {
                             size="sm"
                             className="font-size-xxl "
                         /></IconButton>
-                    {student.name}
+                    {studentTmp.name}
                 </>}
             />
             {/* <div className="mb-4" >
@@ -206,7 +427,7 @@ export default function StudentProfile() {
             <div className="w-percent-100 d-flex align-items-start"
             >
                 <div className="pr-4">
-                    <StudentInfoCard student={student}/>
+                    <StudentInfoCard student={studentTmp}/>
                     <Card className="mt-4">
                         <div className="p-2 text-center">
                             <h4>
@@ -270,6 +491,7 @@ export default function StudentProfile() {
                             })}
                         </ScrollBox>
                     </Card>
+                        {/* <NewBL /> */}
                     <Card className="px-4 py-3">
                         <div className="fs-rem-14 fw-700">
                             Assesments
@@ -333,6 +555,9 @@ export default function StudentProfile() {
                         </ScrollBox>
                     </Card>
                 </div>
+            </div>
+            <div className="mt-"  >
+                <NewBL />
             </div>
         </Fragment>
     );

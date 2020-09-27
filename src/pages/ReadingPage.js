@@ -70,7 +70,6 @@ export default function  ReadingPage ({history}){
         analizer.getByteFrequencyData(frequency)
         setFrequency(frequency[0])
         if((audioQueue.length !==0) && (localStorage.getItem('testQueue') === 'false')){
-            console.log('1')
             getAudioResult()
         }
     }
@@ -479,7 +478,7 @@ export default function  ReadingPage ({history}){
         // })
         //123
         let tmp = audioQueue
-        tmp.push({testString: value, currentIndex})
+        tmp.push({finalString: value, currentIndex})
         setAudioQueue(tmp)
         tmp = bookForReading
         tmp.dots.forEach(element => {
@@ -505,6 +504,7 @@ export default function  ReadingPage ({history}){
                 bookImage = {bookForReading.image} 
                 bookPick = { bookPick } 
                 wrongWord = { wrongWord }
+                bookStatus = {localStorage.getItem('testQueue')}
                 />
                 <Text 
                 pages = { bookForReading.texts } 

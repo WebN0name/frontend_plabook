@@ -12,7 +12,8 @@ import {
 
 
 import { PageTitle } from '../../layout-components';
-import Context from '../../../../Context'
+import Context from '../../../../Context';
+import axios from 'axios'
 
 import {
     Clipboard,
@@ -78,13 +79,14 @@ export default function Students() {
     }
 
 
+
     const fetchStudentsList = async () => {
         const response = await fetch(quareData.students.url, quareData.students.options(teacherId))
         const result = await response.json()
         result.map((elem, index) => {
             elem["avatar"] = AvatarPicker().GetAvatar(elem.id);
-            elem["assessments"] = Math.floor(Math.random() * Math.floor(10));
-            elem["fluency"] = Math.floor(Math.random() * Math.floor(100));
+            // elem["assessments"] = Math.floor(Math.random() * Math.floor(10));
+            // elem["fluency"] = Math.floor(Math.random() * Math.floor(100));
         })
         console.log(result)
         studentsDispatch({
