@@ -440,7 +440,7 @@ export default function LivePreviewExample() {
               <div>
                 <a
                   href={`#/`}
-                  onClick={(e) => { e.preventDefault(); studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name, avatar: student.avatar } }); history.push(`/StudentProfile/${student.name}`) }}
+                  onClick={(e) => { e.preventDefault(); studentDispatch({ type: "setStudent", payload: { id: student.id, name: student.name, avatar: student.avatar, readingLevel: student.readingLevel, bookRead: student.bookRead, assessmentsTaken: student.assessmentsTaken, fluency: student.fluency}}); history.push(`/StudentProfile/${student.name}`) }}
                   className="font-weight-bold text-black"
                   title="...">
                   {student.name}

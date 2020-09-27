@@ -4,6 +4,8 @@ import { PageTitle } from '../../layout-components';
 
 import Context from '../../../../Context'
 
+import axios from 'axios'
+
 
 import DashboardDefaultSection1 from '../../example-components/DashboardDefault/DashboardDefaultSection1';
 import DashboardDefaultSection2 from '../../example-components/DashboardDefault/DashboardDefaultSection2';

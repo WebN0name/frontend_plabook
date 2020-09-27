@@ -92,7 +92,7 @@ export default function StudentProfile() {
     const classes = useStyles();
 
     const studentTmp = {
-        assessments: student.assessments,
+        assessments: student.assessmentsTaken,
         avatar: student.avatar,
         bookRead: student.bookRead,
         fluency: student.fluency,
