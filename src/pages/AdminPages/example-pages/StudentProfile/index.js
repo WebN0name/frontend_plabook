@@ -70,7 +70,7 @@ export default function StudentProfile() {
         }
     }
 
-    useEffect(() => {        
+    useEffect(() => {
         if (Boolean(student)) fetchStudentsStatistic();
         // axios.post('https://dev.plabookeducation.com/studentStatistic', {'studentId': student.id}).then(r =>{
         //     console.log('info:')
@@ -243,12 +243,12 @@ export default function StudentProfile() {
         { name: "Running records", align: "left", isSortable: false, propertyName: "id" },
     ]
 
-    const handelAttemtClick = (attempt) =>{
+    const handelAttemtClick = (attempt) => {
         attemptDispatch({
-            type:"setAttempt",
+            type: "setAttempt",
             payload: attempt
         })
-        history.push(`/StudentAttempt`) 
+        history.push(`/StudentAttempt`)
     }
 
     const handleRequestSort = (event, property) => {
@@ -309,13 +309,13 @@ export default function StudentProfile() {
             const { attempt } = props
 
             if (!Boolean(attempt)) return <></>
-            
+
             return (
                 <tr>
                     <td className={`text-${labels[1]}`}>{attempt["Book ID"]}</td>
                     <td className={`text-${labels[0]}`}>{attempt.Date.toLocaleDateString()} {attempt.Date.toLocaleTimeString()}</td>
                     <td className={`text-${labels[2]}`}>{attempt.Page}</td>
-                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>                    
+                    <td className={`text-${labels[3]}`}>{attempt.Proficiency}</td>
                     <td className={`text-${labels[5]}`}>{attempt["Number of Running Words"]}</td>
                     <td className={`text-${labels[6]}`}>{attempt.Errors}</td>
                     <td className={`text-${labels[7]}`}>{attempt["Self Correction"]}</td>
@@ -328,7 +328,7 @@ export default function StudentProfile() {
                     <td className={`text-${labels[4]}`}>
                         <Button
                             variant="outlined"
-                            onClick={() => { handelAttemtClick(attempt)}}>
+                            onClick={() => { handelAttemtClick(attempt) }}>
                             More details
                         </Button>
                     </td>
@@ -360,7 +360,7 @@ export default function StudentProfile() {
                                 {labels.map(label =>
                                     <th className={`bg-white text-${label.align}`}>
                                         <TableSortLabel
-                                            classes={{ root: "tabel" }}handleRequestSort
+                                            classes={{ root: "tabel" }} handleRequestSort
                                             active={orderBy === label.propertyName}
                                             direction={orderBy === label.propertyName ? order : 'asc'}
                                             onClick={(event) => { handleRequestSort(event, label.propertyName) }}
@@ -377,12 +377,12 @@ export default function StudentProfile() {
                             {
                                 GetPageRows().map((attempt, index) =>
                                     <Row attempt={attempt} />)
-                            }                                
+                            }
                             {
                                 statistic.length === 0 && (<TableRow>
                                     <TableCell align="center" colSpan={14}>There's nothing here yet</TableCell>
                                 </TableRow>)
-                            }                        
+                            }
                         </tbody>
                     </table>
                     <Divider />
@@ -427,7 +427,7 @@ export default function StudentProfile() {
             <div className="w-percent-100 d-flex align-items-start"
             >
                 <div className="pr-4">
-                    <StudentInfoCard student={studentTmp}/>
+                    <StudentInfoCard student={studentTmp} />
                     <Card className="mt-4">
                         <div className="p-2 text-center">
                             <h4>
@@ -440,19 +440,19 @@ export default function StudentProfile() {
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             <List>
-                            <ScrollBox height={420}>
-                                {problemsWord.map(item =>
-                                    <ListItem>
-                                        <div className="fs-rem-6 d-flex w-100" style={{ justifyContent: "space-between" }}>
-                                            <div>
-                                                {item.word}
+                                <ScrollBox height={420}>
+                                    {problemsWord.map(item =>
+                                        <ListItem>
+                                            <div className="fs-rem-6 d-flex w-100" style={{ justifyContent: "space-between" }}>
+                                                <div>
+                                                    {item.word}
+                                                </div>
+                                                <div>
+                                                    {item.missed}
+                                                </div>
                                             </div>
-                                            <div>
-                                                {item.missed}
-                                            </div>
-                                        </div>
-                                    </ListItem>)}
-                            </ScrollBox>
+                                        </ListItem>)}
+                                </ScrollBox>
                             </List>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
@@ -477,21 +477,23 @@ export default function StudentProfile() {
                             </div>
                         </div>
                         <ScrollBox height={200}>
-                            {activityLog.map((item, index) => {
-                                return (
-                                    <div className={`p-2 fs-rem-5 d-flex w-100 ${index % 2 === 0 ? "bg-plabook-gray-1" : ""}`} style={{ justifyContent: "space-between" }}>
-                                        <div>
-                                            {item.activity}
+                            {statistic.length > 0 ? statistic.map((item, index) => {
+                                    return (
+                                        <div key={`${item.name}-${index}`} className={`p-2 fs-rem-5 d-flex w-100 ${index % 2 === 0 ? "bg-plabook-gray-1" : ""}`} style={{ justifyContent: "space-between" }}>
+                                            <div>
+                                                {item["Book ID"]}
+                                            </div>
+                                            <div>
+                                                {item.Date.toLocaleDateString()} {item.Date.toLocaleTimeString()}
+                                            </div>
                                         </div>
-                                        <div>
-                                            {item.date}
-                                        </div>
-                                    </div>
-                                )
-                            })}
+                                    )
+                            }) : <div className="text-center fs-rem-5">
+                                    There's nothing here yet
+                                </div>}
                         </ScrollBox>
                     </Card>
-                        {/* <NewBL /> */}
+                    {/* <NewBL /> */}
                     <Card className="px-4 py-3">
                         <div className="fs-rem-14 fw-700">
                             Assesments
