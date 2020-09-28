@@ -424,9 +424,9 @@ export default function StudentProfile() {
                         className="font-size-xxl "
                     />} onClick={() => window.history.back()}/>
             </div> */}
-            <div className="w-percent-100 d-flex align-items-start"
+            <div className="w-percent-100 d-flex align-items-stretch"
             >
-                <div className="pr-4">
+                <div className="pr-4 d-flex justify-content-between flex-column mb-3">
                     <StudentInfoCard student={studentTmp} />
                     <Card className="mt-4">
                         <div className="p-2 text-center">
@@ -440,7 +440,7 @@ export default function StudentProfile() {
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             <List>
-                                <ScrollBox height={'24.0625rem'}>
+                                <ScrollBox>
                                     {problemsWord.map(item =>
                                         <ListItem>
                                             <div className="fs-rem-6 d-flex w-100" style={{ justifyContent: "space-between" }}>
