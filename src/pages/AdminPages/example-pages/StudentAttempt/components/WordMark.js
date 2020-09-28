@@ -58,7 +58,7 @@ export default function WordMark(props) {
 
 
     return (
-        <div {...props} className={`m-1 fs-rem-6 cursor-pointer w-fit-content ${variant !== "none" ? "t-color-plabook-magenta" : ""}`}>
+        <div {...props} className={`my-1 mx-rem-2 fs-rem-6 cursor-pointer w-fit-content ${variant !== "none" ? "t-color-plabook-magenta" : ""}`}>
             <div className={`word-mark-section w-fit-content ${variant === "substitution" ? "word-mark-substitution" : ""}`}>
                 {variant === "substitution" ? corretion ? corretion : word.normalized ? word.normalized : "" :""}
             </div>
