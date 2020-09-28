@@ -440,7 +440,7 @@ export default function StudentProfile() {
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             <List>
-                                <ScrollBox height={420}>
+                                <ScrollBox height={'24.0625rem'}>
                                     {problemsWord.map(item =>
                                         <ListItem>
                                             <div className="fs-rem-6 d-flex w-100" style={{ justifyContent: "space-between" }}>
@@ -494,7 +494,11 @@ export default function StudentProfile() {
                         </ScrollBox>
                     </Card>
                     {/* <NewBL /> */}
-                    <Card className="px-4 py-3">
+                </div>
+            </div>
+            <div className="mt-4"  >
+                <NewBL />
+                <Card className="px-4 py-3">
                         <div className="fs-rem-14 fw-700">
                             Assesments
                         </div>
@@ -556,10 +560,6 @@ export default function StudentProfile() {
                             })}
                         </ScrollBox>
                     </Card>
-                </div>
-            </div>
-            <div className="mt-"  >
-                <NewBL />
             </div>
         </Fragment>
     );
